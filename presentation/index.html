@@ -143,8 +143,8 @@
     <!-- 0 Title -->
     <section class="slide active" data-i="0">
       <p class="brand">Drone Race Hacks</p>
-      <p class="lead">One Tello. Two poles. Fastest outdoor lap wins.</p>
-      <p>Public toolkit for single-drone AprilTag racing — Wi‑Fi dongle link, commands, pose, calibrated camera.</p>
+      <p class="lead">At <strong style="color:var(--ink)">IHQ</strong> — a Harvard-style innovation hub.</p>
+      <p>Tellos, dongles, and a public repo to build with. Optional outdoor race track if you want a timed challenge — or invent your own project.</p>
       <div class="cta">
         <a href="https://github.com/jaromero3rd/drone-race-hacks">Open the repo</a>
         <a class="ghost" href="#next">Next slide →</a>
@@ -156,12 +156,13 @@
       <div class="split reverse">
         <div class="copy">
           <h2>The race course</h2>
-          <p class="lead">Two poles. One lap. One Tello in the air. Fastest time wins.</p>
+          <p class="lead">One optional track: two poles, one lap, one Tello in the air.</p>
           <ul>
             <li><strong style="color:var(--ink)">Pole A</strong> — AprilTag start / finish</li>
             <li><strong style="color:var(--ink)">Pole B</strong> — AprilTag turn</li>
             <li>Timer starts when you <em>leave</em> Pole A’s gate</li>
             <li>Must pass Pole B, then return to Pole A to stop the clock</li>
+            <li>Leaderboard is there if you want to compete — not required</li>
           </ul>
         </div>
         <div class="visual">
@@ -177,7 +178,7 @@
       <div class="gear">
         <figure>
           <img class="on-white" src="assets/tello-real.jpg" alt="Real photo of a Tello drone from Jaime’s Desktop" />
-          <figcaption>DJI / Ryze Tello — up to 6 available for teams (one flyer at a time on course)</figcaption>
+          <figcaption>DJI / Ryze Tello — up to 6 for teams (one at a time on the race course)</figcaption>
         </figure>
         <figure>
           <img class="on-white" src="assets/wifi-dongle-real.jpeg" alt="Real photo of TP-Link Wi-Fi USB dongle from Jaime’s Desktop" />
@@ -209,33 +210,46 @@
       <p class="caption">Real tag36h11 textures + illustrative render. See assets/ATTRIBUTION.md.</p>
     </section>
 
-    <!-- 4 Outdoors -->
+    <!-- 4 Venue IHQ -->
     <section class="slide" data-i="4">
-      <span class="badge">Venue rule</span>
-      <h2>Racing is outdoors</h2>
-      <p class="lead">This hack runs outside — not in a hallway or indoor lab bay.</p>
-      <div class="callout">Outdoor course only. Bring the poles and tags to an open outdoor space with room to fly safely.</div>
+      <span class="badge">Venue</span>
+      <h2>We’re at IHQ</h2>
+      <p class="lead"><strong style="color:var(--ink)">IHQ</strong> — think Harvard’s innovation-hub energy: builders, demos, and room to try ideas.</p>
       <ul>
-        <li>More space for a clean lap around both poles</li>
-        <li>Keep line of sight to your Tello and a catcher ready</li>
-        <li>Wind, sun, and Wi‑Fi range are part of the challenge</li>
+        <li>Home base for this hack — gear handoff, collab, and show-and-tell</li>
+        <li>Framed like a university innovation space: ship something, learn something</li>
+        <li>Same Tellos + dongles + repo whether you race or build something else</li>
+      </ul>
+      <div class="callout">IHQ = the venue. Bring curiosity; the race track is optional.</div>
+    </section>
+
+    <!-- 5 Outdoors (race track) -->
+    <section class="slide" data-i="5">
+      <span class="badge">If you race</span>
+      <h2>The timed course is outdoors</h2>
+      <p class="lead">When you fly the two-pole lap, do it outside — not in a hallway or indoor bay.</p>
+      <div class="callout">Outdoor course only for the timed race. Open outdoor space, line of sight, catcher ready.</div>
+      <ul>
+        <li>More room for a clean lap around both poles</li>
+        <li>Wind, sun, and Wi‑Fi range are part of that challenge</li>
+        <li>Non-race projects can stay wherever IHQ / safety rules allow</li>
       </ul>
     </section>
 
-    <!-- 5 Capabilities -->
-    <section class="slide" data-i="5">
+    <!-- 6 Capabilities -->
+    <section class="slide" data-i="6">
       <h2>What a Tello can do here</h2>
       <ul>
-        <li>Fly a timed lap using tags for position</li>
         <li>Stream camera video to your laptop over the dongle</li>
-        <li>Accept manual RC or your own autopilot policy</li>
-        <li>Log tracks so you can debug and submit a lap time</li>
+        <li>Localize with AprilTags; log tracks and RC</li>
+        <li>Manual sticks, scripted flight, or your own policy</li>
+        <li>Optional: fly the timed outdoor lap and post a time</li>
       </ul>
-      <p>Great for short outdoor AprilTag racing — not a long-range craft.</p>
+      <p>Small programmable quad — great for demos, sensing, and short outdoor flights.</p>
     </section>
 
-    <!-- 6 Codebase -->
-    <section class="slide" data-i="6">
+    <!-- 7 Codebase -->
+    <section class="slide" data-i="7">
       <h2>How this codebase flies it</h2>
       <div class="grid2">
         <div class="cardish">
@@ -257,21 +271,21 @@
       </div>
     </section>
 
-    <!-- 7 Repo contents -->
-    <section class="slide" data-i="7">
+    <!-- 8 Repo contents -->
+    <section class="slide" data-i="8">
       <h2>What’s in the repo</h2>
       <ul>
         <li><code>core/</code> — link, engine, dongle setup, pose, tracks</li>
         <li><code>cal_and_map/</code> — camera calib + AprilTag mapping</li>
         <li><code>config/</code> — dongles, tags, map, race course</li>
         <li><code>race/</code> — lap timer + leaderboard submit helper</li>
-        <li><code>leaderboard/</code> — Cloudflare Worker + UI</li>
+        <li><code>leaderboard/</code> — Cloudflare Worker + UI (optional challenge)</li>
         <li><code>presentation/</code> — this deck</li>
       </ul>
     </section>
 
-    <!-- 8 QR / git access -->
-    <section class="slide" data-i="8">
+    <!-- 9 QR / git access -->
+    <section class="slide" data-i="9">
       <h2>Get the code — scan this</h2>
       <div class="qr-wrap">
         <img src="assets/repo-qr.png" alt="QR code linking to github.com/jaromero3rd/drone-race-hacks" />
@@ -286,21 +300,26 @@
       </div>
     </section>
 
-    <!-- 9 Goal -->
-    <section class="slide" data-i="9">
-      <h2>Hack goal</h2>
-      <p class="lead">Post the fastest valid outdoor lap on the public leaderboard.</p>
-      <p>Autopilot, manual RC, or hybrid — your call. One drone in the air. Safety first.</p>
+    <!-- 10 Hack scope -->
+    <section class="slide" data-i="10">
+      <h2>Build anything</h2>
+      <p class="lead">The hack is open. The race is one track you <em>can</em> use — not the only deliverable.</p>
+      <ul>
+        <li>New controllers, demos, sensing tricks, tools, art — all fair game</li>
+        <li>Same gear and repo whether you race or invent something else</li>
+        <li><strong style="color:var(--ink)">Optional challenge:</strong> post a valid outdoor lap on the leaderboard</li>
+      </ul>
+      <p>One drone in the air at a time on the course. Safety first everywhere.</p>
     </section>
 
-    <!-- 10 Setup -->
-    <section class="slide" data-i="10">
+    <!-- 11 Setup -->
+    <section class="slide" data-i="11">
       <h2>Setup on your laptop</h2>
       <p class="mono">git clone https://github.com/jaromero3rd/drone-race-hacks.git</p>
       <p class="mono">cd drone-race-hacks && python3 -m venv .venv && source .venv/bin/activate</p>
       <p class="mono">pip install -r requirements.txt && pip install -e cal_and_map</p>
-      <p>Deck: <code>presentation/index.html</code> · Leaderboard: <code>leaderboard/README.md</code></p>
-      <div class="callout" style="border-left-color:var(--accent);background:rgba(255,107,74,0.08)">Remember: race outdoors.</div>
+      <p>Deck: <code>presentation/index.html</code> · Optional leaderboard: <code>leaderboard/README.md</code></p>
+      <div class="callout" style="border-left-color:var(--accent);background:rgba(255,107,74,0.08)">Venue: IHQ · Timed race (if you fly it): outdoors.</div>
     </section>
   </div>
 
