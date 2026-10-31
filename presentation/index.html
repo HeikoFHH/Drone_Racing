@@ -132,6 +132,12 @@
       border-radius: 12px; border: 8px solid #fff; background: #fff;
       box-shadow: 0 18px 50px rgba(0,0,0,0.35);
     }
+    .venue-logo {
+      width: min(42vw, 280px); height: auto; aspect-ratio: 1;
+      border-radius: 18px; border: 1px solid var(--line);
+      object-fit: cover;
+      box-shadow: 0 18px 50px rgba(0,0,0,0.4);
+    }
     @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
   </style>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -212,15 +218,23 @@
 
     <!-- 4 Venue Harvard i-labs -->
     <section class="slide" data-i="4">
-      <span class="badge">Venue</span>
-      <h2>We’re at Harvard i-labs</h2>
-      <p class="lead"><strong style="color:var(--ink)">Harvard i-labs</strong> — builders, demos, and room to try ideas.</p>
-      <ul>
-        <li>Home base for this hack — gear handoff, collab, and show-and-tell</li>
-        <li>Ship something, learn something</li>
-        <li>Same Tellos + dongles + repo whether you race or build something else</li>
-      </ul>
-      <div class="callout">Venue = Harvard i-labs. Bring curiosity; the race track is optional.</div>
+      <div class="split">
+        <div class="copy">
+          <span class="badge">Venue</span>
+          <h2>We’re at Harvard i-labs</h2>
+          <p class="lead"><strong style="color:var(--ink)">Harvard i-labs</strong> — builders, demos, and room to try ideas.</p>
+          <ul>
+            <li>Home base for this hack — gear handoff, collab, and show-and-tell</li>
+            <li>Ship something, learn something</li>
+            <li>Same Tellos + dongles + repo whether you race or build something else</li>
+          </ul>
+          <div class="callout">Venue = Harvard i-labs. Bring curiosity; the race track is optional.</div>
+        </div>
+        <div class="visual">
+          <img class="venue-logo" src="assets/harvard-ilabs-logo.png" alt="Harvard Innovation Labs logo" />
+        </div>
+      </div>
+      <p class="caption">Logo from innovationlabs.harvard.edu (venue identification).</p>
     </section>
 
     <!-- 5 dirt_field / parking lot race venue -->
