@@ -1,0 +1,16 @@
+# Example two-pole course. Remap on site: cal_and_map/scripts/05_map.py
+# Frame: origin = tag 1 (Pole A). Units: meters.
+# Pole B (tag 2) is ~4 m along +X from Pole A — edit after mapping.
+origin_tag: 1
+frame: 'origin tag: x right, y up, z out of the tag face; meters'
+tags:
+  1:
+    R: [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+    t: [0.0, 0.0, 0.0]
+    seen: 1
+    samples: 1
+  2:
+    R: [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+    t: [4.0, 0.0, 0.0]
+    seen: 1
+    samples: 1

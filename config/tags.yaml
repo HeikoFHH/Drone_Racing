@@ -1,0 +1,22 @@
+# AprilTags for the race course. family tag36h11.
+family: tag36h11
+origin_tag: 1          # Pole A is the map origin / start-finish
+
+# Edge length of the BLACK square (mm). Adjust to the tags you print.
+sizes_mm:
+  1: 132.08            # Pole A (start / finish)
+  2: 132.08            # Pole B (turn)
+
+detector:
+  quad_decimate: 2.0
+  refine_edges: true
+  decode_sharpening: 0.25
+
+gate:
+  min_decision_margin: 10.0
+  min_side_px: 12.0
+  max_edge_width_px: 1000.0
+  min_edge_contrast: 15.0
+  max_view_angle_deg: 90.0
+  min_ambiguity_ratio: 0.0
+  ambiguity_ignore_below_deg: 0.0

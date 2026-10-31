@@ -1,0 +1,18 @@
+name = "drone-race-hacks-leaderboard"
+main = "src/worker.js"
+compatibility_date = "2024-11-01"
+
+# Bind a KV namespace after creating it:
+#   npx wrangler kv namespace create RACE_TIMES
+# then put the id below and uncomment.
+# [[kv_namespaces]]
+# binding = "RACE_TIMES"
+# id = "REPLACE_WITH_KV_NAMESPACE_ID"
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+
+[vars]
+# Optional: set SUBMIT_TOKEN via `wrangler secret put SUBMIT_TOKEN` for write protection.
+COURSE_NAME = "two-pole-one-lap"
