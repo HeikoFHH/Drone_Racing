@@ -2,11 +2,12 @@
 
 Public single-Tello racing toolkit for **Jaime Romero** (`jaromero3rd`), seeded from [Action Space](https://github.com/jaromero3rd/Action_Space) real-world deployment code.
 
-**Hack goal:** fastest one-lap time on a two-pole AprilTag course. One drone in the air.
+**At Harvard i-labs.** Open hack: build anything with Tellos + this repo. Optional outdoor two-pole race on the **dirt field / parking lot**; optional leaderboard. Iterate in **Isaac Lab** (`simulation/`) before the real course.
 
 | | |
 |---|---|
 | Race rules | [`docs/RACE_RULES.md`](docs/RACE_RULES.md) |
+| Isaac Lab race | [`simulation/README.md`](simulation/README.md) (`AS-Tello-Race-v0`) |
 | Kept vs removed | [`docs/KEPT_REMOVED.md`](docs/KEPT_REMOVED.md) |
 | Slideshow | [`presentation/index.html`](presentation/index.html) |
 | Leaderboard | [`leaderboard/`](leaderboard/) |
@@ -68,14 +69,23 @@ python race/submit_time.py --team "your-team" --time 12.345 --drone TELLO-1
 ```
 cal_and_map/     camera calib + AprilTag mapping
 config/          dongles, fleet, tags, map, race_course
-core/            link, engine, pose, dongle setup
+core/            link, engine, pose, Kalman, dongle setup
+simulation/      Isaac Lab AS-Tello-Race-v0 + PPO scaffold
 tools/           range/hover/video checks, to-origin helper, PID policy
 race/            lap timer + submit helper
 leaderboard/     Cloudflare Worker + static UI
-presentation/    self-contained HTML deck
+presentation/    self-contained HTML deck (dirt_field venue map)
 docs/            race rules, keep/drop notes
+```
+
+### Isaac Lab (sim)
+
+See [`simulation/README.md`](simulation/README.md). Quick path on a GPU box with Action Space’s Isaac install:
+
+```bash
+./simulation/scripts/train_race.sh --num_envs 256 --max_iterations 200
 ```
 
 ## Safety
 
-Indoor line-of-sight only. Catcher ready. Land on link loss. This repo sends real RC when you run the engine — treat it like flight software.
+Timed race is **outdoors** on the dirt field / parking lot by Harvard i-labs. Catcher ready. Land on link loss. This repo sends real RC when you run the engine — treat it like flight software.
