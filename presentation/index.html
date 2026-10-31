@@ -237,93 +237,104 @@
       <p class="caption">Logo from innovationlabs.harvard.edu (venue identification).</p>
     </section>
 
-    <!-- 5 dirt_field / parking lot race venue -->
+    <!-- 5 dirt_field race venue -->
     <section class="slide" data-i="5">
       <div class="split">
         <div class="copy">
           <span class="badge">Outdoor race venue</span>
           <h2>The dirt field</h2>
-          <p class="lead">Timed laps fly on the open lot by Harvard i-labs — the <strong style="color:var(--ink)">dirt_field</strong> / parking area outdoors.</p>
+          <p class="lead">Past the parking lot on Harvard campus — the open <strong style="color:var(--ink)">dirt_field</strong> by i-labs.</p>
           <ul>
-            <li>Map pin: Harvard Innovation Labs (i-labs)</li>
-            <li>Race space: the open dirt field &amp; lot south of Western Ave</li>
-            <li>Two poles with AprilTags go here — not indoors</li>
+            <li>Walk past the lot; race on the dirt field beyond</li>
+            <li>Two poles with AprilTags go here</li>
+            <li>Aerial shows parking lot + dirt field together</li>
           </ul>
         </div>
-        <div class="visual">
-          <img class="hero-img" src="assets/dirt_field.png" alt="Aerial map of Harvard i-labs and dirt field parking lot race venue" />
+        <div class="visual row">
+          <img class="hero-img" src="assets/dirt_field.png" alt="Aerial: Harvard i-labs, parking lot, and dirt field" />
+          <img class="hero-img" src="assets/harvard-parking-lot.png" alt="Same aerial emphasizing parking lot and dirt field race venue" />
         </div>
       </div>
-      <p class="caption">Desktop source: <code>dirt_field.png</code> (Harvard parking lot / dirt field aerial).</p>
+      <p class="caption">Desktop <code>dirt_field.png</code> (also as <code>harvard-parking-lot.png</code>).</p>
     </section>
 
-    <!-- 6 Outdoors -->
+    <!-- 6 Hard problems -->
     <section class="slide" data-i="6">
+      <h2>Hard problems in this space</h2>
+      <div class="grid2" style="grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 0.5rem;">
+        <div class="cardish">
+          <strong>Learning policies</strong>
+          <p>Controllers that fly for real — not just demos.</p>
+        </div>
+        <div class="cardish">
+          <strong>Where am I?</strong>
+          <p>Pose from images: tags, noise, lost frames.</p>
+        </div>
+        <div class="cardish">
+          <strong>Small compute</strong>
+          <p>Onboard / laptop edge — not a data-center GPU.</p>
+        </div>
+      </div>
+      <p style="margin-top:1rem">Race = crisp test. These problems = why the hack is open.</p>
+    </section>
+
+    <!-- 7 Why Isaac Sim -->
+    <section class="slide" data-i="7">
       <div class="split reverse">
         <div class="copy">
-          <span class="badge">If you race</span>
-          <h2>Outdoors at the lot</h2>
-          <p class="lead">When you fly the two-pole lap, do it on that outdoor field — not a hallway.</p>
-          <div class="callout">Outdoor course only for the timed race. Line of sight, catcher ready.</div>
+          <h2>Why Isaac Sim</h2>
+          <p class="lead">Iterate in sim before you burn a battery outdoors.</p>
           <ul>
-            <li>Wind, sun, and Wi‑Fi range are part of the challenge</li>
-            <li>Non-race projects: wherever Harvard i-labs / safety rules allow</li>
+            <li>Parallel rollouts → faster learning</li>
+            <li><strong style="color:var(--ink)">PPO</strong> / RL before the real Tello</li>
+            <li>Same geometry: two poles, one lap</li>
           </ul>
+          <p>Sim = gym. Dirt field = exam.</p>
         </div>
         <div class="visual">
-          <img class="hero-img" src="assets/harvard-parking-lot.png" alt="Harvard parking lot and dirt field aerial — where racing happens" />
+          <img class="hero-img" src="assets/isaac-sim-drones.jpg" alt="Simulation view of multiple drones flying toward a target subject" />
         </div>
       </div>
     </section>
 
-    <!-- 7 Hard problems -->
-    <section class="slide" data-i="7">
-      <h2>Hard problems in this space</h2>
-      <ul>
-        <li><strong style="color:var(--ink)">Learning policies</strong> that actually fly — controllers that generalize past demos</li>
-        <li><strong style="color:var(--ink)">Where am I?</strong> Reliable position / pose from camera images (AprilTags, filters, noise)</li>
-        <li><strong style="color:var(--ink)">Small compute</strong> — methods that fit onboard or on a laptop edge box, not a data-center GPU</li>
-      </ul>
-      <p>The race is a crisp test; these problems are why the hack is open-ended.</p>
-    </section>
-
-    <!-- 8 Why Isaac Sim -->
+    <!-- 8 Kalman -->
     <section class="slide" data-i="8">
-      <h2>Why Isaac Sim</h2>
-      <p class="lead">Iterate in simulation before you burn battery (or a prop) outdoors.</p>
-      <ul>
-        <li>Thousands of parallel rollouts → faster learning loops</li>
-        <li>Train with <strong style="color:var(--ink)">PPO</strong> and other RL before the real Tello</li>
-        <li>Same race geometry: two poles, one lap, pose-gated timing</li>
-      </ul>
-      <p>Sim is the gym; the dirt field is the exam.</p>
+      <div class="split">
+        <div class="copy">
+          <h2>Kalman filter</h2>
+          <p class="lead">Noisy AprilTag fixes → smooth pose.</p>
+          <ul>
+            <li>Predict, then update with each measurement</li>
+            <li>Shipped here: <code>core/positional_kalman_filter.py</code></li>
+            <li>Pair with PID or a learned policy</li>
+          </ul>
+        </div>
+        <div class="visual">
+          <img class="hero-img" src="assets/kalman-filter.png" alt="Kalman filter diagram: noisy measurements vs smooth estimate" />
+        </div>
+      </div>
     </section>
 
-    <!-- 9 Classic solutions -->
+    <!-- 9 Isaac Lab suite -->
     <section class="slide" data-i="9">
-      <h2>Classic tools still win</h2>
-      <p class="lead">You don’t have to invent everything — stand on filters and maps.</p>
-      <ul>
-        <li><strong style="color:var(--ink)">Kalman filter</strong> for state estimation — this repo ships <code>core/positional_kalman_filter.py</code></li>
-        <li>AprilTag detections → noisy fixes → filtered pose for control</li>
-        <li>Pair classic estimation with learned policies (or pure PID) as you like</li>
-      </ul>
+      <div class="split reverse">
+        <div class="copy">
+          <h2>Simulation suite: Isaac Lab</h2>
+          <p class="lead">Stand up the race in <strong style="color:var(--ink)">Isaac Lab</strong>.</p>
+          <ul>
+            <li>Task: <code>AS-Tello-Race-v0</code></li>
+            <li>Single Tello, two-pole lap, PPO scaffold</li>
+            <li>Docs: <code>simulation/README.md</code></li>
+          </ul>
+        </div>
+        <div class="visual">
+          <img class="hero-img" src="assets/isaac-sim-drones.jpg" alt="Isaac Sim style multi-drone flight visualization" />
+        </div>
+      </div>
     </section>
 
-    <!-- 10 Isaac Lab suite -->
+    <!-- 10 Capabilities -->
     <section class="slide" data-i="10">
-      <h2>Simulation suite: Isaac Lab</h2>
-      <p class="lead">Teams can stand up the race in <strong style="color:var(--ink)">Isaac Lab</strong> (NVIDIA Isaac Lab / Isaac Sim).</p>
-      <ul>
-        <li>Task id: <code>AS-Tello-Race-v0</code> under <code>simulation/</code></li>
-        <li>Single Tello, two-pole lap, PPO training scaffold</li>
-        <li>Docs: <code>simulation/README.md</code> — setup + train + play</li>
-      </ul>
-      <p>Build in sim at i-labs; prove it on the dirt field.</p>
-    </section>
-
-    <!-- 11 Capabilities -->
-    <section class="slide" data-i="11">
       <h2>What a Tello can do here</h2>
       <ul>
         <li>Stream camera video to your laptop over the dongle</li>
@@ -334,8 +345,8 @@
       <p>Small programmable quad — great for demos, sensing, and short outdoor flights.</p>
     </section>
 
-    <!-- 12 Codebase -->
-    <section class="slide" data-i="12">
+    <!-- 11 Codebase -->
+    <section class="slide" data-i="11">
       <h2>How this codebase flies it</h2>
       <div class="grid2">
         <div class="cardish">
@@ -357,8 +368,8 @@
       </div>
     </section>
 
-    <!-- 13 Repo contents -->
-    <section class="slide" data-i="13">
+    <!-- 12 Repo contents -->
+    <section class="slide" data-i="12">
       <h2>What’s in the repo</h2>
       <ul>
         <li><code>core/</code> — link, engine, dongle setup, pose, Kalman filter</li>
@@ -370,8 +381,8 @@
       </ul>
     </section>
 
-    <!-- 14 QR / git access -->
-    <section class="slide" data-i="14">
+    <!-- 13 QR / git access -->
+    <section class="slide" data-i="13">
       <h2>Get the code — scan this</h2>
       <div class="qr-wrap">
         <img src="assets/repo-qr.png" alt="QR code linking to github.com/jaromero3rd/drone-race-hacks" />
@@ -386,8 +397,8 @@
       </div>
     </section>
 
-    <!-- 15 Hack scope -->
-    <section class="slide" data-i="15">
+    <!-- 14 Hack scope -->
+    <section class="slide" data-i="14">
       <h2>Build anything</h2>
       <p class="lead">The hack is open. The race is one track you <em>can</em> use — not the only deliverable.</p>
       <ul>
@@ -398,14 +409,14 @@
       <p>One drone in the air at a time on the course. Safety first everywhere.</p>
     </section>
 
-    <!-- 16 Setup -->
-    <section class="slide" data-i="16">
+    <!-- 15 Setup -->
+    <section class="slide" data-i="15">
       <h2>Setup on your laptop</h2>
       <p class="mono">git clone https://github.com/jaromero3rd/drone-race-hacks.git</p>
       <p class="mono">cd drone-race-hacks && python3 -m venv .venv && source .venv/bin/activate</p>
       <p class="mono">pip install -r requirements.txt && pip install -e cal_and_map</p>
       <p>Sim (Isaac Lab): see <code>simulation/README.md</code> · Deck: <code>presentation/index.html</code></p>
-      <div class="callout" style="border-left-color:var(--accent);background:rgba(255,107,74,0.08)">Harvard i-labs · Race on the dirt field / parking lot outdoors.</div>
+      <div class="callout" style="border-left-color:var(--accent);background:rgba(255,107,74,0.08)">Harvard i-labs · Race past the parking lot on the dirt field.</div>
     </section>
   </div>
 
