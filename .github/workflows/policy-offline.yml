@@ -5,10 +5,12 @@ on:
     branches: [maude/policy-integration]
     paths:
       - 'policy_integration/**'
+      - 'live_control/**'
       - '.github/workflows/policy-offline.yml'
   pull_request:
     paths:
       - 'policy_integration/**'
+      - 'live_control/**'
       - '.github/workflows/policy-offline.yml'
   workflow_dispatch:
 
@@ -31,3 +33,9 @@ jobs:
         run: python -m policy_integration.stress_sim --seeds 20 --output policy_integration/reports/stress_sim.json
       - name: Turn and visibility smoke scenarios
         run: python -m policy_integration.turn_sim --seeds 2 --output policy_integration/reports/turn_ci.json
+      - name: Install live dashboard policy dependencies
+        run: python -m pip install -r live_control/requirements.txt -e cal_and_map
+      - name: Live bridge lifecycle and actual policy integration
+        run: python -m unittest live_control.test_bridge live_control.test_policies -v
+      - name: Check browser control script
+        run: node --check live_control/app.js
