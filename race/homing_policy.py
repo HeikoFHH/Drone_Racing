@@ -48,6 +48,8 @@ class HomingCfg:
     tag_b: int = 2
     course_m: float = 73.0         # tag A to tag B; only a prior: replaced by a measured estimate
                                    # as soon as the first tag is seen
+    any_tag_id: bool = True        # the first tag in front may have ANY id (e.g. tag 10); the return leg
+                                   # then looks for the other race tag, or any tag but the first one
     adaptive_start: bool = True    # `policy start new` works with what is in front of it: the first
                                    # race tag it sees (1 or 2, in view or found by spinning) becomes
                                    # the first target, the other one the return target
@@ -60,7 +62,7 @@ class HomingCfg:
                                    #   "spin": always spin first; "fly": never spin
     spin_yaw_rc: int = 20          # slow turn so frames stay sharp enough to detect a far tag
     hop_m: float = 10.0            # a full circle found nothing: fly at least this far on the leg heading, spin again
-    tag_size_m: float = 0.4877     # black square of the race tags. 2 ft sheet with the white border
+    tag_size_m: float = 0.5715     # black square of the tags: 22.5 in (tag 10). Old 2 ft note: 2 ft sheet with the white border
                                    # -> ~488 mm square; 2 ft square itself -> 0.6096. MEASURE the print.
     detect_range_m: float | None = None  # how far the tag can be detected; None = 50 x tag_size_m
                                    # (TagDetector on rendered frames: 488 mm ~25 m, 610 mm ~35 m)
@@ -70,7 +72,13 @@ class HomingCfg:
     search_speed_frac: float = 0.0 # forward speed while turning/searching, as a fraction of cruise
     stop_range_m: float = 2.0      # never closer than this to a tag (hard limit); stop zone 2-3 m
     stop_buffer_m: float = 0.5     # aim 2.5 m: middle of the 2-3 m stop zone
-    brake_mps2: float = 0.8        # braking profile into the 5 m stop
+    brake_mps2: float = 0.5        # braking profile into the stop point (gentle: real drones lag)
+    approach_mps: float = 0.35     # crawl speed for the final approach ...
+    slow_zone_m: float = 2.5       # ... within this distance of the stop point
+    overspeed: float = 1.3         # between sightings assume the drone covered up to 1.3x what we asked
+    near_m: float = 8.0            # tag lost closer than this: STOP and re-find it, never fly on blind
+    near_lost_s: float = 0.3       # ... once it has been unseen this long
+    look_s: float = 1.5            # after takeoff: hover this long looking straight ahead before spinning
     stop_tol_m: float = 0.5        # zone top = stop_range + buffer + tol = 3.0 m
     brake_latency_s: float = 0.6   # reaction lag (response + video delay): brake as if the tag were
                                    # this much flight time closer, so braking never dips inside 5 m
@@ -218,6 +226,8 @@ class HomingPolicy:
         self.unexpected: set[int] = set()
         self.out_tag, self.back_tag = self.cfg.tag_b, self.cfg.tag_a
         self.last_fwd_mps = 0.0
+        self.meas_flown = 0.0          # flown_m at the last accepted range measurement
+        self.look_t0 = None
         self.acquired = False          # first target chosen from what was actually seen
         self.course_est = None         # course length measured from the first sighting
         self.leg_len = self.cfg.course_m - self.cfg.start_offset_m
@@ -237,8 +247,15 @@ class HomingPolicy:
         self.spins = 0
 
     @property
-    def target(self) -> int:
+    def target(self) -> int | None:
         return self.out_tag if self.leg == "to_B" else self.back_tag
+
+    def _matches(self, tag_id: int) -> bool:
+        if self.leg == "to_B":
+            return tag_id == self.out_tag
+        if self.back_tag is None:                # first tag was not a race tag: any other tag will do
+            return tag_id != self.out_tag
+        return tag_id == self.back_tag
 
     @property
     def course(self) -> float:
@@ -295,6 +312,7 @@ class HomingPolicy:
         self.leg, self.state = leg, "BLIND"
         self.val.reset()
         self.flown_m = 0.0
+        self.meas_flown = 0.0
         self.hold_since = None
         self.leg_len = self.course - self.cfg.start_offset_m if leg == "to_B" else \
             getattr(self, "return_len", self.course - self.cfg.stop_range_m)
@@ -349,22 +367,25 @@ class HomingPolicy:
         sightings = [s for s in obs.sightings if math.isfinite(s.range_m) and s.range_m > 0
                      and math.isfinite(s.bearing_deg)]
         up = self._up(obs)
-        if self.acquiring:                       # whichever race tag is in front of us -- but not one we
-            # are already within the stop range of: that is the tag we took off next to
-            tgt = [s for s in sightings if s.tag_id in (c.tag_a, c.tag_b)
-                   and s.range_m > c.stop_range_m + c.stop_buffer_m]
+        if self.acquiring:                       # whichever tag is in front of us -- but not one we are
+            # already within the stop range of: that is the tag we took off next to
+            ids_ok = (lambda i: True) if c.any_tag_id else (lambda i: i in (c.tag_a, c.tag_b))
+            tgt = [s for s in sightings if ids_ok(s.tag_id) and s.range_m > c.stop_range_m + c.stop_buffer_m]
         else:
-            tgt = [s for s in sightings if s.tag_id == self.target]
+            tgt = [s for s in sightings if self._matches(s.tag_id)]
         for s in sightings:
             if s.tag_id not in (c.tag_a, c.tag_b):
                 self.unexpected.add(s.tag_id)
         seen = None
         if tgt:
             cand = min(tgt, key=lambda s: abs(s.bearing_deg))
-            if self.acquiring and cand.tag_id != self.out_tag:    # it's facing the other tag: go there first
-                self.out_tag, self.back_tag = cand.tag_id, self.out_tag
+            if self.acquiring and cand.tag_id != self.out_tag:    # go to the tag we actually see first
+                race = (c.tag_a, c.tag_b)
+                self.out_tag = cand.tag_id
+                self.back_tag = (race[0] if cand.tag_id == race[1] else race[1]) if cand.tag_id in race else None
             if self.val.add(obs.t, cand.range_m, self.flown_m):
                 seen = cand
+                self.meas_flown = self.flown_m
                 self.last_seen_t, self.last_bearing = obs.t, cand.bearing_deg
                 if self.leg == "to_B" and self.course_est is None:
                     # measured course: what we flew blind + what we see + where we took off
@@ -378,33 +399,45 @@ class HomingPolicy:
                 self.leg_heading = obs.yaw_deg          # assumes it starts at A, nose toward B
                 th = math.radians(obs.yaw_deg * c.yaw_sign)
                 self.home = (-c.start_offset_m * math.cos(th), -c.start_offset_m * math.sin(th))
-            if obs.height_m is not None and abs(c.height_m - obs.height_m) < 0.15:
-                if seen is not None:
-                    self.state = "TRACK"
-                elif self.acquiring:
-                    self._spin(obs)                      # nothing in front: look around for a tag first
+            if seen is not None:
+                self.state = "TRACK"                     # tag in front: go straight for it
+            elif obs.height_m is not None and abs(c.height_m - obs.height_m) < 0.15:
+                self.state, self.look_t0 = "LOOK", obs.t # at height: look straight ahead a moment first
+        elif self.state == "LOOK":
+            if seen is not None:
+                self.state = "TRACK"
+            elif obs.t - self.look_t0 >= c.look_s:       # really nothing in front
+                if self.acquiring:
+                    self._spin(obs)
                 else:
                     self._no_tag(obs)
         elif self.state in ("BLIND", "TRACK"):
             if seen is not None:
                 self.state = "TRACK"
-            elif self.state == "TRACK" and obs.t - self.last_seen_t > c.lost_after_s:
-                self._no_tag(obs, lost=True)             # lost it: keep the heading we had, then spin
-                self.val.pause()
-                if obs.yaw_deg is not None:
-                    self.leg_heading = wrap_deg(obs.yaw_deg + self.last_bearing * c.yaw_sign)
             if self.state == "TRACK" and self.val.filtered is None:
                 self._no_tag(obs)                        # no range yet: never fly a track without one
             if self.state == "TRACK":
-                rng = self.val.filtered
                 stop_at = c.stop_range_m + c.stop_buffer_m
-                room = max(0.0, rng - stop_at - self.last_fwd_mps * c.brake_latency_s)
-                fwd_mps = min(c.cruise_mps, math.sqrt(2 * c.brake_mps2 * room))
-                yaw = int(round(clamp(c.k_yaw * self.last_bearing, c.max_yaw_rc)))
-                if seen is None:                         # between frames: keep turning gently
-                    yaw = yaw // 2
-                if rng <= stop_at + c.stop_tol_m:
-                    self.state, fwd_mps = "HOLD", 0.0
+                # predicted range: last measurement minus what we may have flown since (pessimistic)
+                rng = self.val.filtered - max(0.0, self.flown_m - self.meas_flown) * c.overspeed
+                age = obs.t - self.last_seen_t
+                if seen is None and age > c.near_lost_s and rng < c.near_m:
+                    self.state = "HOLD"                  # lost it close to the tag: STOP here, re-find in place
+                elif seen is None and age > c.lost_after_s:
+                    self._no_tag(obs, lost=True)         # lost it far away: keep the heading we had
+                    self.val.pause()
+                    if obs.yaw_deg is not None:
+                        self.leg_heading = wrap_deg(obs.yaw_deg + self.last_bearing * c.yaw_sign)
+                elif rng <= stop_at + c.stop_tol_m:
+                    self.state = "HOLD"                  # in (or predicted in) the stop zone: stop
+                else:
+                    room = max(0.0, rng - stop_at - self.last_fwd_mps * c.brake_latency_s)
+                    fwd_mps = min(c.cruise_mps, math.sqrt(2 * c.brake_mps2 * room))
+                    if room < c.slow_zone_m:
+                        fwd_mps = min(fwd_mps, c.approach_mps)   # crawl the last stretch
+                    yaw = int(round(clamp(c.k_yaw * self.last_bearing, c.max_yaw_rc)))
+                    if seen is None:                     # between frames: keep turning gently
+                        yaw = yaw // 2
             else:                                        # BLIND
                 fwd_mps = c.cruise_mps
                 yaw = self._heading_rc(obs, self.leg_heading) if self.leg_heading is not None else 0

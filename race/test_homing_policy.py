@@ -240,18 +240,34 @@ def test_start_works_with_the_tag_in_front_whichever_it_is():
 
 def test_nothing_in_front_spins_to_look_first():
     pol = make()
-    tick(pol, 0.0)
-    rc, info = tick(pol, DT)
+    t = 0.0
+    while t < pol.cfg.look_s + 0.2:            # first a short look straight ahead, no motion
+        rc, info = tick(pol, t)
+        if info["state"] == "LOOK":
+            assert rc[1] == 0 and rc[3] == 0
+        t += DT
+    rc, info = tick(pol, t)
     assert info["state"] == "SPIN" and rc[1] == 0 and rc[3] != 0
+
+
+def test_tag_in_front_at_takeoff_goes_straight_no_spin():
+    pol = make()
+    states = []
+    for k in range(40):                        # tag only in every 3rd frame (real video gaps)
+        rc, info = tick(pol, k * DT, [b(20.0 - 0.02 * k)] if k % 3 == 0 else [])
+        states.append(info["state"])
+    assert "SPIN" not in states and states[-1] == "TRACK" and rc[1] > 0
 
 
 def test_tag_we_took_off_next_to_is_not_the_first_target():
     """Spinning at takeoff sees the start tag 1 m away: ignore it, keep looking for the other."""
     pol = make()
-    tick(pol, 0.0)
-    rc, info = tick(pol, DT, [Sighting(1, 1.2, 10.0)])
+    t = 0.0
+    while t < pol.cfg.look_s + 0.3:            # only the start tag (1.2 m behind... in view): not a target
+        rc, info = tick(pol, t, [Sighting(1, 1.2, 10.0)])
+        t += DT
     assert info["state"] == "SPIN" and info["first_target"] == 2
-    rc, info = tick(pol, 2 * DT, [Sighting(2, 30.0, -5.0)])
+    rc, info = tick(pol, t, [Sighting(2, 30.0, -5.0)])
     assert info["state"] == "TRACK" and info["target"] == 2
 
 

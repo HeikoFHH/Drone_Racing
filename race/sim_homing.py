@@ -113,7 +113,7 @@ def run(args) -> dict:
                      "true_b": round(true_b, 2), **info})
         if info["mode"] in ("done", "land"):
             break
-        right, fwd, up, yaw = rc
+        right, fwd, up, yaw = (max(-args.rc_cap, min(args.rc_cap, v)) for v in rc)
         cmd = camera_R(heading) @ np.array([right, 0.0, fwd]) * args.mps_per_rc
         cmd[1] = up * 0.006
         w = wind.step(DT) if wind is not None else np.zeros(3)
@@ -218,6 +218,7 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--course", type=float, default=73.0, help="real distance tag A to tag B")
     ap.add_argument("--tag-height", type=float, default=1.2, help="tag centres above the ground, m")
+    ap.add_argument("--rc-cap", type=int, default=100, help="clamp sticks like tello_basic --rc-limit")
     ap.add_argument("--policy-course", type=float, help="what the policy is told (default: the real one)")
     ap.add_argument("--tag-mm", type=float, default=487.7, help="black square; 2 ft sheet -> 487.7, 2 ft square -> 609.6")
     ap.add_argument("--cruise", type=float, default=1.5, help="m/s, same toward both tags")

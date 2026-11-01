@@ -514,6 +514,27 @@ def snapshot(v: Vision, path: str | None) -> None:
 
 
 # --------------------------------------------------------------------------- live policy
+STOP_FRAC = 0.25        # a tag edge wider than 25% of the image is close, whatever its printed size
+STOP_CONE_DEG = 45.0    # only tags roughly in front of the nose can stop the drone
+
+
+def blocking_tag(tags: list[dict], stop_m: float, frame_w: int) -> dict | None:
+    """The tag that must stop the drone, or None.
+
+    ``tags``: every AprilTag in the latest frame, ANY id: {"id", "range_m" (None if no pose),
+    "bearing_deg", "size_px"}. A tag blocks when it is in front (|bearing| <= 45 deg) and either
+    measured within ``stop_m`` or so big in the image that it must be close.
+    """
+    hits = []
+    for tg in tags:
+        if abs(tg.get("bearing_deg", 0.0)) > STOP_CONE_DEG:
+            continue
+        r = tg.get("range_m")
+        if (r is not None and r <= stop_m) or tg.get("size_px", 0.0) >= STOP_FRAC * frame_w:
+            hits.append(tg)
+    return min(hits, key=lambda tg: tg["range_m"] if tg.get("range_m") is not None else 0.0) if hits else None
+
+
 class PolicyRunner:
     """Runs the repo's 73 m tag-homing policy (race/homing_policy.py) on this drone.
 
@@ -531,8 +552,16 @@ class PolicyRunner:
     TICK = 0.05
 
     def __init__(self, tello: Tello, vision: "Vision", repo: str | None, camera: str | None,
-                 course_m: float | None, tag_size_mm: float | None, rc_limit: int):
+                 course_m: float | None, tag_size_mm: float | None, rc_limit: int,
+                 stop_m: float = 2.0, speed_mps: float = 0.45):
         self.t, self.v = tello, vision
+        self.speed_mps = speed_mps            # cruise toward the tag (final 2.5 m still crawls)
+        self.stop_m = stop_m                  # HARD STOP: any tag in front within this -> no forward
+        self.frame_tags: list[dict] = []      # every tag in the latest frame (any id), for the stop
+        self.frame_tags_t = 0.0
+        self.frame_w = 960
+        self.stop_latch = None                # (tag id, range, yaw at stop) while the hard stop holds
+        self._last_seen_print = 0.0
         self.repo_arg, self.camera_arg = repo, camera
         self.course_m, self.tag_size_mm, self.rc_limit = course_m, tag_size_mm, rc_limit
         self.switch = None
@@ -622,7 +651,7 @@ class PolicyRunner:
         cap = self.rc_limit
         self.cfg = replace(
             base, course_m=self.course_m, tag_size_m=size,
-            cruise_mps=min(base.cruise_mps, cap * base.mps_per_rc),
+            cruise_mps=min(self.speed_mps, cap * base.mps_per_rc),
             max_up_rc=min(base.max_up_rc, cap), max_yaw_rc=min(base.max_yaw_rc, cap),
             turn_yaw_rc=min(base.turn_yaw_rc, cap), search_yaw_rc=min(base.search_yaw_rc, cap),
             spin_yaw_rc=min(base.spin_yaw_rc, cap))
@@ -642,7 +671,10 @@ class PolicyRunner:
             K = K.copy()
             K[0, 0] *= sx; K[0, 2] *= sx; K[1, 1] *= sy; K[1, 2] *= sy
         out = []
+        tags_now = []
         for tg in self.v.detect(frame):
+            tags_now.append({"id": tg["id"], "range_m": None, "size_px": tg["size"],
+                             "bearing_deg": math.degrees(math.atan2(tg["center"][0] - K[0, 2], K[0, 0]))})
             if tg["size"] < 12:                              # repo gate: min_side_px
                 continue
             pts = tg["corners"].astype(np.float64)           # TL, TR, BR, BL = IPPE order
@@ -655,9 +687,11 @@ class PolicyRunner:
             if tvec[2] <= 0:
                 continue
             R = cv2.Rodrigues(rvec)[0]
+            tags_now[-1]["range_m"] = float(np.linalg.norm(tvec))
             out.append(Sighting(tg["id"], float(np.linalg.norm(tvec)),
                                 math.degrees(math.atan2(tvec[0], tvec[2])),
                                 tuple(float(x) for x in tvec), tuple(float(x) for x in R[:, 2])))
+        self.frame_tags, self.frame_tags_t, self.frame_w = tags_now, time.monotonic(), w
         return out
 
     # -- control loop
@@ -682,12 +716,33 @@ class PolicyRunner:
             obs = HomingObs(t=now, sightings=sightings,
                             height_m=s["h"] / 100.0 if fresh and "h" in s else None,
                             yaw_deg=float(s["yaw"]) if fresh and "yaw" in s else None)
+            # HARD STOP, independent of the policy: any tag (any id) in front within stop_m -> no
+            # forward motion. Latched until the drone has turned > 90 deg away from it.
+            yaw_now = obs.yaw_deg
+            if now - self.frame_tags_t <= 0.5:
+                hit = blocking_tag(self.frame_tags, self.stop_m, self.frame_w)
+                if hit is not None and self.stop_latch is None:
+                    self.stop_latch = (hit["id"], hit["range_m"], yaw_now)
+                    rng = f"{hit['range_m']:.2f} m" if hit["range_m"] is not None else f"{hit['size_px']:.0f} px wide"
+                    print(f"\n  [STOP] tag {hit['id']} at {rng} -- forward blocked, hovering")
+            if self.stop_latch is not None and yaw_now is not None and self.stop_latch[2] is not None:
+                if abs(((yaw_now - self.stop_latch[2] + 180) % 360) - 180) > 90:
+                    print("\n  [STOP] turned away from the tag -- forward allowed again")
+                    self.stop_latch = None
+            if now - self._last_seen_print > 1.0 and self.frame_tags:
+                self._last_seen_print = now
+                seen = ", ".join(f"id {tg['id']} " + (f"{tg['range_m']:.1f} m" if tg["range_m"] is not None else "?")
+                                 for tg in self.frame_tags)
+                tgt = (self.info or {}).get("target")
+                print(f"\n  [seen] {seen}  (policy target {tgt}, state {(self.info or {}).get('state')})")
             with self.tx_lock:
                 rc, info = self.switch.step(obs, dt)
                 self.info = info
                 mode = info["mode"]
                 if mode == "go":
                     r, f, u, y = (clamp(v) for v in rc)
+                    if self.stop_latch is not None:
+                        r, f = 0, min(f, 0)                    # stopped: may back off or turn, never go forward
                     self.t.send_nowait(f"rc {r} {f} {u} {y}")
                 elif mode in ("land", "done"):
                     self.t.send_nowait("rc 0 0 0 0")
@@ -728,6 +783,7 @@ class PolicyRunner:
         if first or new:
             self.switch = PolicySwitch(self.cfg)
             self.ended = None
+            self.stop_latch = None
         c = self.cfg
         eta = c.course_m / max(c.cruise_mps, 1e-6)
         dflt = lambda k: " (default)" if k in self.defaulted else ""      # noqa: E731
@@ -740,6 +796,7 @@ class PolicyRunner:
             print(f"  WARNING: two legs at this speed (~{2 * eta:.0f} s) exceed the "
                   f"{c.max_session_s:.0f} s mission cap -- it will land before finishing. "
                   "Raise --rc-limit or test a shorter course.")
+        print(f"  HARD STOP: any tag in front within {self.stop_m:g} m -> forward blocked (--stop-m).")
         print("  `policy stop` = float in place. Catcher ready.")
         self.switch.start(new_mission=(first or new))
         if self.thread is None or not self.thread.is_alive():
@@ -1018,10 +1075,13 @@ def main() -> None:
     ap.add_argument("--course-m", type=float,
                     help="distance tag A -> tag B in metres (default 73, the policy's HomingCfg)")
     ap.add_argument("--tag-size-mm", type=float,
-                    help="edge of the tags' black square in mm (default 487.7 = 2 ft sheet incl. border; "
-                         "if unsure use the smaller value: the drone then stops further out)")
+                    help="edge of the tags' black square in mm (default 571.5 = 22.5 in, tag 10)")
     ap.add_argument("--tag-id", type=int, help="highlight/announce this tag id as the target")
-    ap.add_argument("--rc-limit", type=int, default=36, help="max |rc| value (default 36)")
+    ap.add_argument("--rc-limit", type=int, default=60, help="max |rc| value (default 60)")
+    ap.add_argument("--speed", type=float, default=0.45,
+                    help="cruise speed toward the tag, m/s (default 0.45; needs --rc-limit >= speed/0.008)")
+    ap.add_argument("--stop-m", type=float, default=2.0,
+                    help="HARD STOP: any tag in front within this many metres blocks forward motion (default 2)")
     ap.add_argument("-v", "--verbose", action="store_true", help="print raw SDK traffic")
     a = ap.parse_args()
 
@@ -1038,7 +1098,8 @@ def main() -> None:
         sys.exit("no reply to `command`. Check: drone on (yellow blinking), this computer "
                  "joined to its TELLO-XXXXXX Wi-Fi, no other app connected to it.")
     t.vision = Vision(t, a.tag_family, a.tag_id)
-    t.policy = PolicyRunner(t, t.vision, a.repo, a.camera, a.course_m, a.tag_size_mm, a.rc_limit)
+    t.policy = PolicyRunner(t, t.vision, a.repo, a.camera, a.course_m, a.tag_size_mm, a.rc_limit, a.stop_m,
+                            a.speed)
     t.start_keepalive()
     print(f"connected. battery {t.send('battery?') or '?'}%  sdk {t.send('sdk?') or '?'}")
 
