@@ -173,6 +173,10 @@ class Tello:
     def start_keepalive(self, every: float = 5.0) -> None:
         def loop() -> None:
             while not self.stop_evt.wait(every):
+                # While the policy flies, its 20 Hz rc stream already keeps the link alive, and a
+                # `battery?` here would hold self.lock for up to 1 s and stall the rc sender.
+                if self.policy is not None and self.policy.running:
+                    continue
                 if not self.lock.locked():      # don't queue behind a long move
                     self.send("battery?", timeout=1.0)
         threading.Thread(target=loop, daemon=True).start()
@@ -546,9 +550,17 @@ class PolicyRunner:
         return self.switch is not None and self.switch.running
 
     def _find_repo(self) -> Path | None:
+        """Locate the repo that has race/homing_policy.py.
+
+        First the explicit --repo / DRONE_RACING_REPO, then the repo this script lives in
+        (connect-test/ is inside it, whatever the clone folder is called), then the current
+        directory and its parents, then the old sibling-folder guesses.
+        """
         here = Path(__file__).resolve().parent
-        cands = [self.repo_arg, os.environ.get("DRONE_RACING_REPO"), here / "Drone_Racing",
-                 here.parent / "Drone_Racing", Path.cwd() / "Drone_Racing",
+        cwd = Path.cwd().resolve()
+        cands = [self.repo_arg, os.environ.get("DRONE_RACING_REPO"),
+                 here.parent, here, cwd, *cwd.parents,
+                 here / "Drone_Racing", here.parent / "Drone_Racing", cwd / "Drone_Racing",
                  Path.home() / "Drone_Racing"]
         for c in cands:
             if c and (Path(c) / "race" / "homing_policy.py").is_file():
