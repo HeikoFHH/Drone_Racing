@@ -2,9 +2,11 @@
 
 Owner: Maude, policy and integration. Branch: `maude/policy-integration`.
 Baseline reviewed: `ea711e996e1f692e58b3d77f0f31f38c751269a2`.
-Status: execution plan; the new turn/visibility tests and maneuver changes below
-are not implemented. Existing evidence is 37 software tests and 160 seeded runs
-of the simplified velocity plant. No physical-flight readiness is claimed.
+Status: initial turn/visibility implementation and interactive preview completed.
+See TURN_RESULTS.md for 960 comparison runs and DASHBOARD.md for the controls.
+The landmark maneuver is an opt-in review candidate; the full proposed dynamics,
+detector, race timer and real-flight validation below remain future work.
+No physical-flight readiness is claimed.
 
 ## The package we will give our teammate
 
