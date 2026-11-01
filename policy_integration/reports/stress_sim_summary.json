@@ -1,0 +1,3463 @@
+{
+  "model": "synthetic_velocity_plant_not_Tello_physics",
+  "dt_s": 0.05,
+  "seeds_per_scenario": 20,
+  "scenarios": [
+    {
+      "id": "baseline",
+      "label": "Baseline",
+      "expected_behavior": "complete",
+      "counts": {
+        "complete": 20,
+        "abort": 0,
+        "timeout": 0
+      },
+      "runs": [
+        {
+          "scenario": {
+            "id": "baseline",
+            "label": "Baseline",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 0,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 49.45,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.75,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.514,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "baseline",
+            "label": "Baseline",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 1,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.55,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.55,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.504,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "baseline",
+            "label": "Baseline",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 2,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 49.7,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.95,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.515,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "baseline",
+            "label": "Baseline",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 3,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.55,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.8,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.511,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "baseline",
+            "label": "Baseline",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 4,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.35,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.55,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.444,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "baseline",
+            "label": "Baseline",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 5,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 49.85,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.7,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.512,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "baseline",
+            "label": "Baseline",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 6,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 49.7,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.8,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.514,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "baseline",
+            "label": "Baseline",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 7,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.2,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.55,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.447,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "baseline",
+            "label": "Baseline",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 8,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.45,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.8,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.515,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "baseline",
+            "label": "Baseline",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 9,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.05,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.75,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.48,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "baseline",
+            "label": "Baseline",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 10,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 49.95,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.7,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.488,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "baseline",
+            "label": "Baseline",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 11,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.05,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.55,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.474,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "baseline",
+            "label": "Baseline",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 12,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.05,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.6,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.505,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "baseline",
+            "label": "Baseline",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 13,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.35,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.55,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.5,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "baseline",
+            "label": "Baseline",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 14,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.6,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.55,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.501,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "baseline",
+            "label": "Baseline",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 15,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 49.7,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.7,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.444,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "baseline",
+            "label": "Baseline",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 16,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.2,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.7,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.498,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "baseline",
+            "label": "Baseline",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 17,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 49.95,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.55,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.499,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "baseline",
+            "label": "Baseline",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 18,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.45,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.75,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.515,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "baseline",
+            "label": "Baseline",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 19,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 49.8,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.7,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.514,
+          "peak_abs_rc": 20
+        }
+      ]
+    },
+    {
+      "id": "mild-wind",
+      "label": "Side drift: 0.06 m/s",
+      "expected_behavior": "complete",
+      "counts": {
+        "complete": 20,
+        "abort": 0,
+        "timeout": 0
+      },
+      "runs": [
+        {
+          "scenario": {
+            "id": "mild-wind",
+            "label": "Side drift: 0.06 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.06,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 0,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.7,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 43.4,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.551,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "mild-wind",
+            "label": "Side drift: 0.06 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.06,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 1,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 51.6,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 43.15,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.55,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "mild-wind",
+            "label": "Side drift: 0.06 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.06,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 2,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.55,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 43.35,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.586,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "mild-wind",
+            "label": "Side drift: 0.06 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.06,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 3,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 51.35,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 43.2,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.513,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "mild-wind",
+            "label": "Side drift: 0.06 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.06,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 4,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 51.55,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 43.25,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.444,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "mild-wind",
+            "label": "Side drift: 0.06 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.06,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 5,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.85,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 43.1,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.54,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "mild-wind",
+            "label": "Side drift: 0.06 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.06,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 6,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.45,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 43.2,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.558,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "mild-wind",
+            "label": "Side drift: 0.06 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.06,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 7,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 51.3,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 43.1,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.447,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "mild-wind",
+            "label": "Side drift: 0.06 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.06,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 8,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 51.55,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 43.45,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.58,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "mild-wind",
+            "label": "Side drift: 0.06 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.06,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 9,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 51.05,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 43.3,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.48,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "mild-wind",
+            "label": "Side drift: 0.06 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.06,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 10,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.7,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 43.0,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.489,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "mild-wind",
+            "label": "Side drift: 0.06 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.06,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 11,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.95,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 43.0,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.51,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "mild-wind",
+            "label": "Side drift: 0.06 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.06,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 12,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 51.05,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 43.1,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.525,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "mild-wind",
+            "label": "Side drift: 0.06 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.06,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 13,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 51.35,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 43.2,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.535,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "mild-wind",
+            "label": "Side drift: 0.06 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.06,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 14,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 51.45,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 43.0,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.543,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "mild-wind",
+            "label": "Side drift: 0.06 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.06,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 15,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.55,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 42.85,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.444,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "mild-wind",
+            "label": "Side drift: 0.06 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.06,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 16,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 51.2,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 43.25,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.499,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "mild-wind",
+            "label": "Side drift: 0.06 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.06,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 17,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.95,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 43.1,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.542,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "mild-wind",
+            "label": "Side drift: 0.06 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.06,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 18,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 51.55,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 43.25,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.534,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "mild-wind",
+            "label": "Side drift: 0.06 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.06,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 19,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.7,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 43.15,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.548,
+          "peak_abs_rc": 20
+        }
+      ]
+    },
+    {
+      "id": "strong-wind",
+      "label": "Side drift: 0.12 m/s",
+      "expected_behavior": "complete",
+      "counts": {
+        "complete": 0,
+        "abort": 20,
+        "timeout": 0
+      },
+      "runs": [
+        {
+          "scenario": {
+            "id": "strong-wind",
+            "label": "Side drift: 0.12 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.12,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 0,
+          "outcome": "abort",
+          "reason": "session_timeout",
+          "elapsed_s": 90.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.551,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "strong-wind",
+            "label": "Side drift: 0.12 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.12,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 1,
+          "outcome": "abort",
+          "reason": "session_timeout",
+          "elapsed_s": 90.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.566,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "strong-wind",
+            "label": "Side drift: 0.12 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.12,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 2,
+          "outcome": "abort",
+          "reason": "session_timeout",
+          "elapsed_s": 90.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.588,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "strong-wind",
+            "label": "Side drift: 0.12 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.12,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 3,
+          "outcome": "abort",
+          "reason": "session_timeout",
+          "elapsed_s": 90.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.513,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "strong-wind",
+            "label": "Side drift: 0.12 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.12,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 4,
+          "outcome": "abort",
+          "reason": "session_timeout",
+          "elapsed_s": 90.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.444,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "strong-wind",
+            "label": "Side drift: 0.12 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.12,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 5,
+          "outcome": "abort",
+          "reason": "session_timeout",
+          "elapsed_s": 90.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.54,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "strong-wind",
+            "label": "Side drift: 0.12 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.12,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 6,
+          "outcome": "abort",
+          "reason": "session_timeout",
+          "elapsed_s": 90.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.558,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "strong-wind",
+            "label": "Side drift: 0.12 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.12,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 7,
+          "outcome": "abort",
+          "reason": "session_timeout",
+          "elapsed_s": 90.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.447,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "strong-wind",
+            "label": "Side drift: 0.12 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.12,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 8,
+          "outcome": "abort",
+          "reason": "session_timeout",
+          "elapsed_s": 90.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.58,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "strong-wind",
+            "label": "Side drift: 0.12 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.12,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 9,
+          "outcome": "abort",
+          "reason": "session_timeout",
+          "elapsed_s": 90.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.48,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "strong-wind",
+            "label": "Side drift: 0.12 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.12,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 10,
+          "outcome": "abort",
+          "reason": "session_timeout",
+          "elapsed_s": 90.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.489,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "strong-wind",
+            "label": "Side drift: 0.12 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.12,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 11,
+          "outcome": "abort",
+          "reason": "session_timeout",
+          "elapsed_s": 90.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.51,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "strong-wind",
+            "label": "Side drift: 0.12 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.12,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 12,
+          "outcome": "abort",
+          "reason": "session_timeout",
+          "elapsed_s": 90.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.525,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "strong-wind",
+            "label": "Side drift: 0.12 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.12,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 13,
+          "outcome": "abort",
+          "reason": "session_timeout",
+          "elapsed_s": 90.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.535,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "strong-wind",
+            "label": "Side drift: 0.12 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.12,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 14,
+          "outcome": "abort",
+          "reason": "session_timeout",
+          "elapsed_s": 90.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.545,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "strong-wind",
+            "label": "Side drift: 0.12 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.12,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 15,
+          "outcome": "abort",
+          "reason": "session_timeout",
+          "elapsed_s": 90.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.444,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "strong-wind",
+            "label": "Side drift: 0.12 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.12,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 16,
+          "outcome": "abort",
+          "reason": "session_timeout",
+          "elapsed_s": 90.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.499,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "strong-wind",
+            "label": "Side drift: 0.12 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.12,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 17,
+          "outcome": "abort",
+          "reason": "session_timeout",
+          "elapsed_s": 90.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.549,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "strong-wind",
+            "label": "Side drift: 0.12 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.12,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 18,
+          "outcome": "abort",
+          "reason": "session_timeout",
+          "elapsed_s": 90.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.534,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "strong-wind",
+            "label": "Side drift: 0.12 m/s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.12,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 19,
+          "outcome": "abort",
+          "reason": "session_timeout",
+          "elapsed_s": 90.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.548,
+          "peak_abs_rc": 20
+        }
+      ]
+    },
+    {
+      "id": "delay-150",
+      "label": "Camera delay: 150 ms",
+      "expected_behavior": "complete",
+      "counts": {
+        "complete": 20,
+        "abort": 0,
+        "timeout": 0
+      },
+      "runs": [
+        {
+          "scenario": {
+            "id": "delay-150",
+            "label": "Camera delay: 150 ms",
+            "delay_s": 0.15,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 0,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.0,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.9,
+          "max_pose_age_s": 0.15,
+          "min_truth_pole_distance_m": 0.511,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "delay-150",
+            "label": "Camera delay: 150 ms",
+            "delay_s": 0.15,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 1,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 51.0,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.8,
+          "max_pose_age_s": 0.15,
+          "min_truth_pole_distance_m": 0.502,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "delay-150",
+            "label": "Camera delay: 150 ms",
+            "delay_s": 0.15,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 2,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.3,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.95,
+          "max_pose_age_s": 0.15,
+          "min_truth_pole_distance_m": 0.513,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "delay-150",
+            "label": "Camera delay: 150 ms",
+            "delay_s": 0.15,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 3,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.9,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.85,
+          "max_pose_age_s": 0.15,
+          "min_truth_pole_distance_m": 0.51,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "delay-150",
+            "label": "Camera delay: 150 ms",
+            "delay_s": 0.15,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 4,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 51.0,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.95,
+          "max_pose_age_s": 0.15,
+          "min_truth_pole_distance_m": 0.444,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "delay-150",
+            "label": "Camera delay: 150 ms",
+            "delay_s": 0.15,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 5,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.25,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.75,
+          "max_pose_age_s": 0.15,
+          "min_truth_pole_distance_m": 0.505,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "delay-150",
+            "label": "Camera delay: 150 ms",
+            "delay_s": 0.15,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 6,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.0,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.85,
+          "max_pose_age_s": 0.15,
+          "min_truth_pole_distance_m": 0.512,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "delay-150",
+            "label": "Camera delay: 150 ms",
+            "delay_s": 0.15,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 7,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.9,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.85,
+          "max_pose_age_s": 0.15,
+          "min_truth_pole_distance_m": 0.447,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "delay-150",
+            "label": "Camera delay: 150 ms",
+            "delay_s": 0.15,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 8,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.85,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.9,
+          "max_pose_age_s": 0.15,
+          "min_truth_pole_distance_m": 0.512,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "delay-150",
+            "label": "Camera delay: 150 ms",
+            "delay_s": 0.15,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 9,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.5,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.9,
+          "max_pose_age_s": 0.15,
+          "min_truth_pole_distance_m": 0.48,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "delay-150",
+            "label": "Camera delay: 150 ms",
+            "delay_s": 0.15,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 10,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.35,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.8,
+          "max_pose_age_s": 0.15,
+          "min_truth_pole_distance_m": 0.488,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "delay-150",
+            "label": "Camera delay: 150 ms",
+            "delay_s": 0.15,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 11,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.55,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.8,
+          "max_pose_age_s": 0.15,
+          "min_truth_pole_distance_m": 0.469,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "delay-150",
+            "label": "Camera delay: 150 ms",
+            "delay_s": 0.15,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 12,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.55,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.85,
+          "max_pose_age_s": 0.15,
+          "min_truth_pole_distance_m": 0.503,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "delay-150",
+            "label": "Camera delay: 150 ms",
+            "delay_s": 0.15,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 13,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.7,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.7,
+          "max_pose_age_s": 0.15,
+          "min_truth_pole_distance_m": 0.499,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "delay-150",
+            "label": "Camera delay: 150 ms",
+            "delay_s": 0.15,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 14,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 51.0,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.7,
+          "max_pose_age_s": 0.15,
+          "min_truth_pole_distance_m": 0.499,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "delay-150",
+            "label": "Camera delay: 150 ms",
+            "delay_s": 0.15,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 15,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.25,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.75,
+          "max_pose_age_s": 0.15,
+          "min_truth_pole_distance_m": 0.444,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "delay-150",
+            "label": "Camera delay: 150 ms",
+            "delay_s": 0.15,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 16,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.6,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.85,
+          "max_pose_age_s": 0.15,
+          "min_truth_pole_distance_m": 0.498,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "delay-150",
+            "label": "Camera delay: 150 ms",
+            "delay_s": 0.15,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 17,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.35,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.7,
+          "max_pose_age_s": 0.15,
+          "min_truth_pole_distance_m": 0.494,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "delay-150",
+            "label": "Camera delay: 150 ms",
+            "delay_s": 0.15,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 18,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.95,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 42.0,
+          "max_pose_age_s": 0.15,
+          "min_truth_pole_distance_m": 0.511,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "delay-150",
+            "label": "Camera delay: 150 ms",
+            "delay_s": 0.15,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 19,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.3,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 41.9,
+          "max_pose_age_s": 0.15,
+          "min_truth_pole_distance_m": 0.511,
+          "peak_abs_rc": 20
+        }
+      ]
+    },
+    {
+      "id": "delay-300",
+      "label": "Camera delay: 300 ms",
+      "expected_behavior": "abort",
+      "counts": {
+        "complete": 0,
+        "abort": 20,
+        "timeout": 0
+      },
+      "runs": [
+        {
+          "scenario": {
+            "id": "delay-300",
+            "label": "Camera delay: 300 ms",
+            "delay_s": 0.3,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 0,
+          "outcome": "abort",
+          "reason": "persistent_pose_stale",
+          "elapsed_s": 0.8,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.3,
+          "min_truth_pole_distance_m": 0.551,
+          "peak_abs_rc": 0
+        },
+        {
+          "scenario": {
+            "id": "delay-300",
+            "label": "Camera delay: 300 ms",
+            "delay_s": 0.3,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 1,
+          "outcome": "abort",
+          "reason": "persistent_pose_stale",
+          "elapsed_s": 0.8,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.3,
+          "min_truth_pole_distance_m": 0.566,
+          "peak_abs_rc": 0
+        },
+        {
+          "scenario": {
+            "id": "delay-300",
+            "label": "Camera delay: 300 ms",
+            "delay_s": 0.3,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 2,
+          "outcome": "abort",
+          "reason": "persistent_pose_stale",
+          "elapsed_s": 0.8,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.3,
+          "min_truth_pole_distance_m": 0.588,
+          "peak_abs_rc": 0
+        },
+        {
+          "scenario": {
+            "id": "delay-300",
+            "label": "Camera delay: 300 ms",
+            "delay_s": 0.3,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 3,
+          "outcome": "abort",
+          "reason": "persistent_pose_stale",
+          "elapsed_s": 0.8,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.3,
+          "min_truth_pole_distance_m": 0.513,
+          "peak_abs_rc": 0
+        },
+        {
+          "scenario": {
+            "id": "delay-300",
+            "label": "Camera delay: 300 ms",
+            "delay_s": 0.3,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 4,
+          "outcome": "abort",
+          "reason": "persistent_pose_stale",
+          "elapsed_s": 0.8,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.3,
+          "min_truth_pole_distance_m": 0.444,
+          "peak_abs_rc": 0
+        },
+        {
+          "scenario": {
+            "id": "delay-300",
+            "label": "Camera delay: 300 ms",
+            "delay_s": 0.3,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 5,
+          "outcome": "abort",
+          "reason": "persistent_pose_stale",
+          "elapsed_s": 0.8,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.3,
+          "min_truth_pole_distance_m": 0.54,
+          "peak_abs_rc": 0
+        },
+        {
+          "scenario": {
+            "id": "delay-300",
+            "label": "Camera delay: 300 ms",
+            "delay_s": 0.3,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 6,
+          "outcome": "abort",
+          "reason": "persistent_pose_stale",
+          "elapsed_s": 0.8,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.3,
+          "min_truth_pole_distance_m": 0.558,
+          "peak_abs_rc": 0
+        },
+        {
+          "scenario": {
+            "id": "delay-300",
+            "label": "Camera delay: 300 ms",
+            "delay_s": 0.3,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 7,
+          "outcome": "abort",
+          "reason": "persistent_pose_stale",
+          "elapsed_s": 0.8,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.3,
+          "min_truth_pole_distance_m": 0.447,
+          "peak_abs_rc": 0
+        },
+        {
+          "scenario": {
+            "id": "delay-300",
+            "label": "Camera delay: 300 ms",
+            "delay_s": 0.3,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 8,
+          "outcome": "abort",
+          "reason": "persistent_pose_stale",
+          "elapsed_s": 0.8,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.3,
+          "min_truth_pole_distance_m": 0.58,
+          "peak_abs_rc": 0
+        },
+        {
+          "scenario": {
+            "id": "delay-300",
+            "label": "Camera delay: 300 ms",
+            "delay_s": 0.3,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 9,
+          "outcome": "abort",
+          "reason": "persistent_pose_stale",
+          "elapsed_s": 0.8,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.3,
+          "min_truth_pole_distance_m": 0.48,
+          "peak_abs_rc": 0
+        },
+        {
+          "scenario": {
+            "id": "delay-300",
+            "label": "Camera delay: 300 ms",
+            "delay_s": 0.3,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 10,
+          "outcome": "abort",
+          "reason": "persistent_pose_stale",
+          "elapsed_s": 0.8,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.3,
+          "min_truth_pole_distance_m": 0.489,
+          "peak_abs_rc": 0
+        },
+        {
+          "scenario": {
+            "id": "delay-300",
+            "label": "Camera delay: 300 ms",
+            "delay_s": 0.3,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 11,
+          "outcome": "abort",
+          "reason": "persistent_pose_stale",
+          "elapsed_s": 0.8,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.3,
+          "min_truth_pole_distance_m": 0.51,
+          "peak_abs_rc": 0
+        },
+        {
+          "scenario": {
+            "id": "delay-300",
+            "label": "Camera delay: 300 ms",
+            "delay_s": 0.3,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 12,
+          "outcome": "abort",
+          "reason": "persistent_pose_stale",
+          "elapsed_s": 0.8,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.3,
+          "min_truth_pole_distance_m": 0.525,
+          "peak_abs_rc": 0
+        },
+        {
+          "scenario": {
+            "id": "delay-300",
+            "label": "Camera delay: 300 ms",
+            "delay_s": 0.3,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 13,
+          "outcome": "abort",
+          "reason": "persistent_pose_stale",
+          "elapsed_s": 0.8,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.3,
+          "min_truth_pole_distance_m": 0.535,
+          "peak_abs_rc": 0
+        },
+        {
+          "scenario": {
+            "id": "delay-300",
+            "label": "Camera delay: 300 ms",
+            "delay_s": 0.3,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 14,
+          "outcome": "abort",
+          "reason": "persistent_pose_stale",
+          "elapsed_s": 0.8,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.3,
+          "min_truth_pole_distance_m": 0.545,
+          "peak_abs_rc": 0
+        },
+        {
+          "scenario": {
+            "id": "delay-300",
+            "label": "Camera delay: 300 ms",
+            "delay_s": 0.3,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 15,
+          "outcome": "abort",
+          "reason": "persistent_pose_stale",
+          "elapsed_s": 0.8,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.3,
+          "min_truth_pole_distance_m": 0.444,
+          "peak_abs_rc": 0
+        },
+        {
+          "scenario": {
+            "id": "delay-300",
+            "label": "Camera delay: 300 ms",
+            "delay_s": 0.3,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 16,
+          "outcome": "abort",
+          "reason": "persistent_pose_stale",
+          "elapsed_s": 0.8,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.3,
+          "min_truth_pole_distance_m": 0.499,
+          "peak_abs_rc": 0
+        },
+        {
+          "scenario": {
+            "id": "delay-300",
+            "label": "Camera delay: 300 ms",
+            "delay_s": 0.3,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 17,
+          "outcome": "abort",
+          "reason": "persistent_pose_stale",
+          "elapsed_s": 0.8,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.3,
+          "min_truth_pole_distance_m": 0.549,
+          "peak_abs_rc": 0
+        },
+        {
+          "scenario": {
+            "id": "delay-300",
+            "label": "Camera delay: 300 ms",
+            "delay_s": 0.3,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 18,
+          "outcome": "abort",
+          "reason": "persistent_pose_stale",
+          "elapsed_s": 0.8,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.3,
+          "min_truth_pole_distance_m": 0.534,
+          "peak_abs_rc": 0
+        },
+        {
+          "scenario": {
+            "id": "delay-300",
+            "label": "Camera delay: 300 ms",
+            "delay_s": 0.3,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 19,
+          "outcome": "abort",
+          "reason": "persistent_pose_stale",
+          "elapsed_s": 0.8,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.3,
+          "min_truth_pole_distance_m": 0.548,
+          "peak_abs_rc": 0
+        }
+      ]
+    },
+    {
+      "id": "pose-loss",
+      "label": "Camera lost at 5 s",
+      "expected_behavior": "abort",
+      "counts": {
+        "complete": 0,
+        "abort": 20,
+        "timeout": 0
+      },
+      "runs": [
+        {
+          "scenario": {
+            "id": "pose-loss",
+            "label": "Camera lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": 5,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 0,
+          "outcome": "abort",
+          "reason": "sensors_timed_out",
+          "elapsed_s": 5.75,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.8,
+          "min_truth_pole_distance_m": 0.544,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "pose-loss",
+            "label": "Camera lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": 5,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 1,
+          "outcome": "abort",
+          "reason": "sensors_timed_out",
+          "elapsed_s": 5.75,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.8,
+          "min_truth_pole_distance_m": 0.504,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "pose-loss",
+            "label": "Camera lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": 5,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 2,
+          "outcome": "abort",
+          "reason": "sensors_timed_out",
+          "elapsed_s": 5.75,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.8,
+          "min_truth_pole_distance_m": 0.567,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "pose-loss",
+            "label": "Camera lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": 5,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 3,
+          "outcome": "abort",
+          "reason": "sensors_timed_out",
+          "elapsed_s": 5.75,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.8,
+          "min_truth_pole_distance_m": 0.511,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "pose-loss",
+            "label": "Camera lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": 5,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 4,
+          "outcome": "abort",
+          "reason": "sensors_timed_out",
+          "elapsed_s": 5.75,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.8,
+          "min_truth_pole_distance_m": 0.444,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "pose-loss",
+            "label": "Camera lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": 5,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 5,
+          "outcome": "abort",
+          "reason": "sensors_timed_out",
+          "elapsed_s": 5.75,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.8,
+          "min_truth_pole_distance_m": 0.512,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "pose-loss",
+            "label": "Camera lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": 5,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 6,
+          "outcome": "abort",
+          "reason": "sensors_timed_out",
+          "elapsed_s": 5.75,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.8,
+          "min_truth_pole_distance_m": 0.549,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "pose-loss",
+            "label": "Camera lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": 5,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 7,
+          "outcome": "abort",
+          "reason": "sensors_timed_out",
+          "elapsed_s": 5.75,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.8,
+          "min_truth_pole_distance_m": 0.447,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "pose-loss",
+            "label": "Camera lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": 5,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 8,
+          "outcome": "abort",
+          "reason": "sensors_timed_out",
+          "elapsed_s": 5.75,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.8,
+          "min_truth_pole_distance_m": 0.57,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "pose-loss",
+            "label": "Camera lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": 5,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 9,
+          "outcome": "abort",
+          "reason": "sensors_timed_out",
+          "elapsed_s": 5.75,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.8,
+          "min_truth_pole_distance_m": 0.48,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "pose-loss",
+            "label": "Camera lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": 5,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 10,
+          "outcome": "abort",
+          "reason": "sensors_timed_out",
+          "elapsed_s": 5.75,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.8,
+          "min_truth_pole_distance_m": 0.488,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "pose-loss",
+            "label": "Camera lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": 5,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 11,
+          "outcome": "abort",
+          "reason": "sensors_timed_out",
+          "elapsed_s": 5.75,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.8,
+          "min_truth_pole_distance_m": 0.474,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "pose-loss",
+            "label": "Camera lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": 5,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 12,
+          "outcome": "abort",
+          "reason": "sensors_timed_out",
+          "elapsed_s": 5.75,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.8,
+          "min_truth_pole_distance_m": 0.505,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "pose-loss",
+            "label": "Camera lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": 5,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 13,
+          "outcome": "abort",
+          "reason": "sensors_timed_out",
+          "elapsed_s": 5.75,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.8,
+          "min_truth_pole_distance_m": 0.5,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "pose-loss",
+            "label": "Camera lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": 5,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 14,
+          "outcome": "abort",
+          "reason": "sensors_timed_out",
+          "elapsed_s": 5.75,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.8,
+          "min_truth_pole_distance_m": 0.501,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "pose-loss",
+            "label": "Camera lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": 5,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 15,
+          "outcome": "abort",
+          "reason": "sensors_timed_out",
+          "elapsed_s": 5.75,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.8,
+          "min_truth_pole_distance_m": 0.444,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "pose-loss",
+            "label": "Camera lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": 5,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 16,
+          "outcome": "abort",
+          "reason": "sensors_timed_out",
+          "elapsed_s": 5.75,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.8,
+          "min_truth_pole_distance_m": 0.498,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "pose-loss",
+            "label": "Camera lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": 5,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 17,
+          "outcome": "abort",
+          "reason": "sensors_timed_out",
+          "elapsed_s": 5.75,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.8,
+          "min_truth_pole_distance_m": 0.499,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "pose-loss",
+            "label": "Camera lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": 5,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 18,
+          "outcome": "abort",
+          "reason": "sensors_timed_out",
+          "elapsed_s": 5.75,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.8,
+          "min_truth_pole_distance_m": 0.53,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "pose-loss",
+            "label": "Camera lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": 5,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 19,
+          "outcome": "abort",
+          "reason": "sensors_timed_out",
+          "elapsed_s": 5.75,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.8,
+          "min_truth_pole_distance_m": 0.536,
+          "peak_abs_rc": 20
+        }
+      ]
+    },
+    {
+      "id": "link-loss",
+      "label": "Link lost at 5 s",
+      "expected_behavior": "abort",
+      "counts": {
+        "complete": 0,
+        "abort": 20,
+        "timeout": 0
+      },
+      "runs": [
+        {
+          "scenario": {
+            "id": "link-loss",
+            "label": "Link lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": 5,
+            "timeout_s": 90.0
+          },
+          "seed": 0,
+          "outcome": "abort",
+          "reason": "link_lost",
+          "elapsed_s": 5.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.544,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "link-loss",
+            "label": "Link lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": 5,
+            "timeout_s": 90.0
+          },
+          "seed": 1,
+          "outcome": "abort",
+          "reason": "link_lost",
+          "elapsed_s": 5.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.504,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "link-loss",
+            "label": "Link lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": 5,
+            "timeout_s": 90.0
+          },
+          "seed": 2,
+          "outcome": "abort",
+          "reason": "link_lost",
+          "elapsed_s": 5.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.567,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "link-loss",
+            "label": "Link lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": 5,
+            "timeout_s": 90.0
+          },
+          "seed": 3,
+          "outcome": "abort",
+          "reason": "link_lost",
+          "elapsed_s": 5.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.511,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "link-loss",
+            "label": "Link lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": 5,
+            "timeout_s": 90.0
+          },
+          "seed": 4,
+          "outcome": "abort",
+          "reason": "link_lost",
+          "elapsed_s": 5.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.444,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "link-loss",
+            "label": "Link lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": 5,
+            "timeout_s": 90.0
+          },
+          "seed": 5,
+          "outcome": "abort",
+          "reason": "link_lost",
+          "elapsed_s": 5.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.512,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "link-loss",
+            "label": "Link lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": 5,
+            "timeout_s": 90.0
+          },
+          "seed": 6,
+          "outcome": "abort",
+          "reason": "link_lost",
+          "elapsed_s": 5.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.549,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "link-loss",
+            "label": "Link lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": 5,
+            "timeout_s": 90.0
+          },
+          "seed": 7,
+          "outcome": "abort",
+          "reason": "link_lost",
+          "elapsed_s": 5.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.447,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "link-loss",
+            "label": "Link lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": 5,
+            "timeout_s": 90.0
+          },
+          "seed": 8,
+          "outcome": "abort",
+          "reason": "link_lost",
+          "elapsed_s": 5.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.57,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "link-loss",
+            "label": "Link lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": 5,
+            "timeout_s": 90.0
+          },
+          "seed": 9,
+          "outcome": "abort",
+          "reason": "link_lost",
+          "elapsed_s": 5.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.48,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "link-loss",
+            "label": "Link lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": 5,
+            "timeout_s": 90.0
+          },
+          "seed": 10,
+          "outcome": "abort",
+          "reason": "link_lost",
+          "elapsed_s": 5.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.488,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "link-loss",
+            "label": "Link lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": 5,
+            "timeout_s": 90.0
+          },
+          "seed": 11,
+          "outcome": "abort",
+          "reason": "link_lost",
+          "elapsed_s": 5.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.474,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "link-loss",
+            "label": "Link lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": 5,
+            "timeout_s": 90.0
+          },
+          "seed": 12,
+          "outcome": "abort",
+          "reason": "link_lost",
+          "elapsed_s": 5.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.505,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "link-loss",
+            "label": "Link lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": 5,
+            "timeout_s": 90.0
+          },
+          "seed": 13,
+          "outcome": "abort",
+          "reason": "link_lost",
+          "elapsed_s": 5.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.5,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "link-loss",
+            "label": "Link lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": 5,
+            "timeout_s": 90.0
+          },
+          "seed": 14,
+          "outcome": "abort",
+          "reason": "link_lost",
+          "elapsed_s": 5.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.501,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "link-loss",
+            "label": "Link lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": 5,
+            "timeout_s": 90.0
+          },
+          "seed": 15,
+          "outcome": "abort",
+          "reason": "link_lost",
+          "elapsed_s": 5.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.444,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "link-loss",
+            "label": "Link lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": 5,
+            "timeout_s": 90.0
+          },
+          "seed": 16,
+          "outcome": "abort",
+          "reason": "link_lost",
+          "elapsed_s": 5.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.498,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "link-loss",
+            "label": "Link lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": 5,
+            "timeout_s": 90.0
+          },
+          "seed": 17,
+          "outcome": "abort",
+          "reason": "link_lost",
+          "elapsed_s": 5.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.499,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "link-loss",
+            "label": "Link lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": 5,
+            "timeout_s": 90.0
+          },
+          "seed": 18,
+          "outcome": "abort",
+          "reason": "link_lost",
+          "elapsed_s": 5.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.53,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "link-loss",
+            "label": "Link lost at 5 s",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 0,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": 5,
+            "timeout_s": 90.0
+          },
+          "seed": 19,
+          "outcome": "abort",
+          "reason": "link_lost",
+          "elapsed_s": 5.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.536,
+          "peak_abs_rc": 20
+        }
+      ]
+    },
+    {
+      "id": "deadband",
+      "label": "RC deadband: 12",
+      "expected_behavior": "complete",
+      "counts": {
+        "complete": 6,
+        "abort": 14,
+        "timeout": 0
+      },
+      "runs": [
+        {
+          "scenario": {
+            "id": "deadband",
+            "label": "RC deadband: 12",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 12,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 0,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.7,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 42.65,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.5,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "deadband",
+            "label": "RC deadband: 12",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 12,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 1,
+          "outcome": "abort",
+          "reason": "session_timeout",
+          "elapsed_s": 90.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.464,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "deadband",
+            "label": "RC deadband: 12",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 12,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 2,
+          "outcome": "abort",
+          "reason": "session_timeout",
+          "elapsed_s": 90.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.412,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "deadband",
+            "label": "RC deadband: 12",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 12,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 3,
+          "outcome": "abort",
+          "reason": "session_timeout",
+          "elapsed_s": 90.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.423,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "deadband",
+            "label": "RC deadband: 12",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 12,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 4,
+          "outcome": "abort",
+          "reason": "session_timeout",
+          "elapsed_s": 90.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.402,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "deadband",
+            "label": "RC deadband: 12",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 12,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 5,
+          "outcome": "abort",
+          "reason": "session_timeout",
+          "elapsed_s": 90.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.488,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "deadband",
+            "label": "RC deadband: 12",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 12,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 6,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 50.55,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 42.6,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.557,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "deadband",
+            "label": "RC deadband: 12",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 12,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 7,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 52.2,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 42.15,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.446,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "deadband",
+            "label": "RC deadband: 12",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 12,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 8,
+          "outcome": "abort",
+          "reason": "session_timeout",
+          "elapsed_s": 90.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.411,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "deadband",
+            "label": "RC deadband: 12",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 12,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 9,
+          "outcome": "abort",
+          "reason": "session_timeout",
+          "elapsed_s": 90.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.411,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "deadband",
+            "label": "RC deadband: 12",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 12,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 10,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 51.3,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 42.4,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.489,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "deadband",
+            "label": "RC deadband: 12",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 12,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 11,
+          "outcome": "abort",
+          "reason": "session_timeout",
+          "elapsed_s": 90.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.417,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "deadband",
+            "label": "RC deadband: 12",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 12,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 12,
+          "outcome": "abort",
+          "reason": "session_timeout",
+          "elapsed_s": 90.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.514,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "deadband",
+            "label": "RC deadband: 12",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 12,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 13,
+          "outcome": "abort",
+          "reason": "session_timeout",
+          "elapsed_s": 90.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.5,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "deadband",
+            "label": "RC deadband: 12",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 12,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 14,
+          "outcome": "abort",
+          "reason": "session_timeout",
+          "elapsed_s": 90.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.511,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "deadband",
+            "label": "RC deadband: 12",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 12,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 15,
+          "outcome": "abort",
+          "reason": "session_timeout",
+          "elapsed_s": 90.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.439,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "deadband",
+            "label": "RC deadband: 12",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 12,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 16,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 52.3,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 43.25,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.449,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "deadband",
+            "label": "RC deadband: 12",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 12,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 17,
+          "outcome": "abort",
+          "reason": "session_timeout",
+          "elapsed_s": 90.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.446,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "deadband",
+            "label": "RC deadband: 12",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 12,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 18,
+          "outcome": "abort",
+          "reason": "session_timeout",
+          "elapsed_s": 90.0,
+          "truth_lap_finished": false,
+          "truth_lap_time_s": null,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.413,
+          "peak_abs_rc": 20
+        },
+        {
+          "scenario": {
+            "id": "deadband",
+            "label": "RC deadband: 12",
+            "delay_s": 0.0,
+            "wind_y_mps": 0.0,
+            "deadband_rc": 12,
+            "pose_loss_at_s": null,
+            "link_loss_at_s": null,
+            "timeout_s": 90.0
+          },
+          "seed": 19,
+          "outcome": "complete",
+          "reason": "route_complete_timer_must_confirm",
+          "elapsed_s": 51.6,
+          "truth_lap_finished": true,
+          "truth_lap_time_s": 43.15,
+          "max_pose_age_s": 0.0,
+          "min_truth_pole_distance_m": 0.548,
+          "peak_abs_rc": 20
+        }
+      ]
+    }
+  ]
+}
