@@ -1,0 +1,42 @@
+test_map_to_world_and_roundtrip (policy_integration.test_policy.AdapterTests.test_map_to_world_and_roundtrip) ... ok
+test_positioner_camera_heading (policy_integration.test_policy.AdapterTests.test_positioner_camera_heading) ... ok
+test_reflections_scaling_and_bad_transforms_rejected (policy_integration.test_policy.AdapterTests.test_reflections_scaling_and_bad_transforms_rejected) ... ok
+test_clock_future_backwards_and_gap (policy_integration.test_policy.ContractTests.test_clock_future_backwards_and_gap) ... ok
+test_continuously_delayed_video_cannot_hold_forever (policy_integration.test_policy.ContractTests.test_continuously_delayed_video_cannot_hold_forever) ... ok
+test_disabled_and_grounded_never_move_or_takeoff (policy_integration.test_policy.ContractTests.test_disabled_and_grounded_never_move_or_takeoff) ... ok
+test_final_waypoint_requires_dwell_then_latches_complete (policy_integration.test_policy.ContractTests.test_final_waypoint_requires_dwell_then_latches_complete) ... ok
+test_forward_and_sideways_signs (policy_integration.test_policy.ContractTests.test_forward_and_sideways_signs) ... ok
+test_fractional_slew_at_high_tick_rate (policy_integration.test_policy.ContractTests.test_fractional_slew_at_high_tick_rate) ... ok
+test_fresh_pose_recovers_from_brief_hold (policy_integration.test_policy.ContractTests.test_fresh_pose_recovers_from_brief_hold) ... ok
+test_huge_json_numbers_fail_closed_without_exception (policy_integration.test_policy.ContractTests.test_huge_json_numbers_fail_closed_without_exception) ... ok
+test_invalid_config (policy_integration.test_policy.ContractTests.test_invalid_config) ... ok
+test_learned_model_identity_and_goal_are_pinned (policy_integration.test_policy.ContractTests.test_learned_model_identity_and_goal_are_pinned) ... ok
+test_learned_policy_cannot_bypass_cap_heading_or_link_guard (policy_integration.test_policy.ContractTests.test_learned_policy_cannot_bypass_cap_heading_or_link_guard) ... ok
+test_learner_requires_valid_fresh_matching_packet (policy_integration.test_policy.ContractTests.test_learner_requires_valid_fresh_matching_packet) ... ok
+test_link_loss_is_latched (policy_integration.test_policy.ContractTests.test_link_loss_is_latched) ... ok
+test_low_battery (policy_integration.test_policy.ContractTests.test_low_battery) ... ok
+test_motion_damping (policy_integration.test_policy.ContractTests.test_motion_damping) ... ok
+test_no_arrival_while_still_moving (policy_integration.test_policy.ContractTests.test_no_arrival_while_still_moving) ... ok
+test_nonfinite_wrong_shape_and_schema_abort (policy_integration.test_policy.ContractTests.test_nonfinite_wrong_shape_and_schema_abort) ... ok
+test_one_frozen_frame_cannot_prove_arrival (policy_integration.test_policy.ContractTests.test_one_frozen_frame_cannot_prove_arrival) ... ok
+test_out_of_order_measurement (policy_integration.test_policy.ContractTests.test_out_of_order_measurement) ... ok
+test_pose_jump_and_relabelled_frozen_frame (policy_integration.test_policy.ContractTests.test_pose_jump_and_relabelled_frozen_frame) ... ok
+test_positive_yaw_requires_clockwise_correction_and_no_translation (policy_integration.test_policy.ContractTests.test_positive_yaw_requires_clockwise_correction_and_no_translation) ... ok
+test_random_normalized_actions_are_bounded (policy_integration.test_policy.ContractTests.test_random_normalized_actions_are_bounded) ... ok
+test_route_and_runtime_segment_clearance (policy_integration.test_policy.ContractTests.test_route_and_runtime_segment_clearance) ... ok
+test_session_timeout_cannot_be_reset_by_disable_toggle (policy_integration.test_policy.ContractTests.test_session_timeout_cannot_be_reset_by_disable_toggle) ... ok
+test_short_pose_loss_holds_long_loss_requests_land (policy_integration.test_policy.ContractTests.test_short_pose_loss_holds_long_loss_requests_land) ... ok
+test_telemetry_loss_requests_land (policy_integration.test_policy.ContractTests.test_telemetry_loss_requests_land) ... ok
+test_uncertainty_fence_and_speed (policy_integration.test_policy.ContractTests.test_uncertainty_fence_and_speed) ... ok
+test_vertical_sign (policy_integration.test_policy.ContractTests.test_vertical_sign) ... ok
+test_injected_losses_abort_instead_of_complete (policy_integration.test_policy.EndToEndTests.test_injected_losses_abort_instead_of_complete) ... ok
+test_replay_valid_and_malformed_rows (policy_integration.test_policy.EndToEndTests.test_replay_valid_and_malformed_rows) ... ok
+test_toy_route_and_independent_existing_lap_timer (policy_integration.test_policy.EndToEndTests.test_toy_route_and_independent_existing_lap_timer) ... ok
+test_delayed_observations_still_require_a_truth_lap (policy_integration.test_stress_sim.ScenarioTests.test_delayed_observations_still_require_a_truth_lap) ... ok
+test_export_is_bounded_and_contains_trace_and_scenario_controls (policy_integration.test_stress_sim.ScenarioTests.test_export_is_bounded_and_contains_trace_and_scenario_controls) ... ok
+test_losses_abort_without_claiming_landing_or_lap (policy_integration.test_stress_sim.ScenarioTests.test_losses_abort_without_claiming_landing_or_lap) ... ok
+
+----------------------------------------------------------------------
+Ran 37 tests in 0.418s
+
+OK
