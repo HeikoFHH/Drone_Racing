@@ -1,9 +1,9 @@
 {
-  "generated_at_utc": "2026-11-01T17:40:01.245979+00:00",
+  "generated_at_utc": "2026-11-01T19:21:26.254768+00:00",
   "reviewed_base_sha": "31c17c25a1c6c0e73a4e8114492fe226ad338878",
   "branch": "maude/policy-integration",
   "unit_and_integration_tests": {
-    "run": 37,
+    "run": 57,
     "failures": 0,
     "errors": 0,
     "successful": true
@@ -39,18 +39,34 @@
   "isaac_tested": false,
   "rl_trained_or_loaded": false,
   "live_engine_patched": false,
-  "remote_branch_published": false,
+  "remote_branch_published": true,
   "source_audit_findings": 5,
   "simulation_scenarios": 8,
   "simulation_seeded_runs": 160,
   "playback_test": "Node VM DOM mock: scenario selection, scrubbing, RAF cancellation, 320px redraw; not a rendered browser screenshot",
   "source_hashes_sha256": {
-    "policy_integration/policy.py": "72ba3761fa4514ff5b08e8e39a29dbc4efe428741f323b778e6d202c83d3bc43",
+    "policy_integration/policy.py": "a86822b4f2b935411808c3253e64d9f18ee49c4d4e35291945bb3e8f3d2daca3",
     "policy_integration/stress_sim.py": "85f803e2f918cd0b9b12923915308321c7af29daf306695a52ddfc32edde23e1",
-    "policy_integration/trace_view.html": "768b0af0c50ae89b8436fe9fe15df499f50886216fa15186434a0487985d104a"
+    "policy_integration/trace_view.html": "768b0af0c50ae89b8436fe9fe15df499f50886216fa15186434a0487985d104a",
+    "policy_integration/turn_sim.py": "028c692c2f413ee68047633cfc43eec6a84c98f85b1befd3f49ff465802dcc52",
+    "policy_integration/dashboard_core.js": "22286d2ccd41c2816548f012b5fc3817f83d8dcccb6e653ced78dd41c92247af",
+    "policy_integration/dashboard_fragment.html": "3f7cdc7ad2c321df234d14af036462dd3f3ca42481b1af10d2dcad9c1fb7e0ae",
+    "policy_integration/dashboard.html": "a67f224fb03c2e997b6e9ca5082af750c0e447285ce1850b211df068ed56e27d"
   },
   "known_mission_failures": [
     "strong synthetic lateral drift: 0/20 complete, 20 session aborts",
     "synthetic deadband 12: 6/20 complete, 14 session aborts"
-  ]
+  ],
+  "publication_note": "Previous version published at d53e2d4. Latest local changes require separate remote tree verification; this report does not assert they are published.",
+  "turn_comparison": {
+    "scenarios": 16,
+    "seeds_per_cell": 20,
+    "controllers": 3,
+    "attempts": 960,
+    "reference_ref": "d53e2d460ad130ed66c756e9f0ab37f26143e1f8",
+    "report": "turn_sim_summary.json",
+    "run_log": "turn_sim_runs.jsonl",
+    "race_timer_integrated": false
+  },
+  "dashboard_test": "Python/JavaScript classic-policy sequential parity, DOM harness control/fault tests, responsive SVG widths; no rendered-browser layout test"
 }
