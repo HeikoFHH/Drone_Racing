@@ -67,3 +67,25 @@ def test_obs_matches_policy_contract_semantics():
 def test_single_env_passes_gymnasium_checker():
     env = gym.make("DroneRace-v0")
     check_env(env.unwrapped, skip_render_check=True)
+
+
+def test_gym_make_vec_both_modes():
+    v = gym.make_vec("DroneRace-v0", num_envs=6, vectorization_mode="vector_entry_point", sensing="realistic")
+    o, _ = v.reset(seed=0)
+    assert o.shape == (6, 112) and v.unwrapped.cfg.sensing == "realistic"
+    s = gym.make_vec("DroneRace-v0", num_envs=3, vectorization_mode="sync")
+    o, _ = s.reset(seed=0)
+    o, r, te, tr, info = s.step(s.action_space.sample())
+    assert o.shape == (3, 112) and isinstance(o, np.ndarray)
+
+
+def test_stable_baselines3_can_train_on_it():
+    sb3 = __import__("pytest").importorskip("stable_baselines3")
+    from drone_race_sim.wrappers import SB3VecEnv
+
+    venv = SB3VecEnv.create(TelloRaceVecEnv(EnvCfg(num_envs=16, seed=0)))
+    model = sb3.PPO("MlpPolicy", venv, n_steps=16, batch_size=64, n_epochs=1, device="cpu", seed=0)
+    model.learn(total_timesteps=16 * 16 * 2)
+    obs = venv.reset()
+    action, _ = model.predict(obs, deterministic=True)
+    assert action.shape == (16, 4) and np.isfinite(action).all()

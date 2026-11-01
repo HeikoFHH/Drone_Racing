@@ -21,6 +21,7 @@ from .dynamics import TelloDynamics, segment_point_distance
 from .lap import AT_START, FINISHED, IDLE, OUTBOUND, TURNED, VecLapTimer
 from .randomization import DynamicsSampler
 from .rewards import compute_rewards
+from .sensors import SensorModel, load_sensor_cfg
 
 FRAME_DIM = 25
 PRIV_DIM = 16
@@ -32,8 +33,10 @@ class TelloRaceVecEnv(gym.vector.VectorEnv):
     metadata = {"autoreset_mode": gym.vector.AutoresetMode.SAME_STEP, "render_modes": []}
 
     def __init__(self, cfg: EnvCfg | None = None, dynamics: DynamicsParams | None = None,
-                 geometry: CourseGeometry | None = None, params_source: str | None = None):
-        self.cfg = cfg or EnvCfg()
+                 geometry: CourseGeometry | None = None, params_source: str | None = None, **cfg_kwargs):
+        """``gym.make_vec("DroneRace-v0", num_envs=N, sensing="realistic", ...)`` forwards its kwargs to EnvCfg."""
+        cfg_kwargs.pop("render_mode", None)
+        self.cfg = replace(cfg or EnvCfg(), **cfg_kwargs)
         c = self.cfg
         self.dtype = torch.float64 if c.dtype == "float64" else torch.float32
         self.device = torch.device(c.device)
@@ -50,6 +53,16 @@ class TelloRaceVecEnv(gym.vector.VectorEnv):
         self.lap = VecLapTimer(E, self.geom.pole_a_xy, self.geom.pole_b_xy, self.geom.gate_radius_m,
                                self.geom.require_turn, self.device, self.dtype)
         self.sampler = DynamicsSampler(dynamics, device=self.device, dtype=self.dtype)
+        self.realistic = c.sensing == "realistic"
+        if c.sensing not in ("perfect", "realistic"):
+            raise ValueError("sensing must be 'perfect' or 'realistic'")
+        self.sensor_cfg, self.sensor_source = load_sensor_cfg()
+        self.sensor_cfg.noise_scale = c.sensor_noise_scale
+        self.sensors = SensorModel(E, self.geom.pole_a_xy, self.geom.pole_b_xy, self.sensor_cfg, c.dt,
+                                   self.device, self.dtype) if self.realistic else None
+        # estimate-driven lap timer (D12: the official lap time in flight); equals truth when sensing is perfect
+        self.lap_est = VecLapTimer(E, self.geom.pole_a_xy, self.geom.pole_b_xy, self.geom.gate_radius_m,
+                                   self.geom.require_turn, self.device, self.dtype)
         self.dr_level = float(c.dr_level)
         z = lambda *s: torch.zeros(*s, device=self.device, dtype=self.dtype)
         self.t, self.dt_last = z(E), torch.full((E,), c.dt, device=self.device, dtype=self.dtype)
@@ -110,6 +123,11 @@ class TelloRaceVecEnv(gym.vector.VectorEnv):
         self.steps += 1
         pos = self.dyn.pos
         events = self.lap.update(self.t, pos[:, :2])
+        if self.realistic:
+            self.sensors.step(pos, self.dyn.vel, self.dyn.yaw, dt.mean(), self.gen, self.t)
+            self.lap_est.update(self.t, self.sensors.bridge_pos[:, :2])
+        else:
+            self.lap_est.update(self.t, pos[:, :2])
         d_curr = (pos[:, :2] - target_prev).norm(dim=-1)
 
         da = segment_point_distance(self.dyn.prev_pos[:, :2], pos[:, :2], self.lap.pole_a)
@@ -144,7 +162,8 @@ class TelloRaceVecEnv(gym.vector.VectorEnv):
         info = {"done": done, "cause": cause, "ep_return": self.ep_return.clone(), "ep_len": self.ep_len.clone(),
                 "lap_finished": self.lap.phase == FINISHED, "lap_time": self.lap.lap_time.clone(),
                 "phase": self.lap.phase.clone(), "final_obs": obs.clone(), "final_priv": priv.clone(),
-                "reward_components": comps, "pole_dist": pole_dist}
+                "reward_components": comps, "pole_dist": pole_dist, "lap_time_est": self.lap_est.lap_time.clone(),
+                "phase_est": self.lap_est.phase.clone()}
         if c.autoreset and done.any():
             self._reset_idx(done.nonzero(as_tuple=True)[0])
             obs, priv = self._stacked(), self._priv()
@@ -194,31 +213,58 @@ class TelloRaceVecEnv(gym.vector.VectorEnv):
         mask = torch.zeros(self.num_envs, dtype=torch.bool, device=self.device)
         mask[idx] = True
         self.lap.update(self.t, self.dyn.pos[:, :2], mask)
+        if self.realistic:
+            self.sensors.reset(idx, self.dyn.pos[idx], self.dyn.vel[idx], self.dyn.yaw[idx], self.gen)
+        self.lap_est.reset(idx)
+        self.lap_est.update(self.t, (self.sensors.bridge_pos if self.realistic else self.dyn.pos)[:, :2], mask)
         self.act_hist[idx] = 0.0
         self.hist[idx] = self._frame()[idx][:, None].expand(-1, c.frame_stack, -1)
 
     # -- observations -----------------------------------------------------------------------------
-    def _rel_body(self, target_xy):
-        d = target_xy - self.dyn.pos[:, :2]
-        co, si = torch.cos(self.dyn.yaw), torch.sin(self.dyn.yaw)
+    def _rel_body(self, target_xy, pos=None, yaw=None):
+        pos = self.dyn.pos if pos is None else pos
+        yaw = self.dyn.yaw if yaw is None else yaw
+        d = target_xy - pos[:, :2]
+        co, si = torch.cos(yaw), torch.sin(yaw)
         return torch.stack([co * d[:, 0] + si * d[:, 1], -si * d[:, 0] + co * d[:, 1]], dim=-1)
 
+    @property
+    def sensed(self) -> dict:
+        """What a controller may use: the estimate in realistic mode, truth in perfect mode."""
+        if self.realistic:
+            s = self.sensors
+            return {"pos": s.bridge_pos, "vel_w": s.vel_w, "yaw": s.yaw_est, "kf_pos": s.kf.p, "lost": s.lost,
+                    "fix_age": s.fix_age, "fix_now": s.fix_now, "seen": s.seen, "tag_img": s.tag_img,
+                    "pos_std": s.pos_std, "fix_pos": s.fix_pos, "est_at_fix": s.est_at_fix, "fix_time": s.fix_time}
+        z = torch.zeros(self.num_envs, device=self.device, dtype=self.dtype)
+        zb = torch.zeros(self.num_envs, dtype=torch.bool, device=self.device)
+        return {"pos": self.dyn.pos, "vel_w": self.dyn.vel, "yaw": self.dyn.yaw, "kf_pos": self.dyn.pos, "lost": zb,
+                "fix_age": z, "fix_now": ~zb, "seen": torch.stack([~zb, ~zb], -1),
+                "tag_img": torch.zeros(self.num_envs, 2, 3, device=self.device, dtype=self.dtype),
+                "pos_std": z, "fix_pos": self.dyn.pos, "est_at_fix": self.dyn.pos, "fix_time": self.t}
+
     def _frame(self) -> torch.Tensor:
-        """Current actor frame (25 dims). Tag/estimator slots are reserved for M3 and stay zero."""
-        ph = self.lap.phase
-        onehot = torch.stack([(ph == IDLE), (ph == AT_START), (ph == OUTBOUND), (ph == TURNED)], dim=-1).to(self.dtype)
+        """Current actor frame (25 dims). Perfect mode: truth, tag/estimator slots zero.
+        Realistic mode: filtered estimate, packet velocity and tag measurements."""
         zeros = lambda k: torch.zeros(self.num_envs, k, device=self.device, dtype=self.dtype)
+        if not self.realistic:
+            ph = self.lap.phase
+            onehot = torch.stack([(ph == IDLE), (ph == AT_START), (ph == OUTBOUND), (ph == TURNED)], dim=-1).to(self.dtype)
+            return torch.cat([
+                self._rel_body(self.lap.pole_a) / 4.0, self._rel_body(self.lap.pole_b) / 4.0,
+                (self.dyn.pos[:, 2:3] - self.cfg.ref_height), self.dyn.body_velocity(), self.dyn.yaw_rate[:, None],
+                zeros(4), zeros(4), zeros(1), zeros(1), zeros(1), onehot, (self.dt_last / DT_NOMINAL)[:, None]], dim=-1)
+        s = self.sensors
+        ph = self.lap_est.phase
+        onehot = torch.stack([(ph == IDLE), (ph == AT_START), (ph == OUTBOUND), (ph == TURNED)], dim=-1).to(self.dtype)
+        tag = lambda k: torch.cat([s.seen[:, k:k + 1].to(self.dtype), torch.where(s.seen[:, k:k + 1], s.tag_img[:, k], 0.0)], -1)
         return torch.cat([
-            self._rel_body(self.lap.pole_a) / 4.0,                      # 2
-            self._rel_body(self.lap.pole_b) / 4.0,                      # 2
-            (self.dyn.pos[:, 2:3] - self.cfg.ref_height),               # 1
-            self.dyn.body_velocity(),                                   # 3
-            self.dyn.yaw_rate[:, None],                                 # 1
-            zeros(4), zeros(4),                                         # tag A / tag B (M3)
-            zeros(1), zeros(1), zeros(1),                               # fix_age, lost, std (M3)
-            onehot,                                                     # 4
-            (self.dt_last / DT_NOMINAL)[:, None],                       # 1
-        ], dim=-1)
+            self._rel_body(self.lap.pole_a, s.bridge_pos, s.yaw_est) / 4.0,
+            self._rel_body(self.lap.pole_b, s.bridge_pos, s.yaw_est) / 4.0,
+            (s.height[:, None] - self.cfg.ref_height), s.vel_body, s.yaw_rate[:, None],
+            tag(0), tag(1),
+            (s.fix_age / 2.0).clamp(max=1.0)[:, None], s.lost.to(self.dtype)[:, None], s.pos_std[:, None],
+            onehot, (self.dt_last / DT_NOMINAL)[:, None]], dim=-1)
 
     def _stacked(self) -> torch.Tensor:
         return torch.cat([self.hist.flatten(1), self.act_hist.flatten(1)], dim=-1)

@@ -40,7 +40,7 @@ def dr_schedule(it, start, end, level_max):
 def save(ppo: PPO, env: TelloRaceVecEnv, path: Path, extra: dict):
     torch.save({**ppo.state_dict(), "meta": {"git_sha": git_sha(), "params_hash": env.params_hash,
                                               "params_source": env.params_source, "rc_cap": env.cfg.rc_cap,
-                                              "obs_dim": env.obs_dim, "priv_dim": env.priv_dim, **extra}}, path)
+                                              "sensing": env.cfg.sensing, "obs_dim": env.obs_dim, "priv_dim": env.priv_dim, **extra}}, path)
 
 
 def main(argv=None):
@@ -54,11 +54,12 @@ def main(argv=None):
     ap.add_argument("--dr-start", type=int, default=150)
     ap.add_argument("--dr-end", type=int, default=350)
     ap.add_argument("--dr-max", type=float, default=1.0)
+    ap.add_argument("--sensing", choices=["perfect", "realistic"], default="perfect")
     ap.add_argument("--save-every", type=int, default=50)
     a = ap.parse_args(argv)
     torch.manual_seed(a.seed)
     a.out.mkdir(parents=True, exist_ok=True)
-    env = TelloRaceVecEnv(EnvCfg(num_envs=a.envs, device=a.device, seed=a.seed, rc_cap=a.rc_cap))
+    env = TelloRaceVecEnv(EnvCfg(num_envs=a.envs, device=a.device, seed=a.seed, rc_cap=a.rc_cap, sensing=a.sensing))
     ppo = PPO(env, PPOCfg(), device=a.device)
     if env.params_source == "placeholder":
         print("WARNING: training on placeholder dynamics (params_source=placeholder); not calibrated to a real Tello", flush=True)

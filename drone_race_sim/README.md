@@ -1,9 +1,11 @@
 # drone_race_sim: Mac simulator for the Tello two-pole race
 
+See `docs/SIMULATOR_GUIDE.md` (humans) and `CONTEXT/` (LLM agents) for the current description; this file is a short index.
+
 Implements milestones **M0-M2 (the MVP)** of [`docs/SIMULATION_PLAN.md`](../docs/SIMULATION_PLAN.md):
 a vectorized torch simulator in the `course_flu_v1` frame, the repo's lap rules, rc dynamics with
 lag/delay/deadband/wind, parity with `policy_integration/stress_sim.py`, and a custom PPO.
-Sensing (camera/tags/estimator), calibration, ONNX export and deployment are M3+ and not built yet.
+A first sensing layer (camera field of view, tag detections, repo Kalman filter, dead reckoning), a rollout runner, Maude's policy as the guard/backup for every policy, and visualizations were added afterwards. Calibration, ONNX export and deployment are not built yet.
 
 ```bash
 uv venv --python 3.11 .venv-sim

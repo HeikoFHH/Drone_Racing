@@ -62,6 +62,8 @@ class EnvCfg:
     enable_terminations: bool = True
     terminate_on_finish: bool = True
     autoreset: bool = True
+    sensing: str = "perfect"        # "perfect" (MVP, truth) or "realistic" (camera/tag/estimator model)
+    sensor_noise_scale: float = 1.0
 
 
 def _flatten(raw: dict) -> dict:
