@@ -1,0 +1,30 @@
+# Placeholder sensor model (docs/SIMULATION_PLAN.md section 7). `source`: repo | guess | doc.
+# Camera numbers come from config/camera/default.yaml and config/tags.yaml; the rest are
+# unmeasured guesses until the E4 tag-sensor tests and E0 hover flights are recorded.
+params_source: placeholder
+image_width:        {value: 960,    source: repo,  confidence: high, note: "config/camera/default.yaml"}
+image_height:       {value: 720,    source: repo,  confidence: high}
+fx:                 {value: 914.54, source: repo,  confidence: high}
+fy:                 {value: 914.41, source: repo,  confidence: high}
+tag_size_m:         {value: 0.13208, source: repo, confidence: high, note: "config/tags.yaml sizes_mm"}
+min_side_px:        {value: 12.0,   source: repo,  confidence: medium, note: "config/tags.yaml gate"}
+max_view_deg:       {value: 70.0,   source: guess, confidence: low, note: "tags.yaml allows 90; practice 65-75"}
+fov_margin:         {value: 0.92,   source: guess, confidence: low, note: "fraction of the half-FOV in which a tag is fully detected"}
+camera_pitch_deg:   {value: 0.0,    source: guess, confidence: low, note: "positive = looking up; real camera pitch unmeasured"}
+tag_z:              {value: 1.0,    source: guess, confidence: low, note: "tag centre height above floor, m"}
+video_delay_s:      {value: 0.15,   source: guess, confidence: low}
+packet_delay_s:     {value: 0.07,   source: guess, confidence: low}
+detector_hz:        {value: 12.0,   source: guess, confidence: low}
+detect_prob:        {value: 0.95,   source: guess, confidence: low, note: "per visible tag per processed frame"}
+depth_noise_per_m2: {value: 0.0058, source: guess, confidence: low, note: "sigma_depth = a * range^2"}
+lateral_noise_rad:  {value: 0.015,  source: guess, confidence: low, note: "sigma_lateral = a * range"}
+range_scale_sigma:  {value: 0.03,   source: repo,  confidence: low, note: "engine hard-codes f=871 vs calibrated 914.5 (about 5%)"}
+fix_yaw_sigma_deg:  {value: 2.0,    source: guess, confidence: low}
+vel_noise:          {value: 0.03,   source: guess, confidence: low, note: "m/s, state-packet velocity noise"}
+vel_bias_sigma:     {value: 0.03,   source: guess, confidence: low}
+vel_scale_sigma:    {value: 0.05,   source: guess, confidence: low}
+height_noise:       {value: 0.02,   source: guess, confidence: low}
+yaw_drift_deg_s:    {value: 0.2,    source: guess, confidence: low}
+yaw_noise_deg:      {value: 0.5,    source: guess, confidence: low}
+kf_lost_after_s:    {value: 0.4,    source: repo,  confidence: medium, note: "core/positional_kalman_filter.py KalmanCfg.lost_after"}
+dead_reckoning_std_per_s: {value: 0.05, source: guess, confidence: low, note: "m per s of dead reckoning; packet velocity bias 0.03 + scale 5%"}

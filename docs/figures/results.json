@@ -1,0 +1,555 @@
+{
+ "seeds": 30,
+ "matrix": {
+  "perfect": {
+   "maude_baseline": {
+    "baseline": {
+     "controller": "maude_baseline",
+     "scenario": "baseline",
+     "n": 30,
+     "laps": 30,
+     "median_lap_s": 41.8,
+     "outcomes": {
+      "lap": 30
+     },
+     "takeovers": 0
+    },
+    "mild-wind": {
+     "controller": "maude_baseline",
+     "scenario": "mild-wind",
+     "n": 30,
+     "laps": 30,
+     "median_lap_s": 43.150000000000006,
+     "outcomes": {
+      "lap": 30
+     },
+     "takeovers": 0
+    },
+    "strong-wind": {
+     "controller": "maude_baseline",
+     "scenario": "strong-wind",
+     "n": 30,
+     "laps": 0,
+     "median_lap_s": null,
+     "outcomes": {
+      "timeout": 30
+     },
+     "takeovers": 0
+    },
+    "deadband": {
+     "controller": "maude_baseline",
+     "scenario": "deadband",
+     "n": 30,
+     "laps": 7,
+     "median_lap_s": 42.45,
+     "outcomes": {
+      "lap": 7,
+      "timeout": 23
+     },
+     "takeovers": 0
+    }
+   },
+   "race_policy": {
+    "baseline": {
+     "controller": "race_policy",
+     "scenario": "baseline",
+     "n": 30,
+     "laps": 30,
+     "median_lap_s": 17.95,
+     "outcomes": {
+      "lap": 30
+     },
+     "takeovers": 0
+    },
+    "mild-wind": {
+     "controller": "race_policy",
+     "scenario": "mild-wind",
+     "n": 30,
+     "laps": 30,
+     "median_lap_s": 18.85,
+     "outcomes": {
+      "lap": 30
+     },
+     "takeovers": 0
+    },
+    "strong-wind": {
+     "controller": "race_policy",
+     "scenario": "strong-wind",
+     "n": 30,
+     "laps": 30,
+     "median_lap_s": 21.25,
+     "outcomes": {
+      "lap": 30
+     },
+     "takeovers": 0
+    },
+    "deadband": {
+     "controller": "race_policy",
+     "scenario": "deadband",
+     "n": 30,
+     "laps": 30,
+     "median_lap_s": 18.6,
+     "outcomes": {
+      "lap": 30
+     },
+     "takeovers": 0
+    }
+   },
+   "guarded[race_policy]": {
+    "baseline": {
+     "controller": "guarded[race_policy]",
+     "scenario": "baseline",
+     "n": 30,
+     "laps": 30,
+     "median_lap_s": 17.95,
+     "outcomes": {
+      "lap": 30
+     },
+     "takeovers": 0
+    },
+    "mild-wind": {
+     "controller": "guarded[race_policy]",
+     "scenario": "mild-wind",
+     "n": 30,
+     "laps": 30,
+     "median_lap_s": 18.85,
+     "outcomes": {
+      "lap": 30
+     },
+     "takeovers": 0
+    },
+    "strong-wind": {
+     "controller": "guarded[race_policy]",
+     "scenario": "strong-wind",
+     "n": 30,
+     "laps": 30,
+     "median_lap_s": 21.25,
+     "outcomes": {
+      "lap": 30
+     },
+     "takeovers": 0
+    },
+    "deadband": {
+     "controller": "guarded[race_policy]",
+     "scenario": "deadband",
+     "n": 30,
+     "laps": 30,
+     "median_lap_s": 18.6,
+     "outcomes": {
+      "lap": 30
+     },
+     "takeovers": 0
+    }
+   },
+   "ppo_perfect": {
+    "baseline": {
+     "controller": "ppo_perfect",
+     "scenario": "baseline",
+     "n": 30,
+     "laps": 30,
+     "median_lap_s": 12.925,
+     "outcomes": {
+      "lap": 30
+     },
+     "takeovers": 0
+    },
+    "mild-wind": {
+     "controller": "ppo_perfect",
+     "scenario": "mild-wind",
+     "n": 30,
+     "laps": 30,
+     "median_lap_s": 13.425,
+     "outcomes": {
+      "lap": 30
+     },
+     "takeovers": 0
+    },
+    "strong-wind": {
+     "controller": "ppo_perfect",
+     "scenario": "strong-wind",
+     "n": 30,
+     "laps": 30,
+     "median_lap_s": 14.6,
+     "outcomes": {
+      "lap": 30
+     },
+     "takeovers": 0
+    },
+    "deadband": {
+     "controller": "ppo_perfect",
+     "scenario": "deadband",
+     "n": 30,
+     "laps": 30,
+     "median_lap_s": 12.925,
+     "outcomes": {
+      "lap": 30
+     },
+     "takeovers": 0
+    }
+   }
+  },
+  "realistic": {
+   "maude_baseline": {
+    "baseline": {
+     "controller": "maude_baseline",
+     "scenario": "baseline",
+     "n": 30,
+     "laps": 0,
+     "median_lap_s": null,
+     "outcomes": {
+      "landed": 30
+     },
+     "takeovers": 0
+    },
+    "mild-wind": {
+     "controller": "maude_baseline",
+     "scenario": "mild-wind",
+     "n": 30,
+     "laps": 0,
+     "median_lap_s": null,
+     "outcomes": {
+      "landed": 30
+     },
+     "takeovers": 0
+    },
+    "strong-wind": {
+     "controller": "maude_baseline",
+     "scenario": "strong-wind",
+     "n": 30,
+     "laps": 0,
+     "median_lap_s": null,
+     "outcomes": {
+      "landed": 30
+     },
+     "takeovers": 0
+    },
+    "deadband": {
+     "controller": "maude_baseline",
+     "scenario": "deadband",
+     "n": 30,
+     "laps": 0,
+     "median_lap_s": null,
+     "outcomes": {
+      "landed": 30
+     },
+     "takeovers": 0
+    }
+   },
+   "race_policy": {
+    "baseline": {
+     "controller": "race_policy",
+     "scenario": "baseline",
+     "n": 30,
+     "laps": 21,
+     "median_lap_s": 18.25,
+     "outcomes": {
+      "lap": 21,
+      "lap_est_only": 9
+     },
+     "takeovers": 0
+    },
+    "mild-wind": {
+     "controller": "race_policy",
+     "scenario": "mild-wind",
+     "n": 30,
+     "laps": 24,
+     "median_lap_s": 19.25,
+     "outcomes": {
+      "lap": 24,
+      "lap_est_only": 6
+     },
+     "takeovers": 0
+    },
+    "strong-wind": {
+     "controller": "race_policy",
+     "scenario": "strong-wind",
+     "n": 30,
+     "laps": 23,
+     "median_lap_s": 21.4,
+     "outcomes": {
+      "lap": 23,
+      "lap_est_only": 7
+     },
+     "takeovers": 0
+    },
+    "deadband": {
+     "controller": "race_policy",
+     "scenario": "deadband",
+     "n": 30,
+     "laps": 22,
+     "median_lap_s": 18.575000000000003,
+     "outcomes": {
+      "lap": 22,
+      "lap_est_only": 8
+     },
+     "takeovers": 0
+    }
+   },
+   "guarded[race_policy]": {
+    "baseline": {
+     "controller": "guarded[race_policy]",
+     "scenario": "baseline",
+     "n": 30,
+     "laps": 19,
+     "median_lap_s": 18.25,
+     "outcomes": {
+      "lap": 19,
+      "lap_est_only": 8,
+      "landed": 3
+     },
+     "takeovers": 3
+    },
+    "mild-wind": {
+     "controller": "guarded[race_policy]",
+     "scenario": "mild-wind",
+     "n": 30,
+     "laps": 23,
+     "median_lap_s": 19.25,
+     "outcomes": {
+      "lap": 23,
+      "lap_est_only": 5,
+      "landed": 2
+     },
+     "takeovers": 2
+    },
+    "strong-wind": {
+     "controller": "guarded[race_policy]",
+     "scenario": "strong-wind",
+     "n": 30,
+     "laps": 22,
+     "median_lap_s": 21.424999999999997,
+     "outcomes": {
+      "lap": 22,
+      "lap_est_only": 6,
+      "landed": 2
+     },
+     "takeovers": 2
+    },
+    "deadband": {
+     "controller": "guarded[race_policy]",
+     "scenario": "deadband",
+     "n": 30,
+     "laps": 20,
+     "median_lap_s": 18.575000000000003,
+     "outcomes": {
+      "lap": 20,
+      "lap_est_only": 7,
+      "landed": 3
+     },
+     "takeovers": 3
+    }
+   },
+   "ppo_perfect": {
+    "baseline": {
+     "controller": "ppo_perfect",
+     "scenario": "baseline",
+     "n": 30,
+     "laps": 0,
+     "median_lap_s": null,
+     "outcomes": {
+      "timeout": 30
+     },
+     "takeovers": 0
+    },
+    "mild-wind": {
+     "controller": "ppo_perfect",
+     "scenario": "mild-wind",
+     "n": 30,
+     "laps": 0,
+     "median_lap_s": null,
+     "outcomes": {
+      "timeout": 29,
+      "crash:pole": 1
+     },
+     "takeovers": 0
+    },
+    "strong-wind": {
+     "controller": "ppo_perfect",
+     "scenario": "strong-wind",
+     "n": 30,
+     "laps": 1,
+     "median_lap_s": 17.3,
+     "outcomes": {
+      "timeout": 26,
+      "lap": 1,
+      "lap_est_only": 3
+     },
+     "takeovers": 0
+    },
+    "deadband": {
+     "controller": "ppo_perfect",
+     "scenario": "deadband",
+     "n": 30,
+     "laps": 0,
+     "median_lap_s": null,
+     "outcomes": {
+      "timeout": 30
+     },
+     "takeovers": 0
+    }
+   },
+   "ppo_realistic": {
+    "baseline": {
+     "controller": "ppo_realistic",
+     "scenario": "baseline",
+     "n": 30,
+     "laps": 30,
+     "median_lap_s": 14.825,
+     "outcomes": {
+      "lap": 30
+     },
+     "takeovers": 0
+    },
+    "mild-wind": {
+     "controller": "ppo_realistic",
+     "scenario": "mild-wind",
+     "n": 30,
+     "laps": 30,
+     "median_lap_s": 15.75,
+     "outcomes": {
+      "lap": 30
+     },
+     "takeovers": 0
+    },
+    "strong-wind": {
+     "controller": "ppo_realistic",
+     "scenario": "strong-wind",
+     "n": 30,
+     "laps": 30,
+     "median_lap_s": 17.25,
+     "outcomes": {
+      "lap": 30
+     },
+     "takeovers": 0
+    },
+    "deadband": {
+     "controller": "ppo_realistic",
+     "scenario": "deadband",
+     "n": 30,
+     "laps": 30,
+     "median_lap_s": 14.8,
+     "outcomes": {
+      "lap": 30
+     },
+     "takeovers": 0
+    }
+   },
+   "guarded[ppo_realistic]": {
+    "baseline": {
+     "controller": "guarded[ppo_realistic]",
+     "scenario": "baseline",
+     "n": 30,
+     "laps": 0,
+     "median_lap_s": null,
+     "outcomes": {
+      "landed": 30
+     },
+     "takeovers": 2
+    },
+    "mild-wind": {
+     "controller": "guarded[ppo_realistic]",
+     "scenario": "mild-wind",
+     "n": 30,
+     "laps": 0,
+     "median_lap_s": null,
+     "outcomes": {
+      "landed": 30
+     },
+     "takeovers": 2
+    },
+    "strong-wind": {
+     "controller": "guarded[ppo_realistic]",
+     "scenario": "strong-wind",
+     "n": 30,
+     "laps": 0,
+     "median_lap_s": null,
+     "outcomes": {
+      "landed": 30
+     },
+     "takeovers": 2
+    },
+    "deadband": {
+     "controller": "guarded[ppo_realistic]",
+     "scenario": "deadband",
+     "n": 30,
+     "laps": 0,
+     "median_lap_s": null,
+     "outcomes": {
+      "landed": 30
+     },
+     "takeovers": 2
+    }
+   }
+  }
+ },
+ "faults": {
+  "nan": {
+   "unguarded": {
+    "timeout": 30
+   },
+   "guarded": {
+    "lap": 30
+   },
+   "backup_reasons": [
+    "invalid_primary"
+   ],
+   "land_reasons": []
+  },
+  "stall": {
+   "unguarded": {
+    "timeout": 30
+   },
+   "guarded": {
+    "lap": 30
+   },
+   "backup_reasons": [
+    "stalled"
+   ],
+   "land_reasons": []
+  },
+  "runaway": {
+   "unguarded": {
+    "crash:out_of_bounds": 30
+   },
+   "guarded": {
+    "landed": 30
+   },
+   "backup_reasons": [],
+   "land_reasons": [
+    "geofence"
+   ]
+  },
+  "dive": {
+   "unguarded": {
+    "crash:ground": 30
+   },
+   "guarded": {
+    "landed": 30
+   },
+   "backup_reasons": [],
+   "land_reasons": [
+    "geofence"
+   ]
+  },
+  "noise": {
+   "unguarded": {
+    "timeout": 17,
+    "crash:pole": 7,
+    "crash:ground": 6
+   },
+   "guarded": {
+    "landed": 12,
+    "timeout": 2,
+    "lap": 16
+   },
+   "backup_reasons": [
+    "backup_path_near_pole",
+    "stalled"
+   ],
+   "land_reasons": [
+    "backup_path_near_pole",
+    "geofence"
+   ]
+  }
+ }
+}

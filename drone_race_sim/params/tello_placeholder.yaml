@@ -1,0 +1,16 @@
+# Placeholder Tello dynamics until real flights are calibrated (docs/SIMULATION_PLAN.md section 10).
+# Every value carries its source (repo | guess | doc) and a confidence. Replace with
+# params/tello_calibrated.yaml (written by calibration/fit_dynamics.py) once E0-E6 are flown.
+params_source: placeholder
+gain_xy:         {value: 0.8,   source: repo,  confidence: low,    note: "m/s at rc 100; tools/tello_policy.py:192-197 (real value may be higher)"}
+gain_up:         {value: 0.6,   source: repo,  confidence: low,    note: "m/s at rc 100; tools/tello_policy.py:197"}
+gain_yaw:        {value: 1.0471975511965976, source: repo, confidence: low, note: "rad/s at rc 100 (60 deg/s); tools/tello_policy.py:194"}
+tau_xy:          {value: 0.18,  source: repo,  confidence: low,    note: "policy_integration/stress_sim.py:118"}
+tau_up:          {value: 0.18,  source: repo,  confidence: low,    note: "same as tau_xy"}
+tau_yaw:         {value: 0.15,  source: guess, confidence: low}
+a_max:           {value: 3.0,   source: guess, confidence: low,    note: "m/s^2, set to inf to disable"}
+deadband:        {value: 8.0,   source: repo,  confidence: medium, note: "PID creeps at +/-8 to beat the rc deadband; tools/tello_policy.py:150-154"}
+action_delay_s:  {value: 0.10,  source: guess, confidence: low}
+rc_loss_prob:    {value: 0.0,   source: guess, confidence: low}
+battery_scale:   {value: 1.0,   source: guess, confidence: low}
+lag_mode:        {value: exact, source: doc,   confidence: high,   note: "exact discretization; 'euler' reproduces stress_sim"}

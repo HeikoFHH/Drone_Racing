@@ -15,3 +15,4 @@ leaderboard/.wrangler/
 .env
 .env.*
 *.log
+.venv-sim/
