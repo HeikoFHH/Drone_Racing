@@ -29,10 +29,11 @@
           "reason": "route_complete_timer_must_confirm",
           "elapsed_s": 49.45,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.75,
+          "truth_lap_time_s": 41.9,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.514,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.518,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -50,10 +51,11 @@
           "reason": "route_complete_timer_must_confirm",
           "elapsed_s": 50.55,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.55,
+          "truth_lap_time_s": 41.8,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.504,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.512,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -71,10 +73,11 @@
           "reason": "route_complete_timer_must_confirm",
           "elapsed_s": 49.7,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.95,
+          "truth_lap_time_s": 42.1,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.515,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.518,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -94,8 +97,9 @@
           "truth_lap_finished": true,
           "truth_lap_time_s": 41.8,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.511,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.505,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -113,10 +117,11 @@
           "reason": "route_complete_timer_must_confirm",
           "elapsed_s": 50.35,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.55,
+          "truth_lap_time_s": 41.3,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.444,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -134,10 +139,11 @@
           "reason": "route_complete_timer_must_confirm",
           "elapsed_s": 49.85,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.7,
+          "truth_lap_time_s": 41.8,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.512,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.513,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -155,10 +161,11 @@
           "reason": "route_complete_timer_must_confirm",
           "elapsed_s": 49.7,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.8,
+          "truth_lap_time_s": 42.0,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.514,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.517,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -176,10 +183,11 @@
           "reason": "route_complete_timer_must_confirm",
           "elapsed_s": 50.2,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.55,
+          "truth_lap_time_s": 41.35,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.447,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -197,10 +205,11 @@
           "reason": "route_complete_timer_must_confirm",
           "elapsed_s": 50.45,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.8,
+          "truth_lap_time_s": 42.0,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.515,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.517,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -218,10 +227,11 @@
           "reason": "route_complete_timer_must_confirm",
           "elapsed_s": 50.05,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.75,
+          "truth_lap_time_s": 41.6,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.48,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -239,10 +249,11 @@
           "reason": "route_complete_timer_must_confirm",
           "elapsed_s": 49.95,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.7,
+          "truth_lap_time_s": 41.65,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.488,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.489,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -260,10 +271,11 @@
           "reason": "route_complete_timer_must_confirm",
           "elapsed_s": 50.05,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.55,
+          "truth_lap_time_s": 41.65,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.474,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.508,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -281,10 +293,11 @@
           "reason": "route_complete_timer_must_confirm",
           "elapsed_s": 50.05,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.6,
+          "truth_lap_time_s": 41.75,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.505,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.513,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -302,10 +315,11 @@
           "reason": "route_complete_timer_must_confirm",
           "elapsed_s": 50.35,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.55,
+          "truth_lap_time_s": 41.7,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.5,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.513,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -323,10 +337,11 @@
           "reason": "route_complete_timer_must_confirm",
           "elapsed_s": 50.6,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.55,
+          "truth_lap_time_s": 41.75,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.501,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.514,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -344,10 +359,11 @@
           "reason": "route_complete_timer_must_confirm",
           "elapsed_s": 49.7,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.7,
+          "truth_lap_time_s": 41.5,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.444,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -365,10 +381,11 @@
           "reason": "route_complete_timer_must_confirm",
           "elapsed_s": 50.2,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.7,
+          "truth_lap_time_s": 41.65,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.498,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.496,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -386,10 +403,11 @@
           "reason": "route_complete_timer_must_confirm",
           "elapsed_s": 49.95,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.55,
+          "truth_lap_time_s": 41.8,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.499,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.512,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -407,10 +425,11 @@
           "reason": "route_complete_timer_must_confirm",
           "elapsed_s": 50.45,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.75,
+          "truth_lap_time_s": 41.85,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.515,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.516,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -428,10 +447,11 @@
           "reason": "route_complete_timer_must_confirm",
           "elapsed_s": 49.8,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.7,
+          "truth_lap_time_s": 41.85,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.514,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.513,
+          "peak_abs_rc": 20,
+          "trace": null
         }
       ]
     },
@@ -459,12 +479,13 @@
           "seed": 0,
           "outcome": "complete",
           "reason": "route_complete_timer_must_confirm",
-          "elapsed_s": 50.7,
+          "elapsed_s": 57.85,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 43.4,
+          "truth_lap_time_s": 51.95,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.551,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -480,12 +501,13 @@
           "seed": 1,
           "outcome": "complete",
           "reason": "route_complete_timer_must_confirm",
-          "elapsed_s": 51.6,
+          "elapsed_s": 59.35,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 43.15,
+          "truth_lap_time_s": 52.8,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.55,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.566,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -501,12 +523,13 @@
           "seed": 2,
           "outcome": "complete",
           "reason": "route_complete_timer_must_confirm",
-          "elapsed_s": 50.55,
+          "elapsed_s": 57.95,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 43.35,
+          "truth_lap_time_s": 52.15,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.586,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.587,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -522,12 +545,13 @@
           "seed": 3,
           "outcome": "complete",
           "reason": "route_complete_timer_must_confirm",
-          "elapsed_s": 51.35,
+          "elapsed_s": 58.7,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 43.2,
+          "truth_lap_time_s": 52.05,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.513,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -543,12 +567,13 @@
           "seed": 4,
           "outcome": "complete",
           "reason": "route_complete_timer_must_confirm",
-          "elapsed_s": 51.55,
+          "elapsed_s": 58.45,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 43.25,
+          "truth_lap_time_s": 51.5,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.444,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -564,12 +589,13 @@
           "seed": 5,
           "outcome": "complete",
           "reason": "route_complete_timer_must_confirm",
-          "elapsed_s": 50.85,
+          "elapsed_s": 58.2,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 43.1,
+          "truth_lap_time_s": 52.15,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.54,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -585,12 +611,13 @@
           "seed": 6,
           "outcome": "complete",
           "reason": "route_complete_timer_must_confirm",
-          "elapsed_s": 50.45,
+          "elapsed_s": 57.85,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 43.2,
+          "truth_lap_time_s": 52.0,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.558,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -606,12 +633,13 @@
           "seed": 7,
           "outcome": "complete",
           "reason": "route_complete_timer_must_confirm",
-          "elapsed_s": 51.3,
+          "elapsed_s": 58.45,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 43.1,
+          "truth_lap_time_s": 51.65,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.447,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -627,12 +655,13 @@
           "seed": 8,
           "outcome": "complete",
           "reason": "route_complete_timer_must_confirm",
-          "elapsed_s": 51.55,
+          "elapsed_s": 59.1,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 43.45,
+          "truth_lap_time_s": 52.7,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.58,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -648,12 +677,13 @@
           "seed": 9,
           "outcome": "complete",
           "reason": "route_complete_timer_must_confirm",
-          "elapsed_s": 51.05,
+          "elapsed_s": 58.45,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 43.3,
+          "truth_lap_time_s": 51.8,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.48,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -669,12 +699,13 @@
           "seed": 10,
           "outcome": "complete",
           "reason": "route_complete_timer_must_confirm",
-          "elapsed_s": 50.7,
+          "elapsed_s": 58.1,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 43.0,
+          "truth_lap_time_s": 51.8,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.489,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -690,12 +721,13 @@
           "seed": 11,
           "outcome": "complete",
           "reason": "route_complete_timer_must_confirm",
-          "elapsed_s": 50.95,
+          "elapsed_s": 58.35,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 43.0,
+          "truth_lap_time_s": 51.9,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.51,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -711,12 +743,13 @@
           "seed": 12,
           "outcome": "complete",
           "reason": "route_complete_timer_must_confirm",
-          "elapsed_s": 51.05,
+          "elapsed_s": 58.35,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 43.1,
+          "truth_lap_time_s": 52.0,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.525,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -732,12 +765,13 @@
           "seed": 13,
           "outcome": "complete",
           "reason": "route_complete_timer_must_confirm",
-          "elapsed_s": 51.35,
+          "elapsed_s": 58.8,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 43.2,
+          "truth_lap_time_s": 52.25,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.535,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -753,12 +787,13 @@
           "seed": 14,
           "outcome": "complete",
           "reason": "route_complete_timer_must_confirm",
-          "elapsed_s": 51.45,
+          "elapsed_s": 59.1,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 43.0,
+          "truth_lap_time_s": 52.55,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.543,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.545,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -774,12 +809,13 @@
           "seed": 15,
           "outcome": "complete",
           "reason": "route_complete_timer_must_confirm",
-          "elapsed_s": 50.55,
+          "elapsed_s": 57.6,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 42.85,
+          "truth_lap_time_s": 51.15,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.444,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -795,12 +831,13 @@
           "seed": 16,
           "outcome": "complete",
           "reason": "route_complete_timer_must_confirm",
-          "elapsed_s": 51.2,
+          "elapsed_s": 58.35,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 43.25,
+          "truth_lap_time_s": 51.85,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.499,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -816,12 +853,13 @@
           "seed": 17,
           "outcome": "complete",
           "reason": "route_complete_timer_must_confirm",
-          "elapsed_s": 50.95,
+          "elapsed_s": 58.35,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 43.1,
+          "truth_lap_time_s": 52.35,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.542,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.549,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -837,12 +875,13 @@
           "seed": 18,
           "outcome": "complete",
           "reason": "route_complete_timer_must_confirm",
-          "elapsed_s": 51.55,
+          "elapsed_s": 59.1,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 43.25,
+          "truth_lap_time_s": 52.35,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.534,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -858,12 +897,13 @@
           "seed": 19,
           "outcome": "complete",
           "reason": "route_complete_timer_must_confirm",
-          "elapsed_s": 50.7,
+          "elapsed_s": 58.1,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 43.15,
+          "truth_lap_time_s": 52.1,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.548,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         }
       ]
     },
@@ -890,13 +930,14 @@
           },
           "seed": 0,
           "outcome": "abort",
-          "reason": "session_timeout",
-          "elapsed_s": 90.0,
+          "reason": "geofence",
+          "elapsed_s": 11.6,
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.551,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -911,13 +952,14 @@
           },
           "seed": 1,
           "outcome": "abort",
-          "reason": "session_timeout",
-          "elapsed_s": 90.0,
+          "reason": "geofence",
+          "elapsed_s": 11.15,
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.566,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -932,13 +974,14 @@
           },
           "seed": 2,
           "outcome": "abort",
-          "reason": "session_timeout",
-          "elapsed_s": 90.0,
+          "reason": "geofence",
+          "elapsed_s": 11.6,
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.588,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -953,13 +996,14 @@
           },
           "seed": 3,
           "outcome": "abort",
-          "reason": "session_timeout",
-          "elapsed_s": 90.0,
+          "reason": "geofence",
+          "elapsed_s": 11.65,
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.513,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -974,13 +1018,14 @@
           },
           "seed": 4,
           "outcome": "abort",
-          "reason": "session_timeout",
-          "elapsed_s": 90.0,
+          "reason": "geofence",
+          "elapsed_s": 12.3,
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.444,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -995,13 +1040,14 @@
           },
           "seed": 5,
           "outcome": "abort",
-          "reason": "session_timeout",
-          "elapsed_s": 90.0,
+          "reason": "geofence",
+          "elapsed_s": 11.5,
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.54,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -1016,13 +1062,14 @@
           },
           "seed": 6,
           "outcome": "abort",
-          "reason": "session_timeout",
-          "elapsed_s": 90.0,
+          "reason": "geofence",
+          "elapsed_s": 11.5,
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.558,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -1037,13 +1084,14 @@
           },
           "seed": 7,
           "outcome": "abort",
-          "reason": "session_timeout",
-          "elapsed_s": 90.0,
+          "reason": "geofence",
+          "elapsed_s": 12.15,
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.447,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -1058,13 +1106,14 @@
           },
           "seed": 8,
           "outcome": "abort",
-          "reason": "session_timeout",
-          "elapsed_s": 90.0,
+          "reason": "geofence",
+          "elapsed_s": 10.95,
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.58,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -1079,13 +1128,14 @@
           },
           "seed": 9,
           "outcome": "abort",
-          "reason": "session_timeout",
-          "elapsed_s": 90.0,
+          "reason": "geofence",
+          "elapsed_s": 12.05,
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.48,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -1100,13 +1150,14 @@
           },
           "seed": 10,
           "outcome": "abort",
-          "reason": "session_timeout",
-          "elapsed_s": 90.0,
+          "reason": "geofence",
+          "elapsed_s": 11.9,
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.489,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -1121,13 +1172,14 @@
           },
           "seed": 11,
           "outcome": "abort",
-          "reason": "session_timeout",
-          "elapsed_s": 90.0,
+          "reason": "geofence",
+          "elapsed_s": 11.75,
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.51,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -1142,13 +1194,14 @@
           },
           "seed": 12,
           "outcome": "abort",
-          "reason": "session_timeout",
-          "elapsed_s": 90.0,
+          "reason": "geofence",
+          "elapsed_s": 11.5,
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.525,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -1163,13 +1216,14 @@
           },
           "seed": 13,
           "outcome": "abort",
-          "reason": "session_timeout",
-          "elapsed_s": 90.0,
+          "reason": "geofence",
+          "elapsed_s": 11.35,
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.535,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -1184,13 +1238,14 @@
           },
           "seed": 14,
           "outcome": "abort",
-          "reason": "session_timeout",
-          "elapsed_s": 90.0,
+          "reason": "geofence",
+          "elapsed_s": 11.25,
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.545,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -1205,13 +1260,14 @@
           },
           "seed": 15,
           "outcome": "abort",
-          "reason": "session_timeout",
-          "elapsed_s": 90.0,
+          "reason": "geofence",
+          "elapsed_s": 12.85,
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.444,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -1226,13 +1282,14 @@
           },
           "seed": 16,
           "outcome": "abort",
-          "reason": "session_timeout",
-          "elapsed_s": 90.0,
+          "reason": "geofence",
+          "elapsed_s": 11.8,
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.499,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -1247,13 +1304,14 @@
           },
           "seed": 17,
           "outcome": "abort",
-          "reason": "session_timeout",
-          "elapsed_s": 90.0,
+          "reason": "geofence",
+          "elapsed_s": 11.35,
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.549,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -1268,13 +1326,14 @@
           },
           "seed": 18,
           "outcome": "abort",
-          "reason": "session_timeout",
-          "elapsed_s": 90.0,
+          "reason": "geofence",
+          "elapsed_s": 11.4,
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.534,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -1289,13 +1348,14 @@
           },
           "seed": 19,
           "outcome": "abort",
-          "reason": "session_timeout",
-          "elapsed_s": 90.0,
+          "reason": "geofence",
+          "elapsed_s": 11.5,
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.548,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         }
       ]
     },
@@ -1325,10 +1385,11 @@
           "reason": "route_complete_timer_must_confirm",
           "elapsed_s": 50.0,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.9,
+          "truth_lap_time_s": 42.1,
           "max_pose_age_s": 0.15,
-          "min_truth_pole_distance_m": 0.511,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.515,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -1346,10 +1407,11 @@
           "reason": "route_complete_timer_must_confirm",
           "elapsed_s": 51.0,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.8,
+          "truth_lap_time_s": 42.05,
           "max_pose_age_s": 0.15,
-          "min_truth_pole_distance_m": 0.502,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.511,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -1365,12 +1427,13 @@
           "seed": 2,
           "outcome": "complete",
           "reason": "route_complete_timer_must_confirm",
-          "elapsed_s": 50.3,
+          "elapsed_s": 50.35,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.95,
+          "truth_lap_time_s": 42.2,
           "max_pose_age_s": 0.15,
-          "min_truth_pole_distance_m": 0.513,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.515,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -1390,8 +1453,9 @@
           "truth_lap_finished": true,
           "truth_lap_time_s": 41.85,
           "max_pose_age_s": 0.15,
-          "min_truth_pole_distance_m": 0.51,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.505,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -1409,10 +1473,11 @@
           "reason": "route_complete_timer_must_confirm",
           "elapsed_s": 51.0,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.95,
+          "truth_lap_time_s": 41.75,
           "max_pose_age_s": 0.15,
           "min_truth_pole_distance_m": 0.444,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -1430,10 +1495,11 @@
           "reason": "route_complete_timer_must_confirm",
           "elapsed_s": 50.25,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.75,
+          "truth_lap_time_s": 41.95,
           "max_pose_age_s": 0.15,
-          "min_truth_pole_distance_m": 0.505,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.511,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -1451,10 +1517,11 @@
           "reason": "route_complete_timer_must_confirm",
           "elapsed_s": 50.0,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.85,
+          "truth_lap_time_s": 42.05,
           "max_pose_age_s": 0.15,
-          "min_truth_pole_distance_m": 0.512,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.515,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -1472,10 +1539,11 @@
           "reason": "route_complete_timer_must_confirm",
           "elapsed_s": 50.9,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.85,
+          "truth_lap_time_s": 41.7,
           "max_pose_age_s": 0.15,
           "min_truth_pole_distance_m": 0.447,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -1493,10 +1561,11 @@
           "reason": "route_complete_timer_must_confirm",
           "elapsed_s": 50.85,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.9,
+          "truth_lap_time_s": 42.15,
           "max_pose_age_s": 0.15,
-          "min_truth_pole_distance_m": 0.512,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.515,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -1514,10 +1583,11 @@
           "reason": "route_complete_timer_must_confirm",
           "elapsed_s": 50.5,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.9,
+          "truth_lap_time_s": 41.75,
           "max_pose_age_s": 0.15,
           "min_truth_pole_distance_m": 0.48,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -1535,10 +1605,11 @@
           "reason": "route_complete_timer_must_confirm",
           "elapsed_s": 50.35,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.8,
+          "truth_lap_time_s": 41.75,
           "max_pose_age_s": 0.15,
-          "min_truth_pole_distance_m": 0.488,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.489,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -1556,10 +1627,11 @@
           "reason": "route_complete_timer_must_confirm",
           "elapsed_s": 50.55,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.8,
+          "truth_lap_time_s": 41.85,
           "max_pose_age_s": 0.15,
-          "min_truth_pole_distance_m": 0.469,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.507,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -1577,10 +1649,11 @@
           "reason": "route_complete_timer_must_confirm",
           "elapsed_s": 50.55,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.85,
+          "truth_lap_time_s": 41.95,
           "max_pose_age_s": 0.15,
-          "min_truth_pole_distance_m": 0.503,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.51,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -1598,10 +1671,11 @@
           "reason": "route_complete_timer_must_confirm",
           "elapsed_s": 50.7,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.7,
+          "truth_lap_time_s": 41.85,
           "max_pose_age_s": 0.15,
-          "min_truth_pole_distance_m": 0.499,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.511,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -1619,10 +1693,11 @@
           "reason": "route_complete_timer_must_confirm",
           "elapsed_s": 51.0,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.7,
+          "truth_lap_time_s": 41.85,
           "max_pose_age_s": 0.15,
-          "min_truth_pole_distance_m": 0.499,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.511,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -1640,10 +1715,11 @@
           "reason": "route_complete_timer_must_confirm",
           "elapsed_s": 50.25,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.75,
+          "truth_lap_time_s": 41.5,
           "max_pose_age_s": 0.15,
           "min_truth_pole_distance_m": 0.444,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -1661,10 +1737,11 @@
           "reason": "route_complete_timer_must_confirm",
           "elapsed_s": 50.6,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.85,
+          "truth_lap_time_s": 41.8,
           "max_pose_age_s": 0.15,
-          "min_truth_pole_distance_m": 0.498,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.497,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -1680,12 +1757,13 @@
           "seed": 17,
           "outcome": "complete",
           "reason": "route_complete_timer_must_confirm",
-          "elapsed_s": 50.35,
+          "elapsed_s": 50.4,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.7,
+          "truth_lap_time_s": 42.0,
           "max_pose_age_s": 0.15,
-          "min_truth_pole_distance_m": 0.494,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.51,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -1703,10 +1781,11 @@
           "reason": "route_complete_timer_must_confirm",
           "elapsed_s": 50.95,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 42.0,
+          "truth_lap_time_s": 42.05,
           "max_pose_age_s": 0.15,
-          "min_truth_pole_distance_m": 0.511,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.514,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -1724,10 +1803,11 @@
           "reason": "route_complete_timer_must_confirm",
           "elapsed_s": 50.3,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 41.9,
+          "truth_lap_time_s": 42.05,
           "max_pose_age_s": 0.15,
-          "min_truth_pole_distance_m": 0.511,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.51,
+          "peak_abs_rc": 20,
+          "trace": null
         }
       ]
     },
@@ -1760,7 +1840,8 @@
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.3,
           "min_truth_pole_distance_m": 0.551,
-          "peak_abs_rc": 0
+          "peak_abs_rc": 0,
+          "trace": null
         },
         {
           "scenario": {
@@ -1781,7 +1862,8 @@
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.3,
           "min_truth_pole_distance_m": 0.566,
-          "peak_abs_rc": 0
+          "peak_abs_rc": 0,
+          "trace": null
         },
         {
           "scenario": {
@@ -1802,7 +1884,8 @@
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.3,
           "min_truth_pole_distance_m": 0.588,
-          "peak_abs_rc": 0
+          "peak_abs_rc": 0,
+          "trace": null
         },
         {
           "scenario": {
@@ -1823,7 +1906,8 @@
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.3,
           "min_truth_pole_distance_m": 0.513,
-          "peak_abs_rc": 0
+          "peak_abs_rc": 0,
+          "trace": null
         },
         {
           "scenario": {
@@ -1844,7 +1928,8 @@
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.3,
           "min_truth_pole_distance_m": 0.444,
-          "peak_abs_rc": 0
+          "peak_abs_rc": 0,
+          "trace": null
         },
         {
           "scenario": {
@@ -1865,7 +1950,8 @@
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.3,
           "min_truth_pole_distance_m": 0.54,
-          "peak_abs_rc": 0
+          "peak_abs_rc": 0,
+          "trace": null
         },
         {
           "scenario": {
@@ -1886,7 +1972,8 @@
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.3,
           "min_truth_pole_distance_m": 0.558,
-          "peak_abs_rc": 0
+          "peak_abs_rc": 0,
+          "trace": null
         },
         {
           "scenario": {
@@ -1907,7 +1994,8 @@
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.3,
           "min_truth_pole_distance_m": 0.447,
-          "peak_abs_rc": 0
+          "peak_abs_rc": 0,
+          "trace": null
         },
         {
           "scenario": {
@@ -1928,7 +2016,8 @@
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.3,
           "min_truth_pole_distance_m": 0.58,
-          "peak_abs_rc": 0
+          "peak_abs_rc": 0,
+          "trace": null
         },
         {
           "scenario": {
@@ -1949,7 +2038,8 @@
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.3,
           "min_truth_pole_distance_m": 0.48,
-          "peak_abs_rc": 0
+          "peak_abs_rc": 0,
+          "trace": null
         },
         {
           "scenario": {
@@ -1970,7 +2060,8 @@
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.3,
           "min_truth_pole_distance_m": 0.489,
-          "peak_abs_rc": 0
+          "peak_abs_rc": 0,
+          "trace": null
         },
         {
           "scenario": {
@@ -1991,7 +2082,8 @@
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.3,
           "min_truth_pole_distance_m": 0.51,
-          "peak_abs_rc": 0
+          "peak_abs_rc": 0,
+          "trace": null
         },
         {
           "scenario": {
@@ -2012,7 +2104,8 @@
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.3,
           "min_truth_pole_distance_m": 0.525,
-          "peak_abs_rc": 0
+          "peak_abs_rc": 0,
+          "trace": null
         },
         {
           "scenario": {
@@ -2033,7 +2126,8 @@
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.3,
           "min_truth_pole_distance_m": 0.535,
-          "peak_abs_rc": 0
+          "peak_abs_rc": 0,
+          "trace": null
         },
         {
           "scenario": {
@@ -2054,7 +2148,8 @@
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.3,
           "min_truth_pole_distance_m": 0.545,
-          "peak_abs_rc": 0
+          "peak_abs_rc": 0,
+          "trace": null
         },
         {
           "scenario": {
@@ -2075,7 +2170,8 @@
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.3,
           "min_truth_pole_distance_m": 0.444,
-          "peak_abs_rc": 0
+          "peak_abs_rc": 0,
+          "trace": null
         },
         {
           "scenario": {
@@ -2096,7 +2192,8 @@
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.3,
           "min_truth_pole_distance_m": 0.499,
-          "peak_abs_rc": 0
+          "peak_abs_rc": 0,
+          "trace": null
         },
         {
           "scenario": {
@@ -2117,7 +2214,8 @@
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.3,
           "min_truth_pole_distance_m": 0.549,
-          "peak_abs_rc": 0
+          "peak_abs_rc": 0,
+          "trace": null
         },
         {
           "scenario": {
@@ -2138,7 +2236,8 @@
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.3,
           "min_truth_pole_distance_m": 0.534,
-          "peak_abs_rc": 0
+          "peak_abs_rc": 0,
+          "trace": null
         },
         {
           "scenario": {
@@ -2159,7 +2258,8 @@
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.3,
           "min_truth_pole_distance_m": 0.548,
-          "peak_abs_rc": 0
+          "peak_abs_rc": 0,
+          "trace": null
         }
       ]
     },
@@ -2192,7 +2292,8 @@
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.8,
           "min_truth_pole_distance_m": 0.544,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -2212,8 +2313,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.8,
-          "min_truth_pole_distance_m": 0.504,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.546,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -2233,8 +2335,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.8,
-          "min_truth_pole_distance_m": 0.567,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.566,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -2254,8 +2357,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.8,
-          "min_truth_pole_distance_m": 0.511,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.505,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -2276,7 +2380,8 @@
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.8,
           "min_truth_pole_distance_m": 0.444,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -2296,8 +2401,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.8,
-          "min_truth_pole_distance_m": 0.512,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.535,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -2317,8 +2423,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.8,
-          "min_truth_pole_distance_m": 0.549,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.551,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -2339,7 +2446,8 @@
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.8,
           "min_truth_pole_distance_m": 0.447,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -2359,8 +2467,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.8,
-          "min_truth_pole_distance_m": 0.57,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.561,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -2381,7 +2490,8 @@
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.8,
           "min_truth_pole_distance_m": 0.48,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -2401,8 +2511,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.8,
-          "min_truth_pole_distance_m": 0.488,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.489,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -2422,8 +2533,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.8,
-          "min_truth_pole_distance_m": 0.474,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.508,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -2443,8 +2555,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.8,
-          "min_truth_pole_distance_m": 0.505,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.522,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -2464,8 +2577,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.8,
-          "min_truth_pole_distance_m": 0.5,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.526,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -2485,8 +2599,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.8,
-          "min_truth_pole_distance_m": 0.501,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.529,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -2507,7 +2622,8 @@
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.8,
           "min_truth_pole_distance_m": 0.444,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -2527,8 +2643,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.8,
-          "min_truth_pole_distance_m": 0.498,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.496,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -2548,8 +2665,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.8,
-          "min_truth_pole_distance_m": 0.499,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.542,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -2569,8 +2687,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.8,
-          "min_truth_pole_distance_m": 0.53,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.521,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -2590,8 +2709,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.8,
-          "min_truth_pole_distance_m": 0.536,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.542,
+          "peak_abs_rc": 20,
+          "trace": null
         }
       ]
     },
@@ -2624,7 +2744,8 @@
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.544,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -2644,8 +2765,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.504,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.546,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -2665,8 +2787,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.567,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.566,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -2686,8 +2809,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.511,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.505,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -2708,7 +2832,8 @@
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.444,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -2728,8 +2853,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.512,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.535,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -2749,8 +2875,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.549,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.551,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -2771,7 +2898,8 @@
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.447,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -2791,8 +2919,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.57,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.561,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -2813,7 +2942,8 @@
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.48,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -2833,8 +2963,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.488,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.489,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -2854,8 +2985,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.474,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.508,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -2875,8 +3007,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.505,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.522,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -2896,8 +3029,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.5,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.526,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -2917,8 +3051,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.501,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.529,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -2939,7 +3074,8 @@
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.444,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -2959,8 +3095,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.498,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.496,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -2980,8 +3117,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.499,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.542,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -3001,8 +3139,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.53,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.521,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -3022,8 +3161,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.536,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.542,
+          "peak_abs_rc": 20,
+          "trace": null
         }
       ]
     },
@@ -3056,7 +3196,8 @@
           "truth_lap_time_s": 42.65,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.5,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -3076,8 +3217,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.464,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.561,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -3097,8 +3239,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.412,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.41,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -3119,7 +3262,8 @@
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.423,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -3139,8 +3283,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.402,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.398,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -3160,8 +3305,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.488,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.54,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -3182,7 +3328,8 @@
           "truth_lap_time_s": 42.6,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.557,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -3198,12 +3345,13 @@
           "seed": 7,
           "outcome": "complete",
           "reason": "route_complete_timer_must_confirm",
-          "elapsed_s": 52.2,
+          "elapsed_s": 52.35,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 42.15,
+          "truth_lap_time_s": 42.55,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.446,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -3223,8 +3371,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.411,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.406,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -3244,8 +3393,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.411,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.407,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -3266,7 +3416,8 @@
           "truth_lap_time_s": 42.4,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.489,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -3286,8 +3437,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.417,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.51,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -3307,8 +3459,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.514,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.525,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -3328,8 +3481,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.5,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.532,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -3349,8 +3503,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.511,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.536,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -3371,7 +3526,8 @@
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.439,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -3387,12 +3543,13 @@
           "seed": 16,
           "outcome": "complete",
           "reason": "route_complete_timer_must_confirm",
-          "elapsed_s": 52.3,
+          "elapsed_s": 52.2,
           "truth_lap_finished": true,
-          "truth_lap_time_s": 43.25,
+          "truth_lap_time_s": 43.05,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.449,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.45,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -3412,8 +3569,9 @@
           "truth_lap_finished": false,
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
-          "min_truth_pole_distance_m": 0.446,
-          "peak_abs_rc": 20
+          "min_truth_pole_distance_m": 0.549,
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -3434,7 +3592,8 @@
           "truth_lap_time_s": null,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.413,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         },
         {
           "scenario": {
@@ -3455,7 +3614,8 @@
           "truth_lap_time_s": 43.15,
           "max_pose_age_s": 0.0,
           "min_truth_pole_distance_m": 0.548,
-          "peak_abs_rc": 20
+          "peak_abs_rc": 20,
+          "trace": null
         }
       ]
     }
