@@ -13,6 +13,7 @@ Read in this order before touching the simulator:
 | `SIM_ARCHITECTURE.md` | module map, data flow, APIs, how to add a controller / sensor / scenario |
 | `POLICIES.md` | the four controllers, the guard and Maude's backup semantics, observation contracts |
 | `KNOWN_ISSUES.md` | verified limitations and open findings (keep current; delete items when fixed) |
+| `SIGN_MISSION.md` | the sign mission package (one sign, stop 0.5 m, land; out-and-back policy; control interface) |
 | `RECOVERY_SPEC.md` | spec of the proposed recovery layer (states, transitions, files, tests); status: proposal |
 
 Human documents worth knowing: `docs/SIMULATOR_GUIDE.md`, `docs/SIM_TEST_REPORT.md`, `docs/SIMULATION_PLAN.md`,

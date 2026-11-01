@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sign flight control</title>
+<style>
+:root{--bg:#f4f6f9;--card:#fff;--ink:#1b2230;--mut:#667085;--line:#d8dde6;--ok:#1f9d55;--warn:#d98200;--bad:#d1453b;--acc:#2f6db3}
+@media (prefers-color-scheme:dark){:root{--bg:#10141a;--card:#1a2029;--ink:#e7eaf0;--mut:#98a2b3;--line:#2b3340;--ok:#3ecf7c;--warn:#f0a028;--bad:#ff6b5e;--acc:#6aa4f0}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}
+main{max-width:1180px;margin:0 auto;padding:14px}header{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+h1{font-size:19px;margin:0 8px 0 0}.pill{padding:3px 10px;border-radius:999px;border:1px solid var(--line);font-size:13px;background:var(--card)}
+.pill.sim{color:var(--acc)}.pill.live{color:var(--bad);border-color:var(--bad);font-weight:600}
+.grid{display:grid;gap:12px;grid-template-columns:1fr}@media(min-width:960px){.grid{grid-template-columns:1.5fr 1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
+.video{width:100%;display:block;border-radius:8px;background:#000;aspect-ratio:4/3;object-fit:contain}
+.big{display:flex;gap:12px;flex-wrap:wrap}.big>div{flex:1;min-width:150px;border:1px solid var(--line);border-radius:10px;padding:10px}
+.lab{font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em}.val{font-size:30px;font-weight:650;line-height:1.15}
+.val small{font-size:14px;font-weight:400;color:var(--mut)}.yes{color:var(--ok)}.no{color:var(--bad)}.amber{color:var(--warn)}
+.bar{height:10px;background:var(--line);border-radius:6px;overflow:hidden;margin-top:6px;position:relative}.bar i{display:block;height:100%;background:var(--acc)}
+.bar b{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--ok)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}.stats div{font-size:13px;color:var(--mut)}.stats b{display:block;color:var(--ink);font-size:16px}
+.ctl{display:grid;gap:8px;margin-top:10px}label.opt{display:flex;gap:8px;align-items:flex-start;padding:8px;border:1px solid var(--line);border-radius:8px;cursor:pointer}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
+button{font:inherit;font-weight:650;border:0;border-radius:10px;padding:14px;color:#fff;cursor:pointer}
+button#start{background:var(--ok)}button#stop{background:var(--bad)}button:disabled{opacity:.35;cursor:not-allowed}
+.log{font:12px/1.5 ui-monospace,Menlo,monospace;max-height:170px;overflow:auto;color:var(--mut);margin-top:8px}.msg{font-size:13px;min-height:1.3em;color:var(--warn)}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}.chip{font-size:12px;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--mut)}.chip.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.sim{margin-top:10px;border-top:1px dashed var(--line);padding-top:8px;font-size:13px}.sim input[type=range]{width:100%}
+</style></head><body><main>
+<header><h1>Sign flight control</h1><span id="mode" class="pill">&hellip;</span><span id="phase" class="pill">IDLE</span><span id="state" class="pill">-</span><span id="sign" class="pill"></span></header>
+<div class="grid">
+<section class="card"><img class="video" id="video" alt="drone video" src="/video.mjpg">
+ <div class="big" style="margin-top:10px">
+  <div><div class="lab">Sign detected</div><div class="val" id="det">-</div><div class="lab" id="src"></div></div>
+  <div><div class="lab">Estimated distance</div><div class="val" id="rng">-</div><div class="bar"><i id="barfill" style="width:0"></i><b id="target"></b></div><div class="lab" id="tgt"></div></div>
+ </div>
+ <div class="stats"><div>Bearing<b id="brg">-</b></div><div>Height<b id="hgt">-</b></div><div>Battery<b id="bat">-</b></div><div>Speed<b id="spd">-</b></div><div>Mission time<b id="mt">-</b></div><div>Sticks r/f/u/y<b id="rc">-</b></div></div>
+</section>
+<aside class="card">
+ <div class="lab">Policy</div><div class="ctl" id="pol"></div>
+ <label class="opt" id="chkrow" style="display:none"><input type="checkbox" id="chk"><span><b>Area clear, catcher ready.</b><br><span class="lab" style="text-transform:none">Live drone: it will take off and fly toward the sign. Nothing else is detected: keep the path empty.</span></span></label>
+ <div class="btns"><button id="start">START<br><small>take off + fly</small></button><button id="stop">STOP<br><small>stop + land</small></button></div>
+ <div class="msg" id="msg"></div><div class="chips" id="chips"></div>
+ <div id="resultbox" class="lab"></div>
+ <div class="sim" id="sim" style="display:none"><div class="lab">Simulation scenario (only while idle)</div>
+  <label>Sign distance <b id="dv"></b> m<input type="range" id="dist" min="2" max="20" step="0.5"></label>
+  <label>Sideways offset <b id="lv"></b> m<input type="range" id="lat" min="-2" max="2" step="0.25"></label>
+  <label>Wind (sideways) <b id="wv"></b> m/s<input type="range" id="wind" min="-1" max="1" step="0.25"></label>
+  <label>Speed <select id="spd2"><option>1</option><option>2</option><option>4</option><option>8</option></select>&times; real time</label>
+  <button id="apply" style="background:var(--acc);padding:8px;margin-top:6px;width:100%">Apply scenario</button></div>
+ <div class="log" id="log"></div>
+</aside></div>
+<script>
+const $=id=>document.getElementById(id);let S=null,policy=null;const fmt=(v,n=2)=>v==null?'-':v.toFixed(n);
+async function post(p,b){const r=await fetch(p,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b||{})});return r.json()}
+$('start').onclick=async()=>{const r=await post('/api/start',{policy:policy,confirmed:$('chk').checked});$('msg').textContent=r.message};
+$('stop').onclick=async()=>{const r=await post('/api/stop');$('msg').textContent=r.message};
+$('apply').onclick=async()=>{const r=await post('/api/sim',{distance_m:+$('dist').value,lateral_m:+$('lat').value,wind_mps:[0,+$('wind').value],speed:+$('spd2').value});$('msg').textContent=r.message};
+['dist','lat','wind'].forEach(k=>$(k).oninput=()=>{$({dist:'dv',lat:'lv',wind:'wv'}[k]).textContent=$(k).value});
+function build(s){const box=$('pol');box.innerHTML='';s.policies.forEach((p,i)=>{const l=document.createElement('label');l.className='opt';l.innerHTML=`<input type="radio" name="pol" value="${p.name}" ${i?'':'checked'}><span>${p.title}</span>`;l.querySelector('input').onchange=e=>policy=e.target.value;box.appendChild(l)});policy=s.policies[0].name}
+async function tick(){try{const s=await (await fetch('/api/status')).json();if(!S)build(s);S=s;draw(s)}catch(e){$('msg').textContent='no connection to the control server'}setTimeout(tick,200)}
+function draw(s){const live=s.mode==='live';$('mode').textContent=s.shadow?'LIVE - SHADOW (no flight)':live?'LIVE DRONE':'SIMULATION';$('mode').className='pill '+(live?'live':'sim');
+ $('phase').textContent=s.phase;$('state').textContent=s.state||'-';$('sign').textContent='sign '+s.sign_width_in+' in';$('chkrow').style.display=live&&!s.shadow?'flex':'none';$('sim').style.display=s.sim?'block':'none';
+ if(s.sim&&document.activeElement.tagName!=='INPUT'){$('dist').value=s.sim.distance_m;$('lat').value=s.sim.lateral_m;$('wind').value=s.sim.wind_mps[1];['dist','lat','wind'].forEach(k=>$(k).oninput())}
+ const d=$('det');d.textContent=s.detected?'YES':(s.tracking?'estimate':'NO');d.className='val '+(s.detected?'yes':(s.tracking?'amber':'no'));
+ $('src').textContent=s.tracking?(s.source.replace('_',' ')+(s.near_field?' - sign too close to see completely':'')):'no sign in view';
+ $('rng').innerHTML=s.range_m==null?'-':fmt(s.range_m)+' <small>m'+(s.std_m!=null?' &plusmn; '+fmt(s.std_m):'')+'</small>';
+ const mx=Math.max(8,s.range_m||0);$('barfill').style.width=s.range_m==null?0:Math.min(100,100*s.range_m/mx)+'%';$('target').style.left=100*s.stop_m/mx+'%';$('tgt').textContent='target: stop '+fmt(s.stop_m,1)+' m in front of the sign';
+ $('brg').textContent=s.bearing_deg==null?'-':fmt(s.bearing_deg,1)+'°';$('hgt').textContent=s.height_m==null?'-':fmt(s.height_m)+' m';$('bat').textContent=s.battery_pct==null?'-':s.battery_pct+' %';$('spd').textContent=s.speed_mps==null?'-':fmt(s.speed_mps)+' m/s';$('mt').textContent=s.mission_s==null?'-':s.mission_s+' s';$('rc').textContent=s.rc.join(' / ');
+ const live2=live&&!s.shadow&&!$('chk').checked;$('start').disabled=!s.can_start||live2;$('stop').disabled=!s.can_stop;
+ const st=['SETTLE','SEARCH','ALIGN','APPROACH','FINAL','STOP','TURN','RETURN','STOP2','DONE'];$('chips').innerHTML=st.filter(x=>s.policy!=='approach'||!['TURN','RETURN','STOP2'].includes(x)).map(x=>`<span class="chip ${s.state===x?'on':''}">${x}</span>`).join('')+(s.state&&s.state.startsWith('LAND')?`<span class="chip on">${s.state}</span>`:'');
+ const r=s.result||{};$('resultbox').innerHTML=(s.reason?'<b>'+s.reason+'</b><br>':'')+(r.final_range_m!=null?`stopped ${r.final_range_m} m from the sign (target ${s.stop_m})`:'')+(r.out_distance_m!=null?`<br>flew out ${r.out_distance_m} m, back ${r.returned_m} m`:'');
+ $('log').innerHTML=s.events.map(e=>`${e.t==null?'':e.t.toFixed(1)+' s '}${e.msg}`).reverse().join('<br>')}
+tick();
+</script></main></body></html>
