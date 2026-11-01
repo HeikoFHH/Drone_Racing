@@ -1,0 +1,56 @@
+{
+  "generated_at_utc": "2026-11-01T17:40:01.245979+00:00",
+  "reviewed_base_sha": "31c17c25a1c6c0e73a4e8114492fe226ad338878",
+  "branch": "maude/policy-integration",
+  "unit_and_integration_tests": {
+    "run": 37,
+    "failures": 0,
+    "errors": 0,
+    "successful": true
+  },
+  "random_action_packets_checked": 1000,
+  "toy_route_completion": {
+    "completed": 20,
+    "total": 20,
+    "elapsed_min_s": 49.4,
+    "elapsed_max_s": 50.65
+  },
+  "fault_injection": [
+    {
+      "seed": 0,
+      "fault": "pose_loss",
+      "complete": false,
+      "elapsed_s": 5.75,
+      "terminal_reason": "sensors_timed_out",
+      "peak_abs_rc": 20,
+      "last_waypoint": 1
+    },
+    {
+      "seed": 0,
+      "fault": "link_loss",
+      "complete": false,
+      "elapsed_s": 5.0,
+      "terminal_reason": "link_lost",
+      "peak_abs_rc": 20,
+      "last_waypoint": 1
+    }
+  ],
+  "hardware_tested": false,
+  "isaac_tested": false,
+  "rl_trained_or_loaded": false,
+  "live_engine_patched": false,
+  "remote_branch_published": false,
+  "source_audit_findings": 5,
+  "simulation_scenarios": 8,
+  "simulation_seeded_runs": 160,
+  "playback_test": "Node VM DOM mock: scenario selection, scrubbing, RAF cancellation, 320px redraw; not a rendered browser screenshot",
+  "source_hashes_sha256": {
+    "policy_integration/policy.py": "72ba3761fa4514ff5b08e8e39a29dbc4efe428741f323b778e6d202c83d3bc43",
+    "policy_integration/stress_sim.py": "85f803e2f918cd0b9b12923915308321c7af29daf306695a52ddfc32edde23e1",
+    "policy_integration/trace_view.html": "768b0af0c50ae89b8436fe9fe15df499f50886216fa15186434a0487985d104a"
+  },
+  "known_mission_failures": [
+    "strong synthetic lateral drift: 0/20 complete, 20 session aborts",
+    "synthetic deadband 12: 6/20 complete, 14 session aborts"
+  ]
+}
