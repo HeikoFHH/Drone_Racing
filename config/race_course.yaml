@@ -1,0 +1,11 @@
+# One-lap race: Pole A (start/finish) -> Pole B (turn) -> Pole A (finish).
+name: two-pole-one-lap
+pole_a_tag: 1
+pole_b_tag: 2
+# Gate radius around each pole (meters) for pass detection from pose.
+gate_radius_m: 0.8
+# Minimum height above floor while racing (soft check / logging).
+min_height_m: 0.4
+max_height_m: 2.5
+# After start, drone must enter Pole B gate before Pole A counts as finish.
+require_turn: true

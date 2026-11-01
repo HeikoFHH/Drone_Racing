@@ -1,0 +1,5 @@
+{
+  "description": "USB WiFi dongle -> Tello map. Run: python core/tello_dongle_setup.py",
+  "dongles": [],
+  "updated": null
+}

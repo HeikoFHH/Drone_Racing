@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.DS_Store
+outputs/*
+!outputs/.gitkeep
+recordings/*
+!recordings/.gitkeep
+*.avi
+*.mp4
+leaderboard/node_modules/
+leaderboard/.wrangler/
+.env
+.env.*
+*.log

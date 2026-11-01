@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Drone Race Hacks</title>
+  <style>
+    :root {
+      --bg0: #0b1218;
+      --ink: #f2f6fa;
+      --muted: #9aafc0;
+      --accent: #ff6b4a;
+      --teal: #3dd6c6;
+      --warn: #ffc857;
+      --line: rgba(255,255,255,0.12);
+      --display: "Fraunces", Georgia, serif;
+      --sans: "Sora", "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; background: var(--bg0); color: var(--ink); font-family: var(--sans); }
+    body {
+      overflow: hidden;
+      background:
+        linear-gradient(145deg, rgba(255,107,74,0.12), transparent 40%),
+        linear-gradient(330deg, rgba(61,214,198,0.1), transparent 45%),
+        radial-gradient(ellipse at 70% 20%, #1a3040 0%, var(--bg0) 55%);
+    }
+    .deck { height: 100%; width: 100%; position: relative; }
+    .slide {
+      position: absolute; inset: 0;
+      padding: clamp(1.2rem, 4vw, 3.2rem) clamp(1.2rem, 5vw, 4rem) 4.2rem;
+      display: none; flex-direction: column; justify-content: center;
+      opacity: 0; transform: translateY(12px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      overflow: hidden;
+    }
+    .slide.active { display: flex; opacity: 1; transform: none; }
+    .brand {
+      font-family: var(--display); font-weight: 600; font-size: clamp(2.4rem, 7vw, 4.8rem);
+      line-height: 1.05; letter-spacing: -0.03em; margin: 0 0 0.6rem;
+      animation: rise 0.7s ease both;
+    }
+    h2 {
+      font-family: var(--display); font-weight: 600; font-size: clamp(1.7rem, 4.2vw, 2.8rem);
+      margin: 0 0 0.85rem; letter-spacing: -0.02em;
+    }
+    p, li { font-size: clamp(1rem, 2vw, 1.28rem); line-height: 1.45; color: var(--muted); max-width: 44rem; }
+    p.lead { color: var(--ink); font-size: clamp(1.1rem, 2.3vw, 1.45rem); }
+    ul { margin: 0; padding-left: 1.2rem; }
+    li { margin: 0.35rem 0; }
+    code, .mono { font-family: ui-monospace, "IBM Plex Mono", monospace; color: var(--teal); }
+    .cta { display: inline-flex; gap: 0.75rem; margin-top: 1.25rem; flex-wrap: wrap; align-items: center; }
+    .cta a {
+      text-decoration: none; color: var(--bg0); background: var(--accent);
+      padding: 0.7rem 1.1rem; border-radius: 999px; font-weight: 600;
+    }
+    .cta a.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+    .bar {
+      position: fixed; left: 0; right: 0; bottom: 0; padding: 0.75rem 1.25rem;
+      display: flex; justify-content: space-between; align-items: center;
+      background: linear-gradient(transparent, rgba(0,0,0,0.55));
+      font-size: 0.85rem; color: var(--muted); z-index: 5;
+    }
+    .dots { display: flex; gap: 0.4rem; flex-wrap: wrap; max-width: 55%; }
+    .dots button {
+      width: 0.5rem; height: 0.5rem; border-radius: 50%; border: 0; padding: 0;
+      background: var(--line); cursor: pointer;
+    }
+    .dots button.on { background: var(--accent); transform: scale(1.25); }
+    .nav button {
+      background: transparent; border: 1px solid var(--line); color: var(--ink);
+      border-radius: 8px; padding: 0.35rem 0.7rem; cursor: pointer; margin-left: 0.35rem;
+    }
+    kbd { border: 1px solid var(--line); border-radius: 4px; padding: 0.05rem 0.35rem; font-size: 0.8em; }
+    .split {
+      display: grid; gap: 1.25rem 1.75rem; align-items: center;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 860px) {
+      .split { grid-template-columns: 1.05fr 0.95fr; }
+      .split.reverse { grid-template-columns: 0.95fr 1.05fr; }
+      .split.reverse .copy { order: 2; }
+      .split.reverse .visual { order: 1; }
+    }
+    .visual {
+      display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; justify-content: center;
+    }
+    .visual img, .hero-img {
+      max-width: 100%; max-height: min(46vh, 420px);
+      border-radius: 14px; border: 1px solid var(--line);
+      object-fit: contain; background: #101820;
+      box-shadow: 0 18px 50px rgba(0,0,0,0.35);
+    }
+    .visual.row img.hero-img {
+      max-width: calc(50% - 0.4rem); max-height: min(38vh, 320px);
+    }
+    .visual img.on-white, .gear img.on-white { background: #fff; }
+    .visual img.tag {
+      width: min(38vw, 220px); max-height: 220px; background: #fff; padding: 0.5rem;
+    }
+    .caption { font-size: 0.78rem; color: var(--muted); margin-top: 0.4rem; max-width: none; }
+    .callout {
+      margin-top: 0.75rem; padding: 0.85rem 1rem;
+      border-left: 4px solid var(--warn);
+      background: rgba(255,200,87,0.08);
+      border-radius: 0 10px 10px 0;
+      color: var(--ink); font-weight: 600; max-width: 40rem;
+      font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+    }
+    .badge {
+      display: inline-block; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--warn); border: 1px solid rgba(255,200,87,0.35); padding: 0.25rem 0.55rem;
+      border-radius: 999px; margin-bottom: 0.75rem;
+    }
+    .grid2 { display: grid; gap: 1rem; }
+    @media (min-width: 800px) { .grid2 { grid-template-columns: 1fr 1fr; } }
+    .cardish { border-top: 1px solid var(--line); padding-top: 0.75rem; }
+    .cardish strong { display: block; color: var(--ink); margin-bottom: 0.25rem; }
+    .gear {
+      display: grid; gap: 1rem; margin-top: 0.5rem;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 800px) { .gear { grid-template-columns: 1fr 1fr; } }
+    .gear figure { margin: 0; text-align: center; }
+    .gear img {
+      width: 100%; max-height: min(36vh, 300px); object-fit: contain;
+      border-radius: 12px; border: 1px solid var(--line); background: #fff;
+    }
+    .gear figcaption { margin-top: 0.45rem; font-size: 0.9rem; color: var(--muted); }
+    .qr-wrap {
+      display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: center;
+    }
+    .qr-wrap img {
+      width: min(42vw, 280px); height: auto;
+      border-radius: 12px; border: 8px solid #fff; background: #fff;
+      box-shadow: 0 18px 50px rgba(0,0,0,0.35);
+    }
+    .venue-logo {
+      width: min(42vw, 280px); height: auto; aspect-ratio: 1;
+      border-radius: 18px; border: 1px solid var(--line);
+      object-fit: cover;
+      box-shadow: 0 18px 50px rgba(0,0,0,0.4);
+    }
+    .host-row {
+      display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+      margin-top: 1.25rem;
+    }
+    .host-row a { color: var(--teal); }
+    .host-qr {
+      width: min(18vw, 112px); height: auto;
+      border-radius: 10px; border: 6px solid #fff; background: #fff;
+    }
+    .visual.host-visual {
+      align-self: center;
+      justify-content: center;
+    }
+    .visual.host-visual .hero-img.host-photo {
+      width: auto;
+      height: auto;
+      max-width: min(100%, 340px);
+      max-height: min(58vh, 520px);
+      object-fit: contain;
+      object-position: center center;
+      background: transparent;
+      flex: 0 0 auto;
+    }
+    @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Sora:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="deck" id="deck">
+
+    <!-- 0 Title -->
+    <section class="slide active" data-i="0">
+      <div class="split">
+        <div class="copy">
+          <p class="brand">Drone Race Hacks</p>
+          <p class="lead">At <strong style="color:var(--ink)">Harvard i-labs</strong>.</p>
+          <p>Tellos, dongles, and a public repo to build with. Optional outdoor race track if you want a timed challenge — or invent your own project.</p>
+          <p style="color:var(--ink);font-weight:600;margin:1rem 0 0.35rem">Jaime Romero</p>
+          <p style="margin:0"><a href="https://www.linkedin.com/in/jaime-romero-b7217a198/" style="color:var(--teal)">linkedin.com/in/jaime-romero-b7217a198</a></p>
+          <div class="host-row" style="margin-top:0.85rem">
+            <img class="host-qr" src="assets/linkedin-qr.png" alt="QR code to Jaime Romero LinkedIn" />
+            <p style="margin:0;max-width:14rem">Scan for LinkedIn</p>
+          </div>
+          <div class="cta">
+            <a href="https://github.com/jaromero3rd/drone-race-hacks">Open the repo</a>
+            <a class="ghost" href="#next">Next slide →</a>
+          </div>
+        </div>
+        <div class="visual host-visual">
+          <img class="hero-img host-photo" src="assets/jaime-romero.jpg" alt="Jaime Romero" width="344" height="460" />
+        </div>
+      </div>
+    </section>
+
+    <!-- 1 Race course -->
+    <section class="slide" data-i="1">
+      <div class="split reverse">
+        <div class="copy">
+          <h2>The race course</h2>
+          <p class="lead">One optional track: two poles, one lap, one Tello in the air.</p>
+          <ul>
+            <li><strong style="color:var(--ink)">Pole A</strong> — AprilTag start / finish</li>
+            <li><strong style="color:var(--ink)">Pole B</strong> — AprilTag turn</li>
+            <li>Timer starts when you <em>leave</em> Pole A’s gate</li>
+            <li>Must pass Pole B, then return to Pole A to stop the clock</li>
+            <li>Leaderboard is there if you want to compete — not required</li>
+          </ul>
+        </div>
+        <div class="visual">
+          <img class="hero-img" src="assets/race-course.jpg" alt="Two-pole outdoor race course diagram" />
+        </div>
+      </div>
+    </section>
+
+    <!-- 2 Resources / gear -->
+    <section class="slide" data-i="2">
+      <h2>Resources for teams</h2>
+      <p class="lead"><strong style="color:var(--ink)">6 Tello drones</strong> Jaime can hand out, plus USB Wi‑Fi dongles.</p>
+      <div class="gear">
+        <figure>
+          <img class="on-white" src="assets/tello-real.jpg" alt="Real photo of a Tello drone from Jaime’s Desktop" />
+          <figcaption>DJI / Ryze Tello — up to 6 for teams (one at a time on the race course)</figcaption>
+        </figure>
+        <figure>
+          <img class="on-white" src="assets/wifi-dongle-real.jpeg" alt="Real photo of TP-Link Wi-Fi USB dongle from Jaime’s Desktop" />
+          <figcaption>TP-Link Archer T2U Plus AC600 High Gain Dual-Band Wi‑Fi USB Adapter</figcaption>
+        </figure>
+      </div>
+      <p>Dongles let each team’s laptop talk to its Tello without fighting the built-in Wi‑Fi — same path as <code>core/tello_dongle_setup.py</code>.</p>
+    </section>
+
+    <!-- 3 AprilTag AFTER race + resources -->
+    <section class="slide" data-i="3">
+      <div class="split">
+        <div class="copy">
+          <h2>What is an AprilTag?</h2>
+          <p class="lead">A black-and-white square sticker a camera can recognize instantly.</p>
+          <ul>
+            <li>Like a QR code, but built for robots and drones</li>
+            <li>Each pattern has an <strong style="color:var(--ink)">ID number</strong> (we use family <code>tag36h11</code>)</li>
+            <li>From one photo, software estimates where the camera is relative to the tag</li>
+            <li>That’s how your Tello knows where it is on the course</li>
+          </ul>
+        </div>
+        <div class="visual">
+          <img class="tag" src="assets/tag36h11-5.png" alt="Real AprilTag tag36h11 example" />
+          <img class="tag" src="assets/tag36h11-10.png" alt="Another real AprilTag example" />
+          <img src="assets/apriltag.jpg" alt="AprilTag illustration" style="max-height:min(40vh,300px)" />
+        </div>
+      </div>
+      <p class="caption">Family examples (<code>tag36h11</code>); race poles use ids 1 and 2.</p>
+    </section>
+
+    <!-- 4 Venue Harvard i-labs -->
+    <section class="slide" data-i="4">
+      <div class="split">
+        <div class="copy">
+          <span class="badge">Venue</span>
+          <h2>We’re at Harvard i-labs</h2>
+          <p class="lead"><strong style="color:var(--ink)">Harvard i-labs</strong> — builders, demos, and room to try ideas.</p>
+          <ul>
+            <li>Home base for this hack — gear handoff, collab, and show-and-tell</li>
+            <li>Ship something, learn something</li>
+            <li>Same Tellos + dongles + repo whether you race or build something else</li>
+          </ul>
+        </div>
+        <div class="visual">
+          <img class="venue-logo" src="assets/harvard-ilabs-logo.png" alt="Harvard Innovation Labs logo" />
+        </div>
+      </div>
+      <p class="caption">Harvard Innovation Labs (i-labs) · logo for venue ID.</p>
+    </section>
+
+    <!-- 5 dirt_field race venue -->
+    <section class="slide" data-i="5">
+      <div class="split">
+        <div class="copy">
+          <span class="badge">Outdoor race venue</span>
+          <h2>The dirt field</h2>
+          <p class="lead">Past the parking lot on Harvard campus — the open <strong style="color:var(--ink)">dirt_field</strong> by i-labs.</p>
+          <ul>
+            <li>Walk past the lot; race on the dirt field beyond</li>
+            <li>Two poles with AprilTags go here</li>
+            <li>Map shows i-labs, the parking lot, and the dirt field</li>
+          </ul>
+        </div>
+        <div class="visual">
+          <img class="hero-img" src="assets/dirt_field.png" alt="Aerial map: Harvard i-labs, parking lot, and dirt field beyond" />
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 Hard problems -->
+    <section class="slide" data-i="6">
+      <h2>Hard problems in this space</h2>
+      <div class="grid2" style="grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 0.5rem;">
+        <div class="cardish">
+          <strong>Learning policies</strong>
+          <p>Controllers that fly for real — not just demos.</p>
+        </div>
+        <div class="cardish">
+          <strong>Where am I?</strong>
+          <p>Pose from images: tags, noise, lost frames.</p>
+        </div>
+        <div class="cardish">
+          <strong>Small compute</strong>
+          <p>Onboard / laptop edge — not a data-center GPU.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7 Why Isaac Sim -->
+    <section class="slide" data-i="7">
+      <div class="split reverse">
+        <div class="copy">
+          <h2>Why Isaac Sim</h2>
+          <p class="lead">Train and debug in sim before outdoor flights.</p>
+          <ul>
+            <li>Many parallel rollouts → faster iteration</li>
+            <li>Starter PPO path in this repo (scaffold, not a shipped race champion)</li>
+            <li>Two-pole lap geometry to match the outdoor course</li>
+          </ul>
+        </div>
+        <div class="visual">
+          <img class="hero-img" src="assets/isaac-sim-drones.jpg" alt="Illustrative multi-drone flight scene — not an official Isaac Sim screenshot" />
+        </div>
+      </div>
+      <p class="caption">Illustrative only — not a real Isaac Sim viewport.</p>
+    </section>
+
+    <!-- 8 Kalman -->
+    <section class="slide" data-i="8">
+      <div class="split">
+        <div class="copy">
+          <h2>Kalman filter</h2>
+          <p class="lead">Noisy AprilTag fixes → a better pose estimate.</p>
+          <ul>
+            <li>Predict, then update with each measurement</li>
+            <li>Shipped here: <code>core/positional_kalman_filter.py</code></li>
+            <li>Pair with PID or a learned policy</li>
+          </ul>
+        </div>
+        <div class="visual">
+          <img class="hero-img" src="assets/kalman-filter.jpg" alt="Kalman filter Predict and Update diagram" />
+        </div>
+      </div>
+    </section>
+
+    <!-- 9 Isaac Lab suite -->
+    <section class="slide" data-i="9">
+      <div class="split">
+        <div class="copy">
+          <h2>Simulation suite: Isaac Lab</h2>
+          <p class="lead">Stand up the race in <strong style="color:var(--ink)">Isaac Lab</strong> (needs a GPU box — not the laptop pip install alone).</p>
+          <ul>
+            <li>Task: <code>AS-Tello-Race-v0</code> under <code>simulation/</code></li>
+            <li>Single Tello, two-pole lap, PPO training scaffold</li>
+            <li>Parallel envs share the same A→B→A geometry</li>
+            <li>Docs: <code>simulation/README.md</code></li>
+          </ul>
+        </div>
+        <div class="visual">
+          <img class="hero-img" src="assets/isaac-lab-race-envs.png" alt="Labeled Isaac Lab diagram: parallel envs of the two-pole AS-Tello-Race-v0 course" />
+        </div>
+      </div>
+      <p class="caption">Labeled sim diagram for AS-Tello-Race-v0 — not the cinematic outdoor multi-drone still.</p>
+    </section>
+
+    <!-- 10 Capabilities -->
+    <section class="slide" data-i="10">
+      <h2>What a Tello can do here</h2>
+      <ul>
+        <li>Stream camera video to your laptop over the dongle</li>
+        <li>Localize with AprilTags; log tracks and RC</li>
+        <li>Manual sticks, scripted flight, or your own policy</li>
+        <li>Optional: fly the timed outdoor lap and post a time</li>
+      </ul>
+      <p>Small programmable quad — great for demos, sensing, and short outdoor flights.</p>
+    </section>
+
+    <!-- 11 Codebase -->
+    <section class="slide" data-i="11">
+      <h2>How this codebase flies it</h2>
+      <div class="grid2">
+        <div class="cardish">
+          <strong>Dongle path</strong>
+          <p>USB stick → <code>config/dongles.json</code> → stick-pinned sockets in <code>core/</code>.</p>
+        </div>
+        <div class="cardish">
+          <strong>Commands</strong>
+          <p><code>core/tello_link.py</code> connects; engine sends SDK + RC. Helpers under <code>tools/</code>.</p>
+        </div>
+        <div class="cardish">
+          <strong>Pose</strong>
+          <p><code>core/positional.py</code> + mapped tags → position in Pole A frame.</p>
+        </div>
+        <div class="cardish">
+          <strong>Camera</strong>
+          <p>Calibrate with <code>cal_and_map/</code>; store fx in <code>config/camera/</code>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12 Repo contents -->
+    <section class="slide" data-i="12">
+      <h2>What’s in the repo</h2>
+      <ul>
+        <li><code>core/</code> — link, engine, dongle setup, pose, Kalman filter</li>
+        <li><code>cal_and_map/</code> — camera calib + AprilTag mapping</li>
+        <li><code>config/</code> — dongles, tags, map, race course</li>
+        <li><code>simulation/</code> — Isaac Lab two-pole race + PPO scaffold</li>
+        <li><code>race/</code> — lap timer + leaderboard submit helper</li>
+        <li><code>leaderboard/</code> · <code>presentation/</code></li>
+      </ul>
+    </section>
+
+    <!-- 13 QR / git access -->
+    <section class="slide" data-i="13">
+      <h2>Get the code — scan this</h2>
+      <div class="qr-wrap">
+        <img src="assets/repo-qr.png" alt="QR code linking to github.com/jaromero3rd/drone-race-hacks" />
+        <div>
+          <p class="lead">Scan to open the public GitHub repo.</p>
+          <p class="mono">https://github.com/jaromero3rd/drone-race-hacks</p>
+          <p>Clone, fork, or browse — everyone can get git access from that URL.</p>
+          <div class="cta">
+            <a href="https://github.com/jaromero3rd/drone-race-hacks">Open on GitHub</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 14 Safety / race courtesy -->
+    <section class="slide" data-i="14">
+      <h2>Safety on the course</h2>
+      <p class="lead">One Tello in the air at a time on the dirt field. Catcher ready.</p>
+      <ul>
+        <li>Land on link loss</li>
+        <li>Optional: post a lap on the leaderboard</li>
+      </ul>
+    </section>
+
+    <!-- 15 Setup -->
+    <section class="slide" data-i="15">
+      <h2>Setup on your laptop</h2>
+      <p class="mono">git clone https://github.com/jaromero3rd/drone-race-hacks.git</p>
+      <p class="mono">cd drone-race-hacks && python3 -m venv .venv && source .venv/bin/activate</p>
+      <p class="mono">pip install -r requirements.txt && pip install -e cal_and_map</p>
+      <p>Real flight tooling = this laptop venv. <strong style="color:var(--ink)">Isaac Lab / PPO sim = separate GPU + Isaac install</strong> — see <code>simulation/README.md</code>.</p>
+    </section>
+  </div>
+
+  <div class="bar">
+    <div class="dots" id="dots"></div>
+    <div class="nav">
+      <span><kbd>←</kbd> <kbd>→</kbd> or click</span>
+      <button type="button" id="prev">Prev</button>
+      <button type="button" id="next">Next</button>
+    </div>
+  </div>
+
+  <script>
+    const slides = [...document.querySelectorAll(".slide")];
+    const dots = document.getElementById("dots");
+    let i = 0;
+
+    slides.forEach((_, idx) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.setAttribute("aria-label", "Go to slide " + (idx + 1));
+      b.addEventListener("click", () => go(idx));
+      dots.appendChild(b);
+    });
+
+    function go(n) {
+      i = (n + slides.length) % slides.length;
+      slides.forEach((s, idx) => s.classList.toggle("active", idx === i));
+      [...dots.children].forEach((d, idx) => d.classList.toggle("on", idx === i));
+      history.replaceState(null, "", "#" + (i + 1));
+    }
+
+    document.getElementById("prev").onclick = () => go(i - 1);
+    document.getElementById("next").onclick = () => go(i + 1);
+    document.querySelectorAll('a[href="#next"]').forEach((a) =>
+      a.addEventListener("click", (e) => { e.preventDefault(); go(i + 1); })
+    );
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight" || e.key === " " || e.key === "PageDown") { e.preventDefault(); go(i + 1); }
+      if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); go(i - 1); }
+      if (e.key === "Home") go(0);
+      if (e.key === "End") go(slides.length - 1);
+    });
+    document.getElementById("deck").addEventListener("click", (e) => {
+      if (e.target.closest("a,button,img")) return;
+      go(i + 1);
+    });
+
+    const hash = parseInt(location.hash.slice(1), 10);
+    go(Number.isFinite(hash) && hash >= 1 ? hash - 1 : 0);
+  </script>
+</body>
+</html>

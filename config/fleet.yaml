@@ -1,0 +1,22 @@
+# Single-Tello race fleet. One drone flies at a time.
+# Dongle wiring lives in dongles.json (run: python core/tello_dongle_setup.py).
+
+fly_count: 1
+
+roles:
+  race:
+    - TELLO-1
+
+# Which drones tools may connect to when their stick is plugged in.
+quick_connect:
+  - TELLO-1
+
+# Per-drone calibration identity for cal_and_map. Fill iface/bssid after setup.
+drones:
+  tello_1:
+    iface: null
+    ssid: TELLO-1
+    bssid: null
+    serial: unsupported
+    local_ip: null
+    notes: "Edit after core/tello_dongle_setup.py + nmcli scan"

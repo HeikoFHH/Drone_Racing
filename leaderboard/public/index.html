@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Drone Race Hacks — Leaderboard</title>
+  <style>
+    :root {
+      --bg: #0f1419;
+      --panel: #1a222c;
+      --ink: #e8eef4;
+      --muted: #8b9aab;
+      --accent: #3dd6c6;
+      --warn: #f0a05a;
+      --line: #2a3542;
+      --mono: "IBM Plex Mono", "SF Mono", ui-monospace, monospace;
+      --sans: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh;
+      font-family: var(--sans);
+      background: radial-gradient(1200px 600px at 10% -10%, #1c3a3a 0%, transparent 55%),
+                  radial-gradient(900px 500px at 100% 0%, #243048 0%, transparent 50%),
+                  var(--bg);
+      color: var(--ink);
+    }
+    main { max-width: 880px; margin: 0 auto; padding: 2.5rem 1.25rem 4rem; }
+    h1 { font-size: clamp(1.6rem, 4vw, 2.4rem); letter-spacing: -0.02em; margin: 0 0 0.35rem; }
+    .sub { color: var(--muted); margin: 0 0 1.75rem; }
+    .grid { display: grid; gap: 1.25rem; }
+    @media (min-width: 760px) { .grid { grid-template-columns: 1.2fr 0.8fr; align-items: start; } }
+    section {
+      background: color-mix(in srgb, var(--panel) 92%, black);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 1.1rem 1.2rem 1.25rem;
+    }
+    h2 { font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 0 0 0.9rem; }
+    table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+    th, td { text-align: left; padding: 0.55rem 0.35rem; border-bottom: 1px solid var(--line); }
+    th { color: var(--muted); font-weight: 500; font-size: 0.8rem; }
+    td.rank { color: var(--accent); font-family: var(--mono); width: 2.5rem; }
+    td.time { font-family: var(--mono); font-weight: 600; }
+    label { display: block; font-size: 0.8rem; color: var(--muted); margin: 0.65rem 0 0.25rem; }
+    input, textarea, button {
+      width: 100%; font: inherit; border-radius: 8px; border: 1px solid var(--line);
+      background: #10161d; color: var(--ink); padding: 0.55rem 0.7rem;
+    }
+    button {
+      margin-top: 1rem; background: var(--accent); color: #06241f; font-weight: 600;
+      border: none; cursor: pointer;
+    }
+    button:hover { filter: brightness(1.05); }
+    .msg { margin-top: 0.75rem; font-size: 0.9rem; color: var(--warn); min-height: 1.2em; }
+    .msg.ok { color: var(--accent); }
+    footer { margin-top: 1.5rem; color: var(--muted); font-size: 0.85rem; }
+    a { color: var(--accent); }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <main>
+    <h1>Drone Race Hacks</h1>
+    <p class="sub">Public lap times — one Tello, two poles, fastest lap wins.</p>
+    <div class="grid">
+      <section>
+        <h2>Leaderboard</h2>
+        <table>
+          <thead><tr><th>#</th><th>Team</th><th>Time</th><th>Drone</th></tr></thead>
+          <tbody id="rows"><tr><td colspan="4">Loading…</td></tr></tbody>
+        </table>
+      </section>
+      <section>
+        <h2>Submit a time</h2>
+        <form id="form">
+          <label for="team">Team</label>
+          <input id="team" name="team" required maxlength="64" autocomplete="organization" />
+          <label for="time">Lap time (seconds)</label>
+          <input id="time" name="time" type="number" step="0.001" min="0.001" max="3600" required />
+          <label for="drone">Drone (optional)</label>
+          <input id="drone" name="drone" maxlength="32" placeholder="TELLO-1" />
+          <label for="token">Submit token (if required)</label>
+          <input id="token" name="token" type="password" autocomplete="off" />
+          <button type="submit">Submit</button>
+          <p class="msg" id="msg"></p>
+        </form>
+      </section>
+    </div>
+    <footer>
+      Course: <span id="course">…</span> ·
+      <a href="https://github.com/jaromero3rd/drone-race-hacks">GitHub</a>
+    </footer>
+  </main>
+  <script>
+    const rows = document.getElementById("rows");
+    const msg = document.getElementById("msg");
+    const courseEl = document.getElementById("course");
+
+    function fmt(t) {
+      return Number(t).toFixed(3) + " s";
+    }
+
+    async function refresh() {
+      const res = await fetch("/api/times");
+      const data = await res.json();
+      courseEl.textContent = data.course || "two-pole-one-lap";
+      if (!data.times || !data.times.length) {
+        rows.innerHTML = "<tr><td colspan='4'>No times yet — be first.</td></tr>";
+        return;
+      }
+      rows.innerHTML = data.times.map((e, i) =>
+        `<tr><td class="rank">${i + 1}</td><td>${e.team}</td><td class="time">${fmt(e.time_s)}</td><td>${e.drone || "—"}</td></tr>`
+      ).join("");
+    }
+
+    document.getElementById("form").addEventListener("submit", async (ev) => {
+      ev.preventDefault();
+      msg.className = "msg";
+      msg.textContent = "Submitting…";
+      const body = {
+        team: document.getElementById("team").value,
+        time_s: Number(document.getElementById("time").value),
+        drone: document.getElementById("drone").value,
+      };
+      const headers = { "content-type": "application/json" };
+      const token = document.getElementById("token").value.trim();
+      if (token) headers.authorization = "Bearer " + token;
+      try {
+        const res = await fetch("/api/submit", { method: "POST", headers, body: JSON.stringify(body) });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || res.statusText);
+        msg.className = "msg ok";
+        msg.textContent = `Recorded — rank #${data.rank}`;
+        await refresh();
+      } catch (e) {
+        msg.textContent = String(e.message || e);
+      }
+    });
+
+    refresh().catch((e) => {
+      rows.innerHTML = `<tr><td colspan="4">${e}</td></tr>`;
+    });
+  </script>
+</body>
+</html>
