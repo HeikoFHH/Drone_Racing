@@ -147,8 +147,22 @@
     }
     .host-row a { color: var(--teal); }
     .host-qr {
-      width: min(22vw, 140px); height: auto;
+      width: min(18vw, 112px); height: auto;
       border-radius: 10px; border: 6px solid #fff; background: #fff;
+    }
+    .visual.host-visual {
+      align-self: center;
+      justify-content: center;
+    }
+    .visual.host-visual .hero-img.host-photo {
+      width: auto;
+      height: auto;
+      max-width: min(100%, 340px);
+      max-height: min(58vh, 520px);
+      object-fit: contain;
+      object-position: center center;
+      background: transparent;
+      flex: 0 0 auto;
     }
     @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
   </style>
@@ -176,8 +190,8 @@
             <a class="ghost" href="#next">Next slide →</a>
           </div>
         </div>
-        <div class="visual">
-          <img class="hero-img" src="assets/jaime-romero.jpg" alt="Jaime Romero" style="max-height:min(50vh,440px);object-fit:cover" />
+        <div class="visual host-visual">
+          <img class="hero-img host-photo" src="assets/jaime-romero.jpg" alt="Jaime Romero" width="344" height="460" />
         </div>
       </div>
     </section>
@@ -338,13 +352,22 @@
 
     <!-- 9 Isaac Lab suite -->
     <section class="slide" data-i="9">
-      <h2>Simulation suite: Isaac Lab</h2>
-      <p class="lead">Stand up the race in <strong style="color:var(--ink)">Isaac Lab</strong> (needs a GPU box — not the laptop pip install alone).</p>
-      <ul>
-        <li>Task: <code>AS-Tello-Race-v0</code> under <code>simulation/</code></li>
-        <li>Single Tello, two-pole lap, PPO training scaffold</li>
-        <li>Docs: <code>simulation/README.md</code></li>
-      </ul>
+      <div class="split">
+        <div class="copy">
+          <h2>Simulation suite: Isaac Lab</h2>
+          <p class="lead">Stand up the race in <strong style="color:var(--ink)">Isaac Lab</strong> (needs a GPU box — not the laptop pip install alone).</p>
+          <ul>
+            <li>Task: <code>AS-Tello-Race-v0</code> under <code>simulation/</code></li>
+            <li>Single Tello, two-pole lap, PPO training scaffold</li>
+            <li>Parallel envs share the same A→B→A geometry</li>
+            <li>Docs: <code>simulation/README.md</code></li>
+          </ul>
+        </div>
+        <div class="visual">
+          <img class="hero-img" src="assets/isaac-lab-race-envs.png" alt="Labeled Isaac Lab diagram: parallel envs of the two-pole AS-Tello-Race-v0 course" />
+        </div>
+      </div>
+      <p class="caption">Labeled sim diagram for AS-Tello-Race-v0 — not the cinematic outdoor multi-drone still.</p>
     </section>
 
     <!-- 10 Capabilities -->
