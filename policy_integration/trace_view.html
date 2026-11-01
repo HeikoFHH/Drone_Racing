@@ -1,0 +1,118 @@
+<div id="drone-policy-view">
+  <style>
+    #drone-policy-view { color: var(--foreground); }
+    #drone-policy-view .sim-plot { display:block; width:100%; overflow:visible; margin-top:12px; }
+    #drone-policy-view .sim-plot text { fill:var(--foreground); font-size:12px; }
+    #drone-policy-view .sim-legend { display:flex; flex-wrap:wrap; gap:14px; margin:8px 0; }
+    #drone-policy-view .sim-line { display:inline-block; width:20px; height:3px; margin-right:6px; vertical-align:middle; background:var(--viz-series-1); }
+    #drone-policy-view .sim-sensor { background:var(--viz-series-2); }
+    #drone-policy-view .sim-details { display:flex; flex-wrap:wrap; gap:8px 18px; margin:8px 0; }
+    #drone-policy-view .sim-timeline { margin-top:12px; }
+    #drone-policy-view .sim-note { margin-top:6px; }
+  </style>
+  <h3>Flight-policy simulation</h3>
+  <div class="text-small text-muted">Synthetic motion model · actual Python policy · no live drone</div>
+  <div class="viz-controls">
+    <label class="form-label">Scenario
+      <select class="form-select" id="drone-scenario" aria-label="Simulation scenario"></select>
+    </label>
+    <button type="button" class="btn btn-primary" id="drone-play">Play at 4×</button>
+  </div>
+  <div id="drone-result" class="text-small" aria-live="polite"></div>
+  <svg class="sim-plot" id="drone-map" role="img" aria-label="Top-down drone course, actual path and delayed sensed position"></svg>
+  <div class="sim-legend text-small">
+    <span><span class="sim-line"></span>Actual position</span>
+    <span><span class="sim-line sim-sensor"></span>Sensed position</span>
+    <span>Rings: race gates · filled centers: pole clearance</span>
+  </div>
+  <div class="sim-timeline">
+    <label class="form-label" for="drone-time">Time <span id="drone-time-value" class="tabular-nums">0.00 s</span></label>
+    <input class="form-range" type="range" id="drone-time" min="0" max="1" step="0.05" value="0" aria-label="Simulation playback time">
+  </div>
+  <div class="sim-details text-small tabular-nums">
+    <span id="drone-age"></span><span id="drone-altitude"></span><span id="drone-rc"></span>
+  </div>
+  <div id="drone-state" class="text-small"></div>
+  <div class="sim-note text-small text-muted" id="drone-note"></div>
+  <script type="application/json" id="drone-traces">__TRACE_DATA__</script>
+  <script>
+  (() => {
+    const root = document.getElementById('drone-policy-view');
+    const el = id => root.querySelector('#'+id);
+    const scenarios = JSON.parse(el('drone-traces').textContent);
+    const select = el('drone-scenario'), slider = el('drone-time'), play = el('drone-play');
+    const svg = el('drone-map');
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let selected = scenarios[0], t = 0, running = false, previousStamp = null, animationId = null;
+    scenarios.forEach((s, i) => { const option=document.createElement('option');option.value=i;option.textContent=s.label;select.appendChild(option); });
+    const f = (v,d=2) => Number(v).toFixed(d);
+    const text = (x,y,label,anchor='middle') => `<text x="${x}" y="${y}" text-anchor="${anchor}">${label}</text>`;
+    function frameAt(time) {
+      const rows=selected.trace; let lo=0,hi=rows.length-1;
+      while(lo<hi){const mid=Math.ceil((lo+hi)/2);if(rows[mid][0]<=time)lo=mid;else hi=mid-1;}
+      return lo;
+    }
+    function draw() {
+      const w=Math.max(280,root.clientWidth), h=Math.max(220,Math.min(330,w*0.46));
+      const left=46,right=w-18,top=28,bottom=h-44;
+      const x=v=>left+(v+1)/6*(right-left),y=v=>bottom-(v+1)/2.5*(bottom-top);
+      const xr=v=>v/6*(right-left),yr=v=>v/2.5*(bottom-top);
+      const i=frameAt(t),row=selected.trace[i];
+      const actual=selected.trace.slice(0,i+1).map((r,j)=>(j?'L':'M')+x(r[1])+','+y(r[2])).join(' ');
+      const sensed=selected.trace.slice(0,i+1).map((r,j)=>(j?'L':'M')+x(r[4])+','+y(r[5])).join(' ');
+      let marks=`<title>Top-down flight policy playback</title><desc>Position in course coordinates, in metres. Solid path is actual state; dashed path and square show sensed state. Select a scenario or scrub time.</desc>`;
+      marks+=`<rect x="${left}" y="${top}" width="${right-left}" height="${bottom-top}" fill="none" stroke="var(--border)"/>`;
+      for(let k=0;k<=4;k++){
+        marks+=`<line x1="${x(k)}" y1="${top}" x2="${x(k)}" y2="${bottom}" stroke="var(--border)" opacity="0.5"/>`;
+        marks+=text(x(k),bottom+18,k);
+      }
+      for(const k of [-0.5,0.5,1]) marks+=text(left-8,y(k)+4,k,'end');
+      marks+=text((left+right)/2,h-3,'Course X (m)');
+      marks+=`<text transform="translate(13 ${(top+bottom)/2}) rotate(-90)" text-anchor="middle">Left Y (m)</text>`;
+      for(const [px,name] of [[0,'A'],[4,'B']]){
+        marks+=`<ellipse cx="${x(px)}" cy="${y(0)}" rx="${xr(0.8)}" ry="${yr(0.8)}" fill="none" stroke="var(--border)"/>`;
+        marks+=`<ellipse cx="${x(px)}" cy="${y(0)}" rx="${xr(0.3)}" ry="${yr(0.3)}" fill="var(--muted)"/>`;
+        marks+=text(x(px),y(0)+4,name);
+      }
+      marks+=`<path d="M${x(0)},${y(0.5)} L${x(4)},${y(0.5)}" fill="none" stroke="var(--border)" stroke-dasharray="4 4"/>`;
+      marks+=`<path d="${sensed}" fill="none" stroke="var(--viz-series-2)" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.8"/>`;
+      marks+=`<path d="${actual}" fill="none" stroke="var(--viz-series-1)" stroke-width="2.5"/>`;
+      marks+=`<rect x="${x(row[4])-4}" y="${y(row[5])-4}" width="8" height="8" fill="var(--background)" stroke="var(--viz-series-2)" stroke-width="2"/>`;
+      marks+=`<circle cx="${x(row[1])}" cy="${y(row[2])}" r="5" fill="var(--viz-series-1)"/>`;
+      svg.setAttribute('viewBox',`0 0 ${w} ${h}`);svg.innerHTML=marks;
+      slider.value=t;
+      el('drone-time-value').textContent=f(t)+' / '+f(selected.elapsed_s)+' s';
+      el('drone-age').textContent='Pose age '+f(row[13]*1000,0)+' ms';
+      el('drone-altitude').textContent='Altitude '+f(row[3])+' m';
+      el('drone-rc').textContent='RC ['+row.slice(7,11).join(', ')+']';
+      el('drone-state').textContent=row[11]+' · '+row[12].replaceAll('_',' ')+' · lap '+row[15].toLowerCase().replaceAll('_',' ');
+    }
+    function stop(){running=false;previousStamp=null;if(animationId!==null)cancelAnimationFrame(animationId);animationId=null;play.textContent=reduced?'Advance 1 s':'Play at 4×';}
+    function load(index){
+      stop();selected=scenarios[index];t=0;slider.max=selected.elapsed_s;
+      const c=selected.counts;
+      el('drone-result').textContent=c.complete+'/'+selected.seed_count+' completed · '+c.abort+' aborted · '+c.timeout+' timed out · showing seed '+selected.seed;
+      el('drone-note').textContent=selected.note;
+      draw();
+    }
+    select.addEventListener('change',()=>load(Number(select.value)));
+    slider.addEventListener('input',()=>{stop();t=Number(slider.value);draw();});
+    play.addEventListener('click',()=>{
+      if(reduced){t=Math.min(selected.elapsed_s,t+1);draw();return;}
+      if(running){stop();return;}
+      if(t>=selected.elapsed_s)t=0;
+      running=true;previousStamp=null;play.textContent='Pause';animationId=requestAnimationFrame(animate);
+    });
+    function animate(stamp){
+      animationId=null;
+      if(!running)return;
+      if(previousStamp!==null)t=Math.min(selected.elapsed_s,t+Math.min(0.1,(stamp-previousStamp)/1000)*4);
+      previousStamp=stamp;draw();
+      if(t>=selected.elapsed_s){stop();return;}
+      animationId=requestAnimationFrame(animate);
+    }
+    new ResizeObserver(draw).observe(root);
+    load(0);
+  })();
+  </script>
+</div>

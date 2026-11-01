@@ -25,6 +25,7 @@ One-shot sequence, then exit (lands automatically at the end if still flying):
   python tools/tello_basic.py --do "battery?; wifi?"          # read-only check, no takeoff
   python tools/tello_basic.py --do "telemetry"                # print telemetry once, no takeoff
   python tools/tello_basic.py --do "watch 10"                 # live telemetry for 10 s
+  python tello_basic.py --course-m 15 --tag-size-mm 488 --do "takeoff; policy start new; policy wait"
   python tools/tello_basic.py --tag-id 1 --do "detect 15"     # look for AprilTag id 1 (no takeoff)
   python tools/tello_basic.py --tag-family 36h11              # then type `video` at the prompt
 
@@ -39,6 +40,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import os
 import socket
 import subprocess
@@ -78,6 +80,7 @@ class Tello:
         self.state_t = 0.0                    # time of last state packet
         self.flying = False
         self.vision: Vision | None = None     # set by main()
+        self.policy: PolicyRunner | None = None   # set by main()
         threading.Thread(target=self._state_loop, daemon=True).start()
 
     @staticmethod
@@ -187,6 +190,8 @@ class Tello:
 
     def close(self) -> None:
         try:
+            if self.policy:
+                self.policy.stop(quiet=True)     # policy off BEFORE we land: one rc writer
             self.safe_land()
         finally:
             if self.vision:
@@ -503,6 +508,287 @@ def snapshot(v: Vision, path: str | None) -> None:
     print(f"  saved {path}" if v.cv2.imwrite(path, v.frame) else f"  could not write {path}")
 
 
+# --------------------------------------------------------------------------- live policy
+class PolicyRunner:
+    """Runs the repo's 73 m tag-homing policy (race/homing_policy.py) on this drone.
+
+    The repo's PolicySwitch is the start/stop object; this class is the "controller" around it:
+    a 20 Hz thread turns video frames into tag sightings (OpenCV AprilTag + solvePnP, same
+    pose convention as the repo's TagDetector), reads telemetry h/yaw, calls switch.step(),
+    and sends the rc it returns. Stop makes the drone float (rc 0 0 0 0) from the next tick.
+
+    Safety choices made here (not in the repo):
+      * course length and tag size have no default: you must measure and pass them.
+      * every stick the policy asks for is capped at --rc-limit, and the policy's own speed
+        plan is lowered to match, so its dead-reckoning stays consistent with what is flown.
+      * while the policy runs, manual motion commands are refused (one rc writer).
+    """
+    TICK = 0.05
+
+    def __init__(self, tello: Tello, vision: "Vision", repo: str | None, camera: str | None,
+                 course_m: float | None, tag_size_mm: float | None, rc_limit: int):
+        self.t, self.v = tello, vision
+        self.repo_arg, self.camera_arg = repo, camera
+        self.course_m, self.tag_size_mm, self.rc_limit = course_m, tag_size_mm, rc_limit
+        self.switch = None
+        self.cfg = None
+        self.K = self.dist = self.obj = None
+        self.thread: threading.Thread | None = None
+        self.stop_evt = threading.Event()
+        self.tx_lock = threading.Lock()       # step+send is atomic w.r.t. stop()
+        self.info: dict = {}
+        self.ended: str | None = None         # "done" | "land" once the mission has ended
+        self._mods = None
+
+    # -- helpers
+    @property
+    def running(self) -> bool:
+        return self.switch is not None and self.switch.running
+
+    def _find_repo(self) -> Path | None:
+        here = Path(__file__).resolve().parent
+        cands = [self.repo_arg, os.environ.get("DRONE_RACING_REPO"), here / "Drone_Racing",
+                 here.parent / "Drone_Racing", Path.cwd() / "Drone_Racing",
+                 Path.home() / "Drone_Racing"]
+        for c in cands:
+            if c and (Path(c) / "race" / "homing_policy.py").is_file():
+                return Path(c).resolve()
+        return None
+
+    def _load(self) -> bool:
+        """Import the repo's policy and load camera calibration. Prints why if it can't."""
+        if self._mods:
+            return True
+        repo = self._find_repo()
+        if repo is None:
+            print("  can't find the Drone_Racing repo (needs race/homing_policy.py). "
+                  "Pass --repo /path/to/Drone_Racing or set DRONE_RACING_REPO.")
+            return False
+        if self.course_m is None or self.tag_size_mm is None:
+            print("  set both measured values when launching the script:\n"
+                  "    --course-m <distance tag A to tag B, metres>  --tag-size-mm <black square edge, mm>\n"
+                  "  (no defaults on purpose: a wrong value changes where the drone stops)")
+            return False
+        if not self.v._load():                 # OpenCV + aruco
+            return False
+        try:
+            import numpy as np
+            import yaml
+        except ImportError:
+            print("  needs:  pip install numpy pyyaml")
+            return False
+        if str(repo) not in sys.path:
+            sys.path.insert(0, str(repo))
+        try:
+            from dataclasses import replace
+            from race.homing_control import PolicySwitch
+            from race.homing_policy import HomingCfg, HomingObs, Sighting
+        except Exception as exc:               # noqa: BLE001 -- show the real reason
+            print(f"  could not import the repo policy: {exc}")
+            return False
+        cam = Path(self.camera_arg) if self.camera_arg else repo / "config" / "camera" / "default.yaml"
+        try:
+            c = yaml.safe_load(cam.read_text())
+            self.K = np.array(c["camera_matrix"], float)
+            self.dist = np.array(c["dist_coeffs"], float)
+            self.calib_size = (int(c["image_width"]), int(c["image_height"]))
+        except Exception as exc:               # noqa: BLE001
+            print(f"  could not read camera calibration {cam}: {exc}")
+            return False
+        size = self.tag_size_mm / 1000.0
+        h = size / 2
+        self.obj = np.array([[-h, h, 0], [h, h, 0], [h, -h, 0], [-h, -h, 0]], float)
+        # lower the policy's own plan to the rc cap so speed assumptions stay consistent
+        base = HomingCfg()
+        cap = self.rc_limit
+        self.cfg = replace(
+            base, course_m=self.course_m, tag_size_m=size,
+            cruise_mps=min(base.cruise_mps, cap * base.mps_per_rc),
+            max_up_rc=min(base.max_up_rc, cap), max_yaw_rc=min(base.max_yaw_rc, cap),
+            turn_yaw_rc=min(base.turn_yaw_rc, cap), search_yaw_rc=min(base.search_yaw_rc, cap),
+            spin_yaw_rc=min(base.spin_yaw_rc, cap))
+        self._mods = (PolicySwitch, HomingObs, Sighting)
+        self.calib_name = cam.name
+        return True
+
+    # -- perception: frame -> sightings (range, bearing, pose), repo conventions
+    def _sightings(self, frame) -> list:
+        import numpy as np
+        cv2 = self.v.cv2
+        _, _, Sighting = self._mods
+        K, dist = self.K, self.dist
+        h, w = frame.shape[:2]
+        if (w, h) != self.calib_size:                       # calibration is for 960x720
+            sx, sy = w / self.calib_size[0], h / self.calib_size[1]
+            K = K.copy()
+            K[0, 0] *= sx; K[0, 2] *= sx; K[1, 1] *= sy; K[1, 2] *= sy
+        out = []
+        for tg in self.v.detect(frame):
+            if tg["size"] < 12:                              # repo gate: min_side_px
+                continue
+            pts = tg["corners"].astype(np.float64)           # TL, TR, BR, BL = IPPE order
+            und = cv2.undistortPoints(pts.reshape(-1, 1, 2), K, dist, P=K).reshape(-1, 2)
+            ok, rvecs, tvecs, _ = cv2.solvePnPGeneric(self.obj, und, K, None,
+                                                      flags=cv2.SOLVEPNP_IPPE_SQUARE)
+            if not ok or not len(rvecs):
+                continue
+            tvec, rvec = np.ravel(tvecs[0]), np.ravel(rvecs[0])
+            if tvec[2] <= 0:
+                continue
+            R = cv2.Rodrigues(rvec)[0]
+            out.append(Sighting(tg["id"], float(np.linalg.norm(tvec)),
+                                math.degrees(math.atan2(tvec[0], tvec[2])),
+                                tuple(float(x) for x in tvec), tuple(float(x) for x in R[:, 2])))
+        return out
+
+    # -- control loop
+    def _loop(self) -> None:
+        _, HomingObs, _ = self._mods
+        cap = self.rc_limit
+        clamp = lambda v: max(-cap, min(cap, int(v)))      # noqa: E731
+        last_ft, last_tick = 0.0, time.monotonic()
+        next_t = last_tick
+        while not self.stop_evt.is_set():
+            now = time.monotonic()
+            dt, last_tick = max(1e-3, now - last_tick), now
+            sightings = []
+            frame_t = self.v.frame_t
+            if self.v.frame is not None and frame_t != last_ft:
+                last_ft = frame_t
+                try:
+                    sightings = self._sightings(self.v.frame)
+                except Exception as exc:                   # noqa: BLE001
+                    print(f"\n  [policy] perception error: {exc}")
+            s, fresh = self.t.state, time.time() - self.t.state_t < 0.5
+            obs = HomingObs(t=now, sightings=sightings,
+                            height_m=s["h"] / 100.0 if fresh and "h" in s else None,
+                            yaw_deg=float(s["yaw"]) if fresh and "yaw" in s else None)
+            with self.tx_lock:
+                rc, info = self.switch.step(obs, dt)
+                self.info = info
+                mode = info["mode"]
+                if mode == "go":
+                    r, f, u, y = (clamp(v) for v in rc)
+                    self.t.send_nowait(f"rc {r} {f} {u} {y}")
+                elif mode in ("land", "done"):
+                    self.t.send_nowait("rc 0 0 0 0")
+                    self.ended = mode
+            if self.ended:
+                why = info.get("abort_reason")
+                print(f"\n  [policy] {'MISSION DONE' if self.ended == 'done' else 'SAFETY LAND'}"
+                      + (f": {why}" if why else "") + " -- landing")
+                self.t.safe_land()
+                return
+            next_t += self.TICK
+            time.sleep(max(0.0, next_t - time.monotonic()))
+            if time.monotonic() - next_t > 0.5:            # fell far behind: don't burst
+                next_t = time.monotonic()
+
+    # -- commands
+    def start(self, new: bool = False) -> None:
+        if self.running:
+            print("  policy already running")
+            return
+        if not self._load():
+            return
+        PolicySwitch = self._mods[0]
+        if self.ended:
+            if not new:
+                print(f"  last mission ended ({self.ended}); a tripped limit is sticky: "
+                      "`policy start new` (drone back at tag A, nose toward B)")
+                return
+        if not self.t.flying:
+            print("  drone isn't flying: `takeoff` first (nose toward tag B, ~1 m in front of tag A)")
+            return
+        if not self.t.link_up():
+            print("  no fresh telemetry: the policy needs h and yaw. Check `telemetry`.")
+            return
+        if not self.v.start():
+            return
+        first = self.switch is None
+        if first or new:
+            self.switch = PolicySwitch(self.cfg)
+            self.ended = None
+        c = self.cfg
+        eta = c.course_m / max(c.cruise_mps, 1e-6)
+        print(f"  policy {'NEW mission' if (first or new) else 'RESUME'}: tag {c.tag_a} -> {c.tag_b}, "
+              f"course {c.course_m:g} m, tag {self.tag_size_mm:g} mm, hold {c.height_m:g} m, "
+              f"stop {c.stop_range_m:g} m short of tags")
+        print(f"  rc cap +/-{self.rc_limit} -> cruise {c.cruise_mps:.2f} m/s, ~{eta:.0f} s per leg "
+              f"(mission cap {c.max_session_s:.0f} s), camera {self.calib_name}")
+        if 2 * eta > c.max_session_s:
+            print(f"  WARNING: two legs at this speed (~{2 * eta:.0f} s) exceed the "
+                  f"{c.max_session_s:.0f} s mission cap -- it will land before finishing. "
+                  "Raise --rc-limit or test a shorter course.")
+        print("  `policy stop` = float in place. Catcher ready.")
+        self.switch.start(new_mission=(first or new))
+        if self.thread is None or not self.thread.is_alive():
+            self.stop_evt.clear()
+            self.thread = threading.Thread(target=self._loop, daemon=True)
+            self.thread.start()
+
+    def stop(self, quiet: bool = False) -> None:
+        """Stop flying the policy: zero sticks now, drone floats. Safe to call any time."""
+        was = self.running
+        if self.switch is not None:
+            self.switch.stop()
+        with self.tx_lock:                     # waits out an in-flight tick, then nothing more is sent
+            if was:
+                self.t.send_nowait("rc 0 0 0 0")
+        if was and not quiet:
+            print("  policy STOPPED -- floating in place (rc 0 0 0 0). "
+                  "`policy start` resumes; `policy start new` restarts; `land` to land.")
+        elif not quiet:
+            print("  policy is not running")
+
+    def status(self) -> None:
+        if self.switch is None:
+            print("  policy: not started")
+            return
+        i = self.info or {}
+        print(f"  policy: {'RUNNING' if self.running else 'stopped'}"
+              + (f"  (ended: {self.ended})" if self.ended else ""))
+        keys = ("mode", "leg", "state", "target", "range_m", "closing_mps", "validation",
+                "fwd_cmd_mps", "flown_m", "spins", "unexpected_tags", "abort_reason")
+        print("  " + "  ".join(f"{k}={i.get(k)}" for k in keys if i.get(k) not in (None, [], "")))
+
+    def wait(self, seconds: float | None) -> None:
+        """Block until the mission ends (or `seconds`). Ctrl-C stops the policy."""
+        end = time.monotonic() + seconds if seconds else None
+        try:
+            while self.running and not self.ended and (end is None or time.monotonic() < end):
+                i = self.info or {}
+                print(f"\r  {i.get('state', '?'):<8} range {i.get('range_m')}  flown {i.get('flown_m')} m  "
+                      f"h {_fmt(self.t.state.get('h', '?'))}cm  bat {_fmt(self.t.state.get('bat', '?'))}%   ",
+                      end="", flush=True)
+                time.sleep(0.25)
+        except KeyboardInterrupt:
+            print()
+            self.stop()
+            return
+        print()
+
+
+def policy_command(t: Tello, args: list[str]) -> None:
+    pr = t.policy
+    sub = args[0].lower() if args else "status"
+    if pr is None:
+        print("  policy not initialised")
+    elif sub == "start":
+        pr.start(new=len(args) > 1 and args[1].lower() == "new")
+    elif sub == "stop":
+        pr.stop()
+    elif sub == "status":
+        pr.status()
+    elif sub == "wait":
+        try:
+            pr.wait(float(args[1]) if len(args) > 1 else None)
+        except ValueError:
+            print("  policy wait [seconds]")
+    else:
+        print("  policy start [new] | stop | status | wait [seconds]")
+
+
 # --------------------------------------------------------------------------- commands
 MOVES = {"up", "down", "left", "right", "forward", "back"}   # cm, 20..500
 TURNS = {"cw", "ccw"}                                         # degrees, 1..360
@@ -516,6 +802,9 @@ HELP = """\
     battery            battery %            height     height (cm, from state)
     telemetry          grouped telemetry    wifi       signal-to-noise
       (alias: state, t)  telemetry raw  one line;  telemetry bat h tof  just those keys
+    policy start [new] run the repo's tag-homing policy (needs --course-m --tag-size-mm)
+    policy stop        STOP the policy: sticks to zero, drone floats in place (resume with start)
+    policy status|wait [s]   what it's doing | block until the mission ends (Ctrl-C = stop)
     watch [seconds]    live readout (Ctrl-C stops, stays connected)
     sdk / sn           firmware / serial    raw <cmd>  send any SDK string as-is
   flight
@@ -554,9 +843,18 @@ def run(t: Tello, line: str, rc_limit: int) -> bool:
     def show(reply: str | None) -> None:
         print(f"  {reply if reply is not None else 'NO REPLY (timeout)'}")
 
+    # one rc writer: policy off before anything that ends flight; refuse manual motion while it runs
+    if t.policy is not None and t.policy.running:
+        if op in {"stop", "land", "emergency", "quit"}:
+            t.policy.stop(quiet=(op == "quit"))
+        elif op in MOVES | TURNS | {"rc", "go", "takeoff", "speed", "flip", "curve", "jump"}:
+            print(f"  policy is running -- `policy stop` first (it owns the sticks), or `stop`/`land`/`e`")
+            return True
     if op == "quit":
         return False
-    if op == "help":
+    if op == "policy":
+        policy_command(t, args)
+    elif op == "help":
         print(HELP.replace("RC_LIMIT", str(rc_limit)))
     elif op == "emergency":
         t.send_nowait("emergency")
@@ -695,6 +993,11 @@ def main() -> None:
     ap.add_argument("--cmd-port", type=int, default=CMD_PORT, help=argparse.SUPPRESS)
     ap.add_argument("--tag-family", default="36h11", choices=sorted(TAG_FAMILIES),
                     help="AprilTag family to detect (default 36h11)")
+    ap.add_argument("--repo", help="path to the Drone_Racing repo (for `policy`; or env DRONE_RACING_REPO)")
+    ap.add_argument("--camera", help="camera calibration yaml (default: <repo>/config/camera/default.yaml)")
+    ap.add_argument("--course-m", type=float, help="MEASURED distance tag A -> tag B in metres (needed for `policy`)")
+    ap.add_argument("--tag-size-mm", type=float,
+                    help="MEASURED edge of the tags' black square in mm (needed for `policy`)")
     ap.add_argument("--tag-id", type=int, help="highlight/announce this tag id as the target")
     ap.add_argument("--rc-limit", type=int, default=30, help="max |rc| value (default 30)")
     ap.add_argument("-v", "--verbose", action="store_true", help="print raw SDK traffic")
@@ -713,6 +1016,7 @@ def main() -> None:
         sys.exit("no reply to `command`. Check: drone on (yellow blinking), this computer "
                  "joined to its TELLO-XXXXXX Wi-Fi, no other app connected to it.")
     t.vision = Vision(t, a.tag_family, a.tag_id)
+    t.policy = PolicyRunner(t, t.vision, a.repo, a.camera, a.course_m, a.tag_size_mm, a.rc_limit)
     t.start_keepalive()
     print(f"connected. battery {t.send('battery?') or '?'}%  sdk {t.send('sdk?') or '?'}")
 

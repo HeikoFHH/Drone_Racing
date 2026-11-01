@@ -1,0 +1,47 @@
+{
+  "audit_scope": "static source only; not hardware verification",
+  "findings": [
+    {
+      "id": "tag_config_split",
+      "severity": "block_live_handoff",
+      "evidence": {
+        "configured_tags": [
+          1,
+          2
+        ],
+        "engine_tags": [
+          5,
+          6,
+          7,
+          10
+        ],
+        "fallback_tag": 14
+      },
+      "next": "Sensing/runner owner must use one measured tag map and size registry."
+    },
+    {
+      "id": "legacy_map_absent",
+      "severity": "block_live_handoff",
+      "evidence": "engine imports tello_tags.load_map; its default path is core/tag_map.json, not config/map.yaml",
+      "next": "Wire Positioner with config/map.yaml or explicitly migrate the legacy map path."
+    },
+    {
+      "id": "coordinate_plane_mismatch",
+      "severity": "requires_explicit_adapter",
+      "evidence": "lap timer uses map X/Z; simulator gates use world X/Y",
+      "next": "Apply verified map->course rigid transform before the policy; transform back for existing lap timer."
+    },
+    {
+      "id": "training_process_registration",
+      "severity": "partner_verification",
+      "evidence": "wrapper imports task in a separate Python process before executing external trainer",
+      "next": "Verify the actual training process imports drone_race_kit before gym.make; a previous process cannot register it."
+    },
+    {
+      "id": "ppo_real_observation_gap",
+      "severity": "block_rl_handoff",
+      "evidence": "PPO expects 21 features including angular velocity/body gravity; new canonical policy packet has position, linear velocity and yaw",
+      "next": "RL owner must provide measured/estimated features and exact preprocessing, or retrain with the common sensor-realistic input."
+    }
+  ]
+}
