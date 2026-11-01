@@ -65,7 +65,7 @@ def run(args) -> dict:
     tags_path.unlink()
     render = Renderer(tags, size_m, args.seed)
 
-    hc = HomingCfg(course_m=L, cruise_mps=args.cruise, mps_per_rc=args.policy_mps_per_rc,
+    hc = HomingCfg(course_m=args.policy_course if args.policy_course is not None else L, cruise_mps=args.cruise, mps_per_rc=args.policy_mps_per_rc,
                    height_m=TAG_HEIGHT, start_offset_m=1.0, blind_mode=args.blind_mode,
                    tag_size_m=args.tag_mm / 1000.0)
     pol = HomingPolicy(hc)
@@ -216,7 +216,8 @@ def plot(res: dict, path: Path, title: str) -> None:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--course", type=float, default=73.0)
+    ap.add_argument("--course", type=float, default=73.0, help="real distance tag A to tag B")
+    ap.add_argument("--policy-course", type=float, help="what the policy is told (default: the real one)")
     ap.add_argument("--tag-mm", type=float, default=487.7, help="black square; 2 ft sheet -> 487.7, 2 ft square -> 609.6")
     ap.add_argument("--cruise", type=float, default=1.5, help="m/s, same toward both tags")
     ap.add_argument("--mps-per-rc", type=float, default=0.02, help="simulated drone: m/s per rc unit")

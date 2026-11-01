@@ -46,7 +46,11 @@ def clamp(v: float, lim: float) -> float:
 class HomingCfg:
     tag_a: int = 1
     tag_b: int = 2
-    course_m: float = 73.0         # tag A to tag B, measured on site
+    course_m: float = 73.0         # tag A to tag B; only a prior: replaced by a measured estimate
+                                   # as soon as the first tag is seen
+    adaptive_start: bool = True    # `policy start new` works with what is in front of it: the first
+                                   # race tag it sees (1 or 2, in view or found by spinning) becomes
+                                   # the first target, the other one the return target
     start_offset_m: float = 1.0    # how far in front of tag A the drone takes off
     blind_margin_m: float = 1.0    # stop flying blind this much before the 5 m line
     # no tag in view
@@ -206,6 +210,9 @@ class HomingPolicy:
         self.turn_from = None
         self.search_t0 = None
         self.unexpected: set[int] = set()
+        self.out_tag, self.back_tag = self.cfg.tag_b, self.cfg.tag_a
+        self.acquired = False          # first target chosen from what was actually seen
+        self.course_est = None         # course length measured from the first sighting
         self.leg_len = self.cfg.course_m - self.cfg.start_offset_m
         self.search_reason = None
         self.hop_left = None           # blind distance left before the next spin (None = no limit)
@@ -224,7 +231,16 @@ class HomingPolicy:
 
     @property
     def target(self) -> int:
-        return self.cfg.tag_b if self.leg == "to_B" else self.cfg.tag_a
+        return self.out_tag if self.leg == "to_B" else self.back_tag
+
+    @property
+    def course(self) -> float:
+        """Measured course length once a tag has been seen, else the configured prior."""
+        return self.course_est if self.course_est is not None else self.cfg.course_m
+
+    @property
+    def acquiring(self) -> bool:
+        return self.cfg.adaptive_start and not self.acquired and self.leg == "to_B"
 
     def _up(self, obs: HomingObs) -> int:
         if obs.height_m is None:
@@ -273,8 +289,8 @@ class HomingPolicy:
         self.val.reset()
         self.flown_m = 0.0
         self.hold_since = None
-        self.leg_len = self.cfg.course_m - self.cfg.start_offset_m if leg == "to_B" else \
-            getattr(self, "return_len", self.cfg.course_m - self.cfg.stop_range_m)
+        self.leg_len = self.course - self.cfg.start_offset_m if leg == "to_B" else \
+            getattr(self, "return_len", self.course - self.cfg.stop_range_m)
 
     def _safety(self, obs: HomingObs) -> str | None:
         """Hard limits, checked every tick before anything else."""
@@ -306,7 +322,7 @@ class HomingPolicy:
         else:
             self.no_yaw_since = None
         # dead reckoning only matters while the target tag is not giving a measured range
-        if self.state in ("BLIND", "SPIN", "SEARCH") and math.hypot(*self.dr) > c.course_m + c.geofence_extra_m:
+        if self.state in ("BLIND", "SPIN", "SEARCH") and math.hypot(*self.dr) > self.course + c.geofence_extra_m:
             return "geofence"
         return None
 
@@ -326,16 +342,28 @@ class HomingPolicy:
         sightings = [s for s in obs.sightings if math.isfinite(s.range_m) and s.range_m > 0
                      and math.isfinite(s.bearing_deg)]
         up = self._up(obs)
-        tgt = [s for s in sightings if s.tag_id == self.target]
+        if self.acquiring:                       # whichever race tag is in front of us -- but not one we
+            # are already within the stop range of: that is the tag we took off next to
+            tgt = [s for s in sightings if s.tag_id in (c.tag_a, c.tag_b)
+                   and s.range_m > c.stop_range_m + c.stop_buffer_m]
+        else:
+            tgt = [s for s in sightings if s.tag_id == self.target]
         for s in sightings:
             if s.tag_id not in (c.tag_a, c.tag_b):
                 self.unexpected.add(s.tag_id)
         seen = None
         if tgt:
             cand = min(tgt, key=lambda s: abs(s.bearing_deg))
+            if self.acquiring and cand.tag_id != self.out_tag:    # it's facing the other tag: go there first
+                self.out_tag, self.back_tag = cand.tag_id, self.out_tag
             if self.val.add(obs.t, cand.range_m, self.flown_m):
                 seen = cand
                 self.last_seen_t, self.last_bearing = obs.t, cand.bearing_deg
+                if self.leg == "to_B" and self.course_est is None:
+                    # measured course: what we flew blind + what we see + where we took off
+                    self.course_est = cand.range_m + self.flown_m + c.start_offset_m
+                    self.leg_len = self.course_est - c.start_offset_m
+                self.acquired = True
 
         fwd_mps, yaw = 0.0, 0
         if self.state == "CLIMB":
@@ -346,6 +374,8 @@ class HomingPolicy:
             if obs.height_m is not None and abs(c.height_m - obs.height_m) < 0.15:
                 if seen is not None:
                     self.state = "TRACK"
+                elif self.acquiring:
+                    self._spin(obs)                      # nothing in front: look around for a tag first
                 else:
                     self._no_tag(obs)
         elif self.state in ("BLIND", "TRACK"):
@@ -385,8 +415,8 @@ class HomingPolicy:
         elif self.state == "HOLD":
             if seen is not None and self.leg == "to_B" and seen.tvec is not None and seen.normal is not None:
                 # tag B faces A, so A sits course_m straight out of tag B's face
-                ax = seen.tvec[0] + c.course_m * seen.normal[0]
-                az = seen.tvec[2] + c.course_m * seen.normal[2]
+                ax = seen.tvec[0] + self.course * seen.normal[0]
+                az = seen.tvec[2] + self.course * seen.normal[2]
                 self.a_fixes.append((math.degrees(math.atan2(ax, az)), math.hypot(ax, az), obs.yaw_deg))
             if seen is not None:
                 yaw = int(round(clamp(c.k_yaw * self.last_bearing, c.max_yaw_rc)))
@@ -499,4 +529,5 @@ class HomingPolicy:
                 "validation": status, "fwd_cmd_mps": round(fwd_mps, 2), "flown_m": round(self.flown_m, 1),
                 "unexpected_tags": sorted(self.unexpected), "spins": self.spins,
                 "return_from": getattr(self, "return_from", None), "abort_reason": self.abort_reason,
+                "first_target": self.out_tag, "course_est_m": None if self.course_est is None else round(self.course_est, 1),
                 "keep_out": self.keep_out}

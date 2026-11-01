@@ -226,3 +226,30 @@ def test_switch_buttons_from_another_thread():
     presses.join()
     sw.stop()
     assert sw_tick(sw, 1000.0)[0] == FLOAT
+
+
+def test_start_works_with_the_tag_in_front_whichever_it_is():
+    """policy start new facing tag 1 instead of tag 2: tag 1 becomes the first target, and the
+    course length comes from what was measured, not the configured prior."""
+    pol = make(course_m=73.0)
+    tick(pol, 0.0)
+    rc, info = tick(pol, DT, [Sighting(1, 12.0, 0.0)])
+    assert info["first_target"] == 1 and info["target"] == 1 and info["state"] == "TRACK"
+    assert abs(info["course_est_m"] - 13.0) < 0.5            # 12 m seen + 1 m start offset
+
+
+def test_nothing_in_front_spins_to_look_first():
+    pol = make()
+    tick(pol, 0.0)
+    rc, info = tick(pol, DT)
+    assert info["state"] == "SPIN" and rc[1] == 0 and rc[3] != 0
+
+
+def test_tag_we_took_off_next_to_is_not_the_first_target():
+    """Spinning at takeoff sees the start tag 1 m away: ignore it, keep looking for the other."""
+    pol = make()
+    tick(pol, 0.0)
+    rc, info = tick(pol, DT, [Sighting(1, 1.2, 10.0)])
+    assert info["state"] == "SPIN" and info["first_target"] == 2
+    rc, info = tick(pol, 2 * DT, [Sighting(2, 30.0, -5.0)])
+    assert info["state"] == "TRACK" and info["target"] == 2
