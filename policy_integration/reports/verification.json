@@ -51,7 +51,7 @@
     "policy_integration/turn_sim.py": "028c692c2f413ee68047633cfc43eec6a84c98f85b1befd3f49ff465802dcc52",
     "policy_integration/dashboard_core.js": "22286d2ccd41c2816548f012b5fc3817f83d8dcccb6e653ced78dd41c92247af",
     "policy_integration/dashboard_fragment.html": "3f7cdc7ad2c321df234d14af036462dd3f3ca42481b1af10d2dcad9c1fb7e0ae",
-    "policy_integration/dashboard.html": "a67f224fb03c2e997b6e9ca5082af750c0e447285ce1850b211df068ed56e27d"
+    "policy_integration/dashboard.html": "28703458eb8d6b8edda3d3919a2be4500e6a3ee4b60bc619b7f31715aeeca781"
   },
   "known_mission_failures": [
     "strong synthetic lateral drift: 0/20 complete, 20 session aborts",
