@@ -11,9 +11,9 @@
 | `isaac-sim-drones.jpg` | Illustrative multi-drone simulation visual generated for the deck (Isaac Sim–style, not an official NVIDIA screenshot). |
 | `kalman-filter.jpg` | Illustrative Kalman diagram generated for the deck. |
 | `kalman-filter.png` | Deck diagram (matplotlib): noisy measurements vs Kalman estimate; used on the Kalman slide. |
-| `jaime-romero.jpg` | Photo of Jaime Romero from Desktop Action Space assets: `/home/jaimeromero/Desktop/action-space/images/jaime.jpg` |
-| `jaime-romero-face.jpg` | Square crop of `jaime-romero.jpg` for host avatar |
-| `linkedin-qr.png` | QR for `https://www.linkedin.com/in/jaime-romero-b7217a198/` |
+| `jaime-romero.jpg` | Photo of Jaime Romero from Desktop Action Space assets: `/home/jaimeromero/Desktop/action-space/images/jaime.jpg` — title slide, right column only |
+| `jaime-romero-face.jpg` | Unused square crop (kept in assets; not shown in deck after Host slide removed) |
+| `linkedin-qr.png` | QR for `https://www.linkedin.com/in/jaime-romero-b7217a198/` — title slide, left of photo (not a face) |
 | `repo-qr.png` | Generated QR for `https://github.com/jaromero3rd/drone-race-hacks` |
 | `tag36h11-*.png` | Real `tag36h11` textures from Action Space sim assets |
 | `apriltag.jpg` | Illustrative AprilTag render (deck aid) |
