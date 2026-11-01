@@ -66,16 +66,22 @@ class HomingCfg:
                                    # (TagDetector on rendered frames: 488 mm ~25 m, 610 mm ~35 m)
     align_deg: float = 20.0        # turn onto the heading before flying blind if further off than this
     # speed and stopping
-    cruise_mps: float = 1.5        # same speed toward either tag
+    cruise_mps: float = 1.8        # same speed toward either tag
     search_speed_frac: float = 0.0 # forward speed while turning/searching, as a fraction of cruise
     stop_range_m: float = 5.0      # never closer than this to a tag (hard limit)
-    stop_buffer_m: float = 0.4     # aim this much further out: braking lag carries it ~0.2 m on
+    stop_buffer_m: float = 0.15    # aim 5.15 m: the stop zone is 5.0-5.3 m (0.3 m wide)
     brake_mps2: float = 0.8        # braking profile into the 5 m stop
-    stop_tol_m: float = 0.25
-    hold_s: float = 1.0
+    stop_tol_m: float = 0.15       # zone top = stop_range + buffer + tol = 5.3 m
+    brake_latency_s: float = 0.6   # reaction lag (response + video delay): brake as if the tag were
+                                   # this much flight time closer, so braking never dips inside 5 m
+    turn_deg: float = 180.0        # at the stop: turn exactly this far, then fly straight and find the tag
+    hold_s: float = 1.0            # must sit settled inside the stop zone this long, continuously, to turn
+    hold_fresh_s: float = 0.5      # "settled" needs a sighting of the target no older than this
+    rearm_m: float = 1.5           # drifted this far beyond the stop zone while holding -> approach again
     mps_per_rc: float = 0.008      # rc 100 ~ 0.8 m/s (tools/tello_policy.py estimate). MEASURE.
     # height
-    height_m: float = 1.2          # telemetry h to hold all flight (put the tags at this height)
+    height_m: float = 0.8          # telemetry h to hold all flight: low to keep out of the wind
+                                   # (mount the tag centres at about this height)
     k_up: float = 80.0
     max_up_rc: int = 40
     # heading
@@ -211,6 +217,7 @@ class HomingPolicy:
         self.search_t0 = None
         self.unexpected: set[int] = set()
         self.out_tag, self.back_tag = self.cfg.tag_b, self.cfg.tag_a
+        self.last_fwd_mps = 0.0
         self.acquired = False          # first target chosen from what was actually seen
         self.course_est = None         # course length measured from the first sighting
         self.leg_len = self.cfg.course_m - self.cfg.start_offset_m
@@ -386,10 +393,12 @@ class HomingPolicy:
                 self.val.pause()
                 if obs.yaw_deg is not None:
                     self.leg_heading = wrap_deg(obs.yaw_deg + self.last_bearing * c.yaw_sign)
+            if self.state == "TRACK" and self.val.filtered is None:
+                self._no_tag(obs)                        # no range yet: never fly a track without one
             if self.state == "TRACK":
                 rng = self.val.filtered
                 stop_at = c.stop_range_m + c.stop_buffer_m
-                room = max(0.0, rng - stop_at)
+                room = max(0.0, rng - stop_at - self.last_fwd_mps * c.brake_latency_s)
                 fwd_mps = min(c.cruise_mps, math.sqrt(2 * c.brake_mps2 * room))
                 yaw = int(round(clamp(c.k_yaw * self.last_bearing, c.max_yaw_rc)))
                 if seen is None:                         # between frames: keep turning gently
@@ -418,49 +427,49 @@ class HomingPolicy:
                 ax = seen.tvec[0] + self.course * seen.normal[0]
                 az = seen.tvec[2] + self.course * seen.normal[2]
                 self.a_fixes.append((math.degrees(math.atan2(ax, az)), math.hypot(ax, az), obs.yaw_deg))
-            if seen is not None:
+            stop_at = c.stop_range_m + c.stop_buffer_m
+            rng = self.val.filtered
+            fresh = obs.t - self.last_seen_t <= c.hold_fresh_s and rng is not None
+            if seen is not None:                               # correct only on a frame that shows the tag
                 yaw = int(round(clamp(c.k_yaw * self.last_bearing, c.max_yaw_rc)))
-                err = self.val.filtered - (c.stop_range_m + c.stop_buffer_m)
-                fwd_mps = clamp(0.5 * err, 0.3)          # small correction toward exactly 5 m
-            self.hold_since = self.hold_since or obs.t
-            if obs.t - self.hold_since >= c.hold_s:
+                fwd_mps = clamp(0.5 * (rng - stop_at), 0.3)   # small correction toward the stop point
+                if rng < c.stop_range_m:
+                    fwd_mps = min(fwd_mps, -0.15)              # inside 5 m: always back off
+            # the stop zone: at least stop_range_m (5 m) from the tag, at most stop_at + tolerance
+            in_zone = fresh and c.stop_range_m <= rng <= stop_at + c.stop_tol_m
+            if in_zone:
+                self.hold_since = self.hold_since if self.hold_since is not None else obs.t
+            else:
+                self.hold_since = None                         # any doubt resets the settle timer
+            turn_ok = in_zone and obs.t - self.hold_since >= c.hold_s
+            if fresh and rng > stop_at + c.stop_tol_m + c.rearm_m:
+                self.state = "TRACK"                           # drifted back out: approach again
+            elif not fresh and obs.t - self.last_seen_t > c.lost_after_s:
+                self.val.pause()
+                self._spin(obs)                                # lost the tag while holding: find it again
+            elif turn_ok:
                 if self.leg == "to_B":
+                    # fixed turn: exactly turn_deg (180) from the heading we hold facing tag B
                     self.leg, self.state = "turn", "TURN"
                     self.turn_from = obs.yaw_deg
-                    # heading back = straight at where A is, from the dead-reckoned track since takeoff
-                    # (reversing the final approach to B is wrong if B was approached at an angle)
-                    if len(self.a_fixes) >= 5 and obs.yaw_deg is not None:
-                        # heading to A from tag B's pose (median over the hold: robust to pose flips)
-                        heads = sorted(wrap_deg(y + b * c.yaw_sign) for b, _, y in self.a_fixes if y is not None)
-                        h = heads[len(heads) // 2]
-                        self.leg_heading = h
-                        self.return_len = sorted(d for _, d, _ in self.a_fixes)[len(self.a_fixes) // 2]
-                        self.return_from = "tag_B_pose"
-                        if self.home is not None:          # re-anchor dead reckoning on the measured pose
-                            th = math.radians(h * c.yaw_sign)
-                            self.dr = [self.home[0] - self.return_len * math.cos(th),
-                                       self.home[1] - self.return_len * math.sin(th)]
-                    elif self.home is not None:
-                        self.return_from = "dead_reckoning"
-                        dx, dy = self.home[0] - self.dr[0], self.home[1] - self.dr[1]
-                        self.leg_heading = wrap_deg(math.degrees(math.atan2(dy, dx)) * c.yaw_sign)
-                        self.return_len = math.hypot(dx, dy)
-                    elif obs.yaw_deg is not None:
-                        self.leg_heading = wrap_deg(obs.yaw_deg + 180.0)
+                    self.leg_heading = wrap_deg(obs.yaw_deg + c.turn_deg * c.yaw_sign)
+                    self.return_len = max(c.stop_range_m, self.course - rng)   # what is left to tag A
+                    self.return_from = "fixed_180"
+                    if self.home is not None:              # re-anchor dead reckoning on that line
+                        th = math.radians(self.leg_heading * c.yaw_sign)
+                        self.dr = [self.home[0] - self.return_len * math.cos(th),
+                                   self.home[1] - self.return_len * math.sin(th)]
                 else:
                     self.leg, self.state = "done", "DONE"
         elif self.state == "TURN":
             fwd_mps = c.search_speed_frac * c.cruise_mps
             err = wrap_deg(self.leg_heading - obs.yaw_deg) if obs.yaw_deg is not None else 0.0
             yaw = int(c.turn_yaw_rc if err * c.yaw_sign >= 0 else -c.turn_yaw_rc)
-            if abs(err) < 10.0:
-                self._start_leg("to_A")
-                if seen is not None:
-                    self.state = "TRACK"
-                elif c.blind_mode == "fly":
-                    self.state, self.search_t0, self.search_reason = "SEARCH", obs.t, "turn"
-                else:
-                    self._no_tag(obs)
+            # done turning -- or tag A already showing up near the end of the turn: keep moving,
+            # fly straight on the new heading and lock on to A as soon as it is seen (no spin)
+            if abs(err) < 10.0 or (seen is not None and abs(err) < 40.0):
+                self._start_leg("to_A")              # new leg: fresh range history
+                self._blind(hop=c.blind_mode != "fly")
         elif self.state == "SPIN":
             if seen is not None:
                 self.state = "TRACK"
@@ -512,6 +521,7 @@ class HomingPolicy:
             self.last_up = 0
             return (0, 0, 0, 0), self._info("land", status, 0.0)
 
+        self.last_fwd_mps = fwd_mps
         self.flown_m += fwd_mps * dt
         if obs.yaw_deg is not None:
             th = math.radians(obs.yaw_deg * c.yaw_sign)

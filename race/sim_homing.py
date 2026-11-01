@@ -38,7 +38,7 @@ from tello_calibration.calib.io import camera_from_dict, load_yaml  # noqa: E402
 from tello_calibration.tags.detect import TagDetector, load_tag_config  # noqa: E402
 
 DT = 0.05
-TAG_HEIGHT = 1.2          # tag centres above the ground; ground is map y = -TAG_HEIGHT
+TAG_HEIGHT = 1.2          # tag centres above the ground (--tag-height); ground is map y = -TAG_HEIGHT
 FLIP = np.diag([-1.0, 1.0, -1.0])
 
 
@@ -66,7 +66,7 @@ def run(args) -> dict:
     render = Renderer(tags, size_m, args.seed)
 
     hc = HomingCfg(course_m=args.policy_course if args.policy_course is not None else L, cruise_mps=args.cruise, mps_per_rc=args.policy_mps_per_rc,
-                   height_m=TAG_HEIGHT, start_offset_m=1.0, blind_mode=args.blind_mode,
+                   start_offset_m=1.0, blind_mode=args.blind_mode,
                    tag_size_m=args.tag_mm / 1000.0)
     pol = HomingPolicy(hc)
     wind = Wind(args.wind, args.wind_dir, args.gust, 2.0, np.random.default_rng(args.seed + 1)) \
@@ -217,6 +217,7 @@ def plot(res: dict, path: Path, title: str) -> None:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--course", type=float, default=73.0, help="real distance tag A to tag B")
+    ap.add_argument("--tag-height", type=float, default=1.2, help="tag centres above the ground, m")
     ap.add_argument("--policy-course", type=float, help="what the policy is told (default: the real one)")
     ap.add_argument("--tag-mm", type=float, default=487.7, help="black square; 2 ft sheet -> 487.7, 2 ft square -> 609.6")
     ap.add_argument("--cruise", type=float, default=1.5, help="m/s, same toward both tags")
@@ -245,6 +246,8 @@ def main() -> int:
     ap.add_argument("--label", default=None)
     ap.add_argument("--name", default=None)
     args = ap.parse_args()
+    global TAG_HEIGHT
+    TAG_HEIGHT = args.tag_height
 
     res = run(args)
     s = summarize(res)

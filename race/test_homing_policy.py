@@ -253,3 +253,101 @@ def test_tag_we_took_off_next_to_is_not_the_first_target():
     assert info["state"] == "SPIN" and info["first_target"] == 2
     rc, info = tick(pol, 2 * DT, [Sighting(2, 30.0, -5.0)])
     assert info["state"] == "TRACK" and info["target"] == 2
+
+
+# --- stop zone: stop >= 5 m from the tag, and only turn once settled there --------------------
+def _approach_to_hold(pol, t=0.0, r0=9.0):
+    tick(pol, t)
+    r = r0
+    while True:
+        t += DT
+        rc, info = tick(pol, t, [b(r)])
+        if info["state"] == "HOLD":
+            return t, r
+        r -= 0.05
+        assert r > 4.0, "never stopped"
+
+
+def test_stops_inside_the_stop_zone_not_closer_than_5m():
+    pol = make()
+    t, r = _approach_to_hold(pol)
+    assert pol.cfg.stop_range_m <= r <= pol.cfg.stop_range_m + pol.cfg.stop_buffer_m + pol.cfg.stop_tol_m
+
+
+def test_turns_only_after_settling_in_the_zone():
+    pol = make()
+    t, r = _approach_to_hold(pol)
+    states = []
+    aim = pol.cfg.stop_range_m + pol.cfg.stop_buffer_m
+    for k in range(1, 40):                     # hold steady at the stop point for 2 s
+        rc, info = tick(pol, t + k * DT, [b(aim)])
+        states.append(info["state"])
+    assert "TURN" in states
+    first_turn = states.index("TURN")
+    assert first_turn * DT >= pol.cfg.hold_s - DT, "turned before settling for hold_s"
+
+
+def test_no_turn_if_the_tag_is_lost_while_holding():
+    pol = make()
+    t, r = _approach_to_hold(pol)
+    for k in range(1, 80):                     # tag gone for 4 s
+        rc, info = tick(pol, t + k * DT)
+        assert info["state"] != "TURN"
+        assert rc[1] <= 0                      # never creeps forward blind next to the pole
+    assert info["state"] == "SPIN"             # looks for it in place instead
+
+
+def test_no_turn_while_drifting_outside_the_zone():
+    pol = make()
+    t, r = _approach_to_hold(pol)
+    for k in range(1, 60):                     # range wanders to 6.5 m: outside the zone
+        rc, info = tick(pol, t + k * DT, [b(6.5)])
+        assert info["state"] != "TURN"
+
+
+def test_backs_off_if_inside_5m():
+    pol = make()
+    t, r = _approach_to_hold(pol)
+    for k in range(1, 10):
+        rc, info = tick(pol, t + k * DT, [b(4.6)])
+    assert rc[1] < 0 and info["state"] == "HOLD"
+
+
+def test_tag_a_already_in_view_at_the_turn_does_not_crash():
+    pol = make()
+    t, r = _approach_to_hold(pol)
+    for k in range(1, 200):                    # hold at B, then turn with tag A in view the whole time
+        rc, info = tick(pol, t + k * DT, [b(5.15), Sighting(1, 60.0, 0.0)], yaw=(k * 3.0) % 360 - 180)
+        check_contract(rc, info, pol.cfg)
+
+
+def test_stop_zone_is_5_to_5_3_m():
+    c = HomingCfg()
+    assert c.stop_range_m == 5.0 and abs(c.stop_range_m + c.stop_buffer_m + c.stop_tol_m - 5.3) < 1e-9
+
+
+def test_turn_is_a_fixed_180_then_keeps_moving():
+    pol = make()
+    t, r = _approach_to_hold(pol, r0=30.0)    # 30 m course: tag A is ~25 m away after the stop
+    aim = pol.cfg.stop_range_m + pol.cfg.stop_buffer_m
+    yaw, k = 30.0, 0
+    while True:                                # settle, then follow the turn with a simulated yaw
+        k += 1
+        rc, info = tick(pol, t + k * DT, [b(aim)] if info_state(pol) == "HOLD" else [], yaw=yaw)
+        if info["state"] == "TURN":
+            yaw = ((yaw + rc[3] * 0.6 * DT * 3 + 180) % 360) - 180   # yaw follows the stick
+        if info["leg"] == "to_A":
+            break
+        assert k < 2000
+    assert abs(abs(((pol.leg_heading - 30.0 + 180) % 360) - 180) - 180.0) < 1e-6   # exactly 180 from 30 deg
+    assert info["state"] == "BLIND"            # no spin after the turn: fly on and look
+    rc, info = tick(pol, t + (k + 1) * DT, [], yaw=yaw)
+    assert rc[1] > 0
+
+
+def info_state(pol):
+    return pol.state
+
+
+def test_default_flight_height_is_0_8_m():
+    assert HomingCfg().height_m == 0.8

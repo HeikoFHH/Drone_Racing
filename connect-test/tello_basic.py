@@ -1021,7 +1021,7 @@ def main() -> None:
                     help="edge of the tags' black square in mm (default 487.7 = 2 ft sheet incl. border; "
                          "if unsure use the smaller value: the drone then stops further out)")
     ap.add_argument("--tag-id", type=int, help="highlight/announce this tag id as the target")
-    ap.add_argument("--rc-limit", type=int, default=30, help="max |rc| value (default 30)")
+    ap.add_argument("--rc-limit", type=int, default=36, help="max |rc| value (default 36)")
     ap.add_argument("-v", "--verbose", action="store_true", help="print raw SDK traffic")
     a = ap.parse_args()
 
