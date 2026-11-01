@@ -141,6 +141,24 @@
       object-fit: cover;
       box-shadow: 0 18px 50px rgba(0,0,0,0.4);
     }
+    .host-face {
+      width: min(28vw, 200px); height: min(28vw, 200px);
+      border-radius: 50%; object-fit: cover; object-position: 35% 40%;
+      border: 3px solid var(--line);
+      box-shadow: 0 12px 36px rgba(0,0,0,0.4);
+    }
+    .host-face.large {
+      width: min(40vw, 260px); height: min(40vw, 260px);
+    }
+    .host-row {
+      display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+      margin-top: 1.25rem;
+    }
+    .host-row a { color: var(--teal); }
+    .host-qr {
+      width: min(22vw, 140px); height: auto;
+      border-radius: 10px; border: 6px solid #fff; background: #fff;
+    }
     @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
   </style>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -151,17 +169,48 @@
 
     <!-- 0 Title -->
     <section class="slide active" data-i="0">
-      <p class="brand">Drone Race Hacks</p>
-      <p class="lead">At <strong style="color:var(--ink)">Harvard i-labs</strong>.</p>
-      <p>Tellos, dongles, and a public repo to build with. Optional outdoor race track if you want a timed challenge — or invent your own project.</p>
-      <div class="cta">
-        <a href="https://github.com/jaromero3rd/drone-race-hacks">Open the repo</a>
-        <a class="ghost" href="#next">Next slide →</a>
+      <div class="split">
+        <div class="copy">
+          <p class="brand">Drone Race Hacks</p>
+          <p class="lead">At <strong style="color:var(--ink)">Harvard i-labs</strong>.</p>
+          <p>Tellos, dongles, and a public repo to build with. Optional outdoor race track if you want a timed challenge — or invent your own project.</p>
+          <div class="host-row">
+            <img class="host-face" src="assets/jaime-romero-face.jpg" alt="Jaime Romero" />
+            <div>
+              <p style="color:var(--ink);margin:0;font-weight:600">Jaime Romero</p>
+              <p style="margin:0.25rem 0 0"><a href="https://www.linkedin.com/in/jaime-romero-b7217a198/">linkedin.com/in/jaime-romero-b7217a198</a></p>
+            </div>
+          </div>
+          <div class="cta">
+            <a href="https://github.com/jaromero3rd/drone-race-hacks">Open the repo</a>
+            <a class="ghost" href="#next">Next slide →</a>
+          </div>
+        </div>
+        <div class="visual">
+          <img class="hero-img" src="assets/jaime-romero.jpg" alt="Jaime Romero" style="max-height:min(50vh,440px);object-fit:cover" />
+        </div>
       </div>
     </section>
 
-    <!-- 1 Race course SECOND -->
+    <!-- 1 Host -->
     <section class="slide" data-i="1">
+      <div class="split">
+        <div class="copy">
+          <span class="badge">Host</span>
+          <h2>Jaime Romero</h2>
+          <p class="lead">Organizing Drone Race Hacks at Harvard i-labs.</p>
+          <p><a href="https://www.linkedin.com/in/jaime-romero-b7217a198/" style="color:var(--teal)">linkedin.com/in/jaime-romero-b7217a198</a></p>
+          <p>Scan the QR for LinkedIn — say hi, share what you’re building.</p>
+        </div>
+        <div class="visual" style="flex-direction:column;gap:1rem">
+          <img class="host-face large" src="assets/jaime-romero-face.jpg" alt="Jaime Romero headshot" />
+          <img class="host-qr" src="assets/linkedin-qr.png" alt="QR code to Jaime Romero LinkedIn profile" />
+        </div>
+      </div>
+    </section>
+
+    <!-- 2 Race course -->
+    <section class="slide" data-i="2">
       <div class="split reverse">
         <div class="copy">
           <h2>The race course</h2>
@@ -180,8 +229,8 @@
       </div>
     </section>
 
-    <!-- 2 Resources / gear -->
-    <section class="slide" data-i="2">
+    <!-- 3 Resources / gear -->
+    <section class="slide" data-i="3">
       <h2>Resources for teams</h2>
       <p class="lead"><strong style="color:var(--ink)">6 Tello drones</strong> Jaime can hand out, plus USB Wi‑Fi dongles.</p>
       <div class="gear">
@@ -197,8 +246,8 @@
       <p>Dongles let each team’s laptop talk to its Tello without fighting the built-in Wi‑Fi — same path as <code>core/tello_dongle_setup.py</code>.</p>
     </section>
 
-    <!-- 3 AprilTag AFTER race + resources -->
-    <section class="slide" data-i="3">
+    <!-- 4 AprilTag AFTER race + resources -->
+    <section class="slide" data-i="4">
       <div class="split">
         <div class="copy">
           <h2>What is an AprilTag?</h2>
@@ -219,8 +268,8 @@
       <p class="caption">Family examples (<code>tag36h11</code>); race poles use ids 1 and 2.</p>
     </section>
 
-    <!-- 4 Venue Harvard i-labs -->
-    <section class="slide" data-i="4">
+    <!-- 5 Venue Harvard i-labs -->
+    <section class="slide" data-i="5">
       <div class="split">
         <div class="copy">
           <span class="badge">Venue</span>
@@ -239,8 +288,8 @@
       <p class="caption">Harvard Innovation Labs (i-labs) · logo for venue ID.</p>
     </section>
 
-    <!-- 5 dirt_field race venue -->
-    <section class="slide" data-i="5">
+    <!-- 6 dirt_field race venue -->
+    <section class="slide" data-i="6">
       <div class="split">
         <div class="copy">
           <span class="badge">Outdoor race venue</span>
@@ -258,8 +307,8 @@
       </div>
     </section>
 
-    <!-- 6 Hard problems -->
-    <section class="slide" data-i="6">
+    <!-- 7 Hard problems -->
+    <section class="slide" data-i="7">
       <h2>Hard problems in this space</h2>
       <div class="grid2" style="grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 0.5rem;">
         <div class="cardish">
@@ -277,8 +326,8 @@
       </div>
     </section>
 
-    <!-- 7 Why Isaac Sim -->
-    <section class="slide" data-i="7">
+    <!-- 8 Why Isaac Sim -->
+    <section class="slide" data-i="8">
       <div class="split reverse">
         <div class="copy">
           <h2>Why Isaac Sim</h2>
@@ -296,8 +345,8 @@
       <p class="caption">Illustrative only — not a real Isaac Sim viewport.</p>
     </section>
 
-    <!-- 8 Kalman -->
-    <section class="slide" data-i="8">
+    <!-- 9 Kalman -->
+    <section class="slide" data-i="9">
       <div class="split">
         <div class="copy">
           <h2>Kalman filter</h2>
@@ -314,8 +363,8 @@
       </div>
     </section>
 
-    <!-- 9 Isaac Lab suite -->
-    <section class="slide" data-i="9">
+    <!-- 10 Isaac Lab suite -->
+    <section class="slide" data-i="10">
       <h2>Simulation suite: Isaac Lab</h2>
       <p class="lead">Stand up the race in <strong style="color:var(--ink)">Isaac Lab</strong> (needs a GPU box — not the laptop pip install alone).</p>
       <ul>
@@ -325,8 +374,8 @@
       </ul>
     </section>
 
-    <!-- 10 Capabilities -->
-    <section class="slide" data-i="10">
+    <!-- 11 Capabilities -->
+    <section class="slide" data-i="11">
       <h2>What a Tello can do here</h2>
       <ul>
         <li>Stream camera video to your laptop over the dongle</li>
@@ -337,8 +386,8 @@
       <p>Small programmable quad — great for demos, sensing, and short outdoor flights.</p>
     </section>
 
-    <!-- 11 Codebase -->
-    <section class="slide" data-i="11">
+    <!-- 12 Codebase -->
+    <section class="slide" data-i="12">
       <h2>How this codebase flies it</h2>
       <div class="grid2">
         <div class="cardish">
@@ -360,8 +409,8 @@
       </div>
     </section>
 
-    <!-- 12 Repo contents -->
-    <section class="slide" data-i="12">
+    <!-- 13 Repo contents -->
+    <section class="slide" data-i="13">
       <h2>What’s in the repo</h2>
       <ul>
         <li><code>core/</code> — link, engine, dongle setup, pose, Kalman filter</li>
@@ -373,8 +422,8 @@
       </ul>
     </section>
 
-    <!-- 13 QR / git access -->
-    <section class="slide" data-i="13">
+    <!-- 14 QR / git access -->
+    <section class="slide" data-i="14">
       <h2>Get the code — scan this</h2>
       <div class="qr-wrap">
         <img src="assets/repo-qr.png" alt="QR code linking to github.com/jaromero3rd/drone-race-hacks" />
@@ -389,8 +438,8 @@
       </div>
     </section>
 
-    <!-- 14 Safety / race courtesy -->
-    <section class="slide" data-i="14">
+    <!-- 15 Safety / race courtesy -->
+    <section class="slide" data-i="15">
       <h2>Safety on the course</h2>
       <p class="lead">One Tello in the air at a time on the dirt field. Catcher ready.</p>
       <ul>
@@ -399,8 +448,8 @@
       </ul>
     </section>
 
-    <!-- 15 Setup -->
-    <section class="slide" data-i="15">
+    <!-- 16 Setup -->
+    <section class="slide" data-i="16">
       <h2>Setup on your laptop</h2>
       <p class="mono">git clone https://github.com/jaromero3rd/drone-race-hacks.git</p>
       <p class="mono">cd drone-race-hacks && python3 -m venv .venv && source .venv/bin/activate</p>
