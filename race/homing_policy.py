@@ -68,10 +68,10 @@ class HomingCfg:
     # speed and stopping
     cruise_mps: float = 1.8        # same speed toward either tag
     search_speed_frac: float = 0.0 # forward speed while turning/searching, as a fraction of cruise
-    stop_range_m: float = 5.0      # never closer than this to a tag (hard limit)
-    stop_buffer_m: float = 0.15    # aim 5.15 m: the stop zone is 5.0-5.3 m (0.3 m wide)
+    stop_range_m: float = 2.0      # never closer than this to a tag (hard limit); stop zone 2-3 m
+    stop_buffer_m: float = 0.5     # aim 2.5 m: middle of the 2-3 m stop zone
     brake_mps2: float = 0.8        # braking profile into the 5 m stop
-    stop_tol_m: float = 0.15       # zone top = stop_range + buffer + tol = 5.3 m
+    stop_tol_m: float = 0.5        # zone top = stop_range + buffer + tol = 3.0 m
     brake_latency_s: float = 0.6   # reaction lag (response + video delay): brake as if the tag were
                                    # this much flight time closer, so braking never dips inside 5 m
     turn_deg: float = 180.0        # at the stop: turn exactly this far, then fly straight and find the tag

@@ -55,7 +55,7 @@ def test_output_contract_under_fuzz():
             check_contract(rc, info, pol.cfg)
 
 
-def test_never_flies_forward_inside_5m_of_target():
+def test_never_flies_forward_inside_the_stop_range_of_target():
     pol = make()
     tick(pol, 0.0)                               # climbed already -> looks for the tag
     r, t = 20.0, 0.05
@@ -71,7 +71,7 @@ def test_keep_out_applies_to_any_tag_not_just_the_target():
     pol = make()
     tick(pol, 0.0)
     for k in range(1, 60):
-        rc, info = tick(pol, k * DT, [b(30.0 - 0.07 * k), Sighting(7, 3.0, 5.0)])
+        rc, info = tick(pol, k * DT, [b(30.0 - 0.07 * k), Sighting(7, pol.cfg.stop_range_m - 0.5, 5.0)])
         assert rc[1] <= 0
     assert info["keep_out"] and 7 in info["unexpected_tags"]
 
@@ -265,10 +265,10 @@ def _approach_to_hold(pol, t=0.0, r0=9.0):
         if info["state"] == "HOLD":
             return t, r
         r -= 0.05
-        assert r > 4.0, "never stopped"
+        assert r > pol.cfg.stop_range_m - 1.0, "never stopped"
 
 
-def test_stops_inside_the_stop_zone_not_closer_than_5m():
+def test_stops_inside_the_stop_zone_never_closer_than_the_stop_range():
     pol = make()
     t, r = _approach_to_hold(pol)
     assert pol.cfg.stop_range_m <= r <= pol.cfg.stop_range_m + pol.cfg.stop_buffer_m + pol.cfg.stop_tol_m
@@ -305,11 +305,11 @@ def test_no_turn_while_drifting_outside_the_zone():
         assert info["state"] != "TURN"
 
 
-def test_backs_off_if_inside_5m():
+def test_backs_off_if_inside_the_stop_range():
     pol = make()
     t, r = _approach_to_hold(pol)
     for k in range(1, 10):
-        rc, info = tick(pol, t + k * DT, [b(4.6)])
+        rc, info = tick(pol, t + k * DT, [b(pol.cfg.stop_range_m - 0.4)])
     assert rc[1] < 0 and info["state"] == "HOLD"
 
 
@@ -321,9 +321,9 @@ def test_tag_a_already_in_view_at_the_turn_does_not_crash():
         check_contract(rc, info, pol.cfg)
 
 
-def test_stop_zone_is_5_to_5_3_m():
+def test_stop_zone_is_2_to_3_m():
     c = HomingCfg()
-    assert c.stop_range_m == 5.0 and abs(c.stop_range_m + c.stop_buffer_m + c.stop_tol_m - 5.3) < 1e-9
+    assert c.stop_range_m == 2.0 and abs(c.stop_range_m + c.stop_buffer_m + c.stop_tol_m - 3.0) < 1e-9
 
 
 def test_turn_is_a_fixed_180_then_keeps_moving():

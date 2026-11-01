@@ -2,6 +2,16 @@
 
 Owner: Tvisha (`tvisha/policy+sim`). For the controller: **start / stop is one object, see §1.**
 
+> **Current settings (supersede the numbers further down, which were written for the first version):**
+> stop zone **2.0–3.0 m** from each tag (aims for 2.5 m; never flies forward inside 2.0 m of any tag) ·
+> flight height **0.8 m** (mount tag centres near 0.8 m) · cruise **1.8 m/s** (`tello_basic --rc-limit` default 36) ·
+> turn at the first tag is a **fixed 180°**, then it keeps flying and locks on to the other tag ·
+> **adaptive start**: `policy start new` uses whichever race tag is in front (or spins to find one) and
+> measures the course itself; `--course-m` / `--tag-size-mm` are optional (defaults 73 m, 487.7 mm) ·
+> turns only after 1 s settled inside the zone on a fresh sighting; a tag lost while stopped → spin to
+> re-find, never turn blind. Sim: stops 2.43–2.61 m in every case (15/30/73 m, delay, frame loss, fast drone,
+> starting backwards). Wind 1 m/s currently lands safely instead of finishing (drift during the start spin).
+
 The 73 m course: tag A (id 1) and tag B (id 2) on poles, 2 ft prints, **facing each other**,
 mounted at 1.2 m. The drone takes off in front of A with its nose toward B, flies at a constant
 height toward B, stops **5 m short** of the tag, turns, finds A and stops 5 m short of it.
