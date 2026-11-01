@@ -1,0 +1,947 @@
+{
+  "model": "synthetic_planar_velocity_plant_not_rigid_body_or_hardware",
+  "assumptions": [
+    "oracle means ideal pose coverage, not implemented sensing",
+    "camera uses point-tag projection only",
+    "no tag-face/full-corner/blur/distortion/roll/pitch model",
+    "landing requests stop traces; no landing is simulated"
+  ],
+  "geometry": {
+    "camera_source": "example config/camera/default.yaml; replace per drone",
+    "horizontal_fov_deg": 55.382,
+    "tag_center_exits_frame_at_x_m": 3.066,
+    "gate_entry_x_m": 3.376,
+    "unobserved_gap_before_gate_m": 0.31
+  },
+  "seeds": 20,
+  "reference_ref": "d53e2d460ad130ed66c756e9f0ab37f26143e1f8",
+  "reference_policy_sha256": "72ba3761fa4514ff5b08e8e39a29dbc4efe428741f323b778e6d202c83d3bc43",
+  "current_policy_sha256": "a86822b4f2b935411808c3253e64d9f18ee49c4d4e35291945bb3e8f3d2daca3",
+  "cells": [
+    {
+      "id": "oracle_nominal",
+      "controller": "fixed_heading_baseline",
+      "outcomes": {
+        "complete": 20
+      },
+      "reasons": {
+        "route_complete_timer_must_confirm": 20
+      },
+      "truth_finished": 20,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": []
+    },
+    {
+      "id": "oracle_nominal",
+      "controller": "look_at_candidate",
+      "outcomes": {
+        "complete": 20
+      },
+      "reasons": {
+        "route_complete_timer_must_confirm": 20
+      },
+      "truth_finished": 20,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": []
+    },
+    {
+      "id": "oracle_nominal",
+      "controller": "previous_reviewed_policy",
+      "outcomes": {
+        "complete": 20
+      },
+      "reasons": {
+        "route_complete_timer_must_confirm": 20
+      },
+      "truth_finished": 20,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": []
+    },
+    {
+      "id": "oracle_yaw_-90",
+      "controller": "fixed_heading_baseline",
+      "outcomes": {
+        "complete": 20
+      },
+      "reasons": {
+        "route_complete_timer_must_confirm": 20
+      },
+      "truth_finished": 20,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": []
+    },
+    {
+      "id": "oracle_yaw_-90",
+      "controller": "look_at_candidate",
+      "outcomes": {
+        "complete": 20
+      },
+      "reasons": {
+        "route_complete_timer_must_confirm": 20
+      },
+      "truth_finished": 20,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": []
+    },
+    {
+      "id": "oracle_yaw_-90",
+      "controller": "previous_reviewed_policy",
+      "outcomes": {
+        "complete": 20
+      },
+      "reasons": {
+        "route_complete_timer_must_confirm": 20
+      },
+      "truth_finished": 20,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": []
+    },
+    {
+      "id": "oracle_yaw_-60",
+      "controller": "fixed_heading_baseline",
+      "outcomes": {
+        "complete": 20
+      },
+      "reasons": {
+        "route_complete_timer_must_confirm": 20
+      },
+      "truth_finished": 20,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": []
+    },
+    {
+      "id": "oracle_yaw_-60",
+      "controller": "look_at_candidate",
+      "outcomes": {
+        "complete": 20
+      },
+      "reasons": {
+        "route_complete_timer_must_confirm": 20
+      },
+      "truth_finished": 20,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": []
+    },
+    {
+      "id": "oracle_yaw_-60",
+      "controller": "previous_reviewed_policy",
+      "outcomes": {
+        "complete": 20
+      },
+      "reasons": {
+        "route_complete_timer_must_confirm": 20
+      },
+      "truth_finished": 20,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": []
+    },
+    {
+      "id": "oracle_yaw_-30",
+      "controller": "fixed_heading_baseline",
+      "outcomes": {
+        "complete": 20
+      },
+      "reasons": {
+        "route_complete_timer_must_confirm": 20
+      },
+      "truth_finished": 20,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": []
+    },
+    {
+      "id": "oracle_yaw_-30",
+      "controller": "look_at_candidate",
+      "outcomes": {
+        "complete": 20
+      },
+      "reasons": {
+        "route_complete_timer_must_confirm": 20
+      },
+      "truth_finished": 20,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": []
+    },
+    {
+      "id": "oracle_yaw_-30",
+      "controller": "previous_reviewed_policy",
+      "outcomes": {
+        "complete": 20
+      },
+      "reasons": {
+        "route_complete_timer_must_confirm": 20
+      },
+      "truth_finished": 20,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": []
+    },
+    {
+      "id": "oracle_yaw_30",
+      "controller": "fixed_heading_baseline",
+      "outcomes": {
+        "complete": 20
+      },
+      "reasons": {
+        "route_complete_timer_must_confirm": 20
+      },
+      "truth_finished": 20,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": []
+    },
+    {
+      "id": "oracle_yaw_30",
+      "controller": "look_at_candidate",
+      "outcomes": {
+        "complete": 20
+      },
+      "reasons": {
+        "route_complete_timer_must_confirm": 20
+      },
+      "truth_finished": 20,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": []
+    },
+    {
+      "id": "oracle_yaw_30",
+      "controller": "previous_reviewed_policy",
+      "outcomes": {
+        "complete": 20
+      },
+      "reasons": {
+        "route_complete_timer_must_confirm": 20
+      },
+      "truth_finished": 20,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": []
+    },
+    {
+      "id": "oracle_yaw_60",
+      "controller": "fixed_heading_baseline",
+      "outcomes": {
+        "complete": 20
+      },
+      "reasons": {
+        "route_complete_timer_must_confirm": 20
+      },
+      "truth_finished": 20,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": []
+    },
+    {
+      "id": "oracle_yaw_60",
+      "controller": "look_at_candidate",
+      "outcomes": {
+        "complete": 20
+      },
+      "reasons": {
+        "route_complete_timer_must_confirm": 20
+      },
+      "truth_finished": 20,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": []
+    },
+    {
+      "id": "oracle_yaw_60",
+      "controller": "previous_reviewed_policy",
+      "outcomes": {
+        "complete": 20
+      },
+      "reasons": {
+        "route_complete_timer_must_confirm": 20
+      },
+      "truth_finished": 20,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": []
+    },
+    {
+      "id": "oracle_yaw_90",
+      "controller": "fixed_heading_baseline",
+      "outcomes": {
+        "complete": 20
+      },
+      "reasons": {
+        "route_complete_timer_must_confirm": 20
+      },
+      "truth_finished": 20,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": []
+    },
+    {
+      "id": "oracle_yaw_90",
+      "controller": "look_at_candidate",
+      "outcomes": {
+        "complete": 20
+      },
+      "reasons": {
+        "route_complete_timer_must_confirm": 20
+      },
+      "truth_finished": 20,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": []
+    },
+    {
+      "id": "oracle_yaw_90",
+      "controller": "previous_reviewed_policy",
+      "outcomes": {
+        "complete": 20
+      },
+      "reasons": {
+        "route_complete_timer_must_confirm": 20
+      },
+      "truth_finished": 20,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": []
+    },
+    {
+      "id": "oracle_yaw_180",
+      "controller": "fixed_heading_baseline",
+      "outcomes": {
+        "complete": 20
+      },
+      "reasons": {
+        "route_complete_timer_must_confirm": 20
+      },
+      "truth_finished": 20,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": []
+    },
+    {
+      "id": "oracle_yaw_180",
+      "controller": "look_at_candidate",
+      "outcomes": {
+        "complete": 20
+      },
+      "reasons": {
+        "route_complete_timer_must_confirm": 20
+      },
+      "truth_finished": 20,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": []
+    },
+    {
+      "id": "oracle_yaw_180",
+      "controller": "previous_reviewed_policy",
+      "outcomes": {
+        "complete": 20
+      },
+      "reasons": {
+        "route_complete_timer_must_confirm": 20
+      },
+      "truth_finished": 20,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": []
+    },
+    {
+      "id": "oracle_yaw_velocity",
+      "controller": "fixed_heading_baseline",
+      "outcomes": {
+        "complete": 20
+      },
+      "reasons": {
+        "route_complete_timer_must_confirm": 20
+      },
+      "truth_finished": 20,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": []
+    },
+    {
+      "id": "oracle_yaw_velocity",
+      "controller": "look_at_candidate",
+      "outcomes": {
+        "complete": 20
+      },
+      "reasons": {
+        "route_complete_timer_must_confirm": 20
+      },
+      "truth_finished": 20,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": []
+    },
+    {
+      "id": "oracle_yaw_velocity",
+      "controller": "previous_reviewed_policy",
+      "outcomes": {
+        "complete": 20
+      },
+      "reasons": {
+        "route_complete_timer_must_confirm": 20
+      },
+      "truth_finished": 20,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": []
+    },
+    {
+      "id": "oracle_yaw_delay",
+      "controller": "fixed_heading_baseline",
+      "outcomes": {
+        "complete": 20
+      },
+      "reasons": {
+        "route_complete_timer_must_confirm": 20
+      },
+      "truth_finished": 20,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": []
+    },
+    {
+      "id": "oracle_yaw_delay",
+      "controller": "look_at_candidate",
+      "outcomes": {
+        "complete": 20
+      },
+      "reasons": {
+        "route_complete_timer_must_confirm": 20
+      },
+      "truth_finished": 20,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": []
+    },
+    {
+      "id": "oracle_yaw_delay",
+      "controller": "previous_reviewed_policy",
+      "outcomes": {
+        "complete": 20
+      },
+      "reasons": {
+        "route_complete_timer_must_confirm": 20
+      },
+      "truth_finished": 20,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": []
+    },
+    {
+      "id": "oracle_yaw_command_delay",
+      "controller": "fixed_heading_baseline",
+      "outcomes": {
+        "complete": 20
+      },
+      "reasons": {
+        "route_complete_timer_must_confirm": 20
+      },
+      "truth_finished": 20,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": []
+    },
+    {
+      "id": "oracle_yaw_command_delay",
+      "controller": "look_at_candidate",
+      "outcomes": {
+        "complete": 20
+      },
+      "reasons": {
+        "route_complete_timer_must_confirm": 20
+      },
+      "truth_finished": 20,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": []
+    },
+    {
+      "id": "oracle_yaw_command_delay",
+      "controller": "previous_reviewed_policy",
+      "outcomes": {
+        "complete": 20
+      },
+      "reasons": {
+        "route_complete_timer_must_confirm": 20
+      },
+      "truth_finished": 20,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": []
+    },
+    {
+      "id": "oracle_sluggish_turn",
+      "controller": "fixed_heading_baseline",
+      "outcomes": {
+        "complete": 20
+      },
+      "reasons": {
+        "route_complete_timer_must_confirm": 20
+      },
+      "truth_finished": 20,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": []
+    },
+    {
+      "id": "oracle_sluggish_turn",
+      "controller": "look_at_candidate",
+      "outcomes": {
+        "complete": 20
+      },
+      "reasons": {
+        "route_complete_timer_must_confirm": 20
+      },
+      "truth_finished": 20,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": []
+    },
+    {
+      "id": "oracle_sluggish_turn",
+      "controller": "previous_reviewed_policy",
+      "outcomes": {
+        "complete": 20
+      },
+      "reasons": {
+        "route_complete_timer_must_confirm": 20
+      },
+      "truth_finished": 20,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": []
+    },
+    {
+      "id": "two_tag_visibility",
+      "controller": "fixed_heading_baseline",
+      "outcomes": {
+        "abort": 20
+      },
+      "reasons": {
+        "sensors_timed_out": 20
+      },
+      "truth_finished": 0,
+      "truth_reached_b": 0,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ]
+    },
+    {
+      "id": "two_tag_visibility",
+      "controller": "look_at_candidate",
+      "outcomes": {
+        "abort": 20
+      },
+      "reasons": {
+        "sensors_timed_out": 20
+      },
+      "truth_finished": 0,
+      "truth_reached_b": 20,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ]
+    },
+    {
+      "id": "two_tag_visibility",
+      "controller": "previous_reviewed_policy",
+      "outcomes": {
+        "abort": 20
+      },
+      "reasons": {
+        "sensors_timed_out": 20
+      },
+      "truth_finished": 0,
+      "truth_reached_b": 0,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ]
+    },
+    {
+      "id": "two_tag_yaw",
+      "controller": "fixed_heading_baseline",
+      "outcomes": {
+        "abort": 20
+      },
+      "reasons": {
+        "sensors_timed_out": 20
+      },
+      "truth_finished": 0,
+      "truth_reached_b": 0,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ]
+    },
+    {
+      "id": "two_tag_yaw",
+      "controller": "look_at_candidate",
+      "outcomes": {
+        "abort": 20
+      },
+      "reasons": {
+        "sensors_timed_out": 20
+      },
+      "truth_finished": 0,
+      "truth_reached_b": 0,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ]
+    },
+    {
+      "id": "two_tag_yaw",
+      "controller": "previous_reviewed_policy",
+      "outcomes": {
+        "abort": 20
+      },
+      "reasons": {
+        "sensors_timed_out": 20
+      },
+      "truth_finished": 0,
+      "truth_reached_b": 0,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ]
+    },
+    {
+      "id": "two_tag_yaw_delay",
+      "controller": "fixed_heading_baseline",
+      "outcomes": {
+        "abort": 20
+      },
+      "reasons": {
+        "sensors_timed_out": 20
+      },
+      "truth_finished": 0,
+      "truth_reached_b": 0,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ]
+    },
+    {
+      "id": "two_tag_yaw_delay",
+      "controller": "look_at_candidate",
+      "outcomes": {
+        "abort": 20
+      },
+      "reasons": {
+        "sensors_timed_out": 20
+      },
+      "truth_finished": 0,
+      "truth_reached_b": 0,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ]
+    },
+    {
+      "id": "two_tag_yaw_delay",
+      "controller": "previous_reviewed_policy",
+      "outcomes": {
+        "abort": 20
+      },
+      "reasons": {
+        "sensors_timed_out": 20
+      },
+      "truth_finished": 0,
+      "truth_reached_b": 0,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ]
+    },
+    {
+      "id": "oracle_hidden_turn",
+      "controller": "fixed_heading_baseline",
+      "outcomes": {
+        "abort": 20
+      },
+      "reasons": {
+        "sensors_timed_out": 20
+      },
+      "truth_finished": 0,
+      "truth_reached_b": 0,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ]
+    },
+    {
+      "id": "oracle_hidden_turn",
+      "controller": "look_at_candidate",
+      "outcomes": {
+        "abort": 20
+      },
+      "reasons": {
+        "sensors_timed_out": 20
+      },
+      "truth_finished": 0,
+      "truth_reached_b": 0,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ]
+    },
+    {
+      "id": "oracle_hidden_turn",
+      "controller": "previous_reviewed_policy",
+      "outcomes": {
+        "abort": 20
+      },
+      "reasons": {
+        "sensors_timed_out": 20
+      },
+      "truth_finished": 0,
+      "truth_reached_b": 0,
+      "min_true_pole_distance_m": 0.47,
+      "failed_seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ]
+    }
+  ],
+  "run_log": "policy_integration/reports/turn_sim_runs.jsonl"
+}
