@@ -25,7 +25,8 @@ One-shot sequence, then exit (lands automatically at the end if still flying):
   python tools/tello_basic.py --do "battery?; wifi?"          # read-only check, no takeoff
   python tools/tello_basic.py --do "telemetry"                # print telemetry once, no takeoff
   python tools/tello_basic.py --do "watch 10"                 # live telemetry for 10 s
-  python tello_basic.py --course-m 15 --tag-size-mm 488 --do "takeoff; policy start new; policy wait"
+  python tello_basic.py --do "takeoff; policy start new; policy wait"   # 73 m, 2 ft tags by default
+  python tello_basic.py --course-m 15 --do "takeoff; policy start new; policy wait"   # short test course
   python tools/tello_basic.py --tag-id 1 --do "detect 15"     # look for AprilTag id 1 (no takeoff)
   python tools/tello_basic.py --tag-family 36h11              # then type `video` at the prompt
 
@@ -576,11 +577,6 @@ class PolicyRunner:
             print("  can't find the Drone_Racing repo (needs race/homing_policy.py). "
                   "Pass --repo /path/to/Drone_Racing or set DRONE_RACING_REPO.")
             return False
-        if self.course_m is None or self.tag_size_mm is None:
-            print("  set both measured values when launching the script:\n"
-                  "    --course-m <distance tag A to tag B, metres>  --tag-size-mm <black square edge, mm>\n"
-                  "  (no defaults on purpose: a wrong value changes where the drone stops)")
-            return False
         if not self.v._load():                 # OpenCV + aruco
             return False
         try:
@@ -607,6 +603,17 @@ class PolicyRunner:
         except Exception as exc:               # noqa: BLE001
             print(f"  could not read camera calibration {cam}: {exc}")
             return False
+        # Defaults = the policy's own (HomingCfg): 73 m course, 2 ft tags. The tag default is the
+        # SMALLER reading of "2 ft" (487.7 mm black square = 2 ft sheet incl. white border): if the
+        # real square is bigger, ranges read short and the drone stops further out, never closer.
+        defaults = HomingCfg()
+        self.defaulted = []
+        if self.course_m is None:
+            self.course_m = defaults.course_m
+            self.defaulted.append("course")
+        if self.tag_size_mm is None:
+            self.tag_size_mm = defaults.tag_size_m * 1000.0
+            self.defaulted.append("tag size")
         size = self.tag_size_mm / 1000.0
         h = size / 2
         self.obj = np.array([[-h, h, 0], [h, h, 0], [h, -h, 0], [-h, -h, 0]], float)
@@ -723,9 +730,10 @@ class PolicyRunner:
             self.ended = None
         c = self.cfg
         eta = c.course_m / max(c.cruise_mps, 1e-6)
+        dflt = lambda k: " (default)" if k in self.defaulted else ""      # noqa: E731
         print(f"  policy {'NEW mission' if (first or new) else 'RESUME'}: tag {c.tag_a} -> {c.tag_b}, "
-              f"course {c.course_m:g} m, tag {self.tag_size_mm:g} mm, hold {c.height_m:g} m, "
-              f"stop {c.stop_range_m:g} m short of tags")
+              f"course {c.course_m:g} m{dflt('course')}, tag {self.tag_size_mm:g} mm{dflt('tag size')}, "
+              f"hold {c.height_m:g} m, stop {c.stop_range_m:g} m short of tags")
         print(f"  rc cap +/-{self.rc_limit} -> cruise {c.cruise_mps:.2f} m/s, ~{eta:.0f} s per leg "
               f"(mission cap {c.max_session_s:.0f} s), camera {self.calib_name}")
         if 2 * eta > c.max_session_s:
@@ -814,7 +822,7 @@ HELP = """\
     battery            battery %            height     height (cm, from state)
     telemetry          grouped telemetry    wifi       signal-to-noise
       (alias: state, t)  telemetry raw  one line;  telemetry bat h tof  just those keys
-    policy start [new] run the repo's tag-homing policy (needs --course-m --tag-size-mm)
+    policy start [new] run the repo's tag-homing policy (73 m, 2 ft tags unless --course-m/--tag-size-mm)
     policy stop        STOP the policy: sticks to zero, drone floats in place (resume with start)
     policy status|wait [s]   what it's doing | block until the mission ends (Ctrl-C = stop)
     watch [seconds]    live readout (Ctrl-C stops, stays connected)
@@ -1007,9 +1015,11 @@ def main() -> None:
                     help="AprilTag family to detect (default 36h11)")
     ap.add_argument("--repo", help="path to the Drone_Racing repo (for `policy`; or env DRONE_RACING_REPO)")
     ap.add_argument("--camera", help="camera calibration yaml (default: <repo>/config/camera/default.yaml)")
-    ap.add_argument("--course-m", type=float, help="MEASURED distance tag A -> tag B in metres (needed for `policy`)")
+    ap.add_argument("--course-m", type=float,
+                    help="distance tag A -> tag B in metres (default 73, the policy's HomingCfg)")
     ap.add_argument("--tag-size-mm", type=float,
-                    help="MEASURED edge of the tags' black square in mm (needed for `policy`)")
+                    help="edge of the tags' black square in mm (default 487.7 = 2 ft sheet incl. border; "
+                         "if unsure use the smaller value: the drone then stops further out)")
     ap.add_argument("--tag-id", type=int, help="highlight/announce this tag id as the target")
     ap.add_argument("--rc-limit", type=int, default=30, help="max |rc| value (default 30)")
     ap.add_argument("-v", "--verbose", action="store_true", help="print raw SDK traffic")
