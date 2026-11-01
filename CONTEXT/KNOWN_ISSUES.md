@@ -34,3 +34,8 @@
 13. **`ppo_perfect` is not a deployable policy.** Under realistic sensing it almost never laps (obs slots it never saw are now filled).
 14. **Guard false positives**: `GuardedController` (rl profile) landed 2-3 of 30 healthy `race_policy` runs (no fix > 4 s). Tunable via `GuardCfg`.
 15. `env.lap_est` is the truth position in perfect mode (kept in sync so reports work in both modes).
+16. **Tag-blackout baseline (outputs/sim/blackout_baseline.json, realistic sensing, 30 seeds, blackout at t=6 s)**: `race_policy` recovers from every length tried
+    (0.5-8 s); `ppo_realistic` hits poles in 12/30 runs at 4 s; `GuardedController` (rl profile) lands every run with a blackout >= 2 s, cancelling the racer's own recovery.
+    See docs/RECOVERY_PROPOSAL.md. Injection hook: `SensorModel.inject_blackout(duration_s)`, `SensorFaultController(inner, duration_s, t_start)`.
+17. **Maude's branch has moved** (turn controller, landmark heading, turn_sim, dashboard, offline CI workflow `.github/workflows/policy-offline.yml`); not merged. Her `policy.py`
+    diff is backward compatible (new fields default to the old behaviour). `connect-trial` branch (tello_basic.py, real-link SDK tool) not merged.

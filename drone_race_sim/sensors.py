@@ -123,6 +123,7 @@ class SensorModel:
         self.pos_std = z(num_envs)
         self.fix_pos = z(num_envs, 3)             # last accepted raw fix (course frame)
         self.age = z(num_envs)
+        self.blackout = z(num_envs)               # seconds of forced tag blackout left (fault injection)
         self.est_at_fix = z(num_envs, 3)          # KF position at the last accepted fix (held between fixes)
         self.fix_time = z(num_envs)               # capture time of that fix (set by the env clock)
 
@@ -139,6 +140,7 @@ class SensorModel:
         self.vel_scale[idx] = c.vel_scale_sigma * self._randn(n, gen=gen)
         self.yaw_drift[idx] = math.radians(c.yaw_drift_deg_s) * self._randn(n, gen=gen)
         self.age[idx] = 0.0
+        self.blackout[idx] = 0.0
         mask = torch.zeros(self.n, dtype=torch.bool, device=self.device)
         mask[idx] = True
         self.kf.reset(mask)
@@ -163,6 +165,11 @@ class SensorModel:
         self.pos_std[idx] = 0.1
         self.est_at_fix[idx] = seed
         self.fix_time[idx] = -cfg_delay
+
+    def inject_blackout(self, duration_s: float, mask=None) -> None:
+        """Fault injection: no tag is detected for ``duration_s`` (occlusion, glare, blur, a dropped video stream)."""
+        m = torch.ones(self.n, dtype=torch.bool, device=self.device) if mask is None else mask
+        self.blackout = torch.where(m, torch.full_like(self.blackout, float(duration_s)), self.blackout)
 
     def _tag_view(self, k: int, pos_d, yaw_d):
         """Geometry of tag k as seen from the (delayed) true pose: visibility mask and image coords."""
@@ -200,7 +207,7 @@ class SensorModel:
         det_all = []
         for k in range(2):
             vis, rel, rng, img = self._tag_view(k, pos_d, yaw_d)
-            det = vis & frame_ok & (torch.rand(E, device=self.device, dtype=self.dtype, generator=gen) < c.detect_prob)
+            det = vis & frame_ok & (torch.rand(E, device=self.device, dtype=self.dtype, generator=gen) < c.detect_prob) & (self.blackout <= 0)
             sd = (c.depth_noise_per_m2 * rng ** 2 * c.noise_scale)[:, None]
             sl = (c.lateral_noise_rad * rng * c.noise_scale)[:, None]
             unit = rel / rng[:, None]
@@ -216,6 +223,7 @@ class SensorModel:
             det_all.append(det)
             self.tag_img[:, k] = torch.where(vis[:, None], img, torch.zeros_like(img))
         got = n_fix > 0
+        self.blackout = (self.blackout - dt).clamp_min(0.0)
         z_fix = fix_sum / n_fix.clamp_min(1.0)[:, None]
         self.visible = torch.stack(vis_all, dim=-1)
         self.seen = torch.stack(det_all, dim=-1)

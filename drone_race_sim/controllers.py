@@ -314,3 +314,22 @@ class FaultyController(Controller):
         else:
             raise ValueError(self.fault)
         return rc, [dict(i, mode=f"fault:{self.fault}") for i in infos]
+
+
+class SensorFaultController(Controller):
+    """Wrap a controller and inject a sensor fault on the env at ``t_start`` (tag blackout for ``duration_s``)."""
+
+    def __init__(self, inner: Controller, duration_s: float, t_start: float = 6.0):
+        self.inner, self.duration_s, self.t_start = inner, duration_s, t_start
+        self.name = inner.name
+        self._done = False
+
+    def reset(self, env, seeds):
+        self.inner.reset(env, seeds)
+        self._done = False
+
+    def act(self, env, obs, now):
+        if not self._done and now >= self.t_start:
+            env.sensors.inject_blackout(self.duration_s)
+            self._done = True
+        return self.inner.act(env, obs, now)
