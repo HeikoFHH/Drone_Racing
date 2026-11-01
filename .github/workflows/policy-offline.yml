@@ -1,0 +1,31 @@
+name: Policy offline checks
+
+on:
+  push:
+    branches: [maude/policy-integration]
+    paths:
+      - 'policy_integration/**'
+      - '.github/workflows/policy-offline.yml'
+  pull_request:
+    paths:
+      - 'policy_integration/**'
+      - '.github/workflows/policy-offline.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-policy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-python@v7.1.0
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pyyaml
+      - name: Contract and failure tests
+        run: python -m unittest policy_integration.test_policy policy_integration.test_stress_sim -v
+      - name: Generate scenario report, including known mission failures
+        run: python -m policy_integration.stress_sim --seeds 20 --output policy_integration/reports/stress_sim.json
