@@ -1,0 +1,17 @@
+# Domain-randomization ranges at dr_level = 1 (docs/SIMULATION_PLAN.md sections 6 and 11).
+# Per-episode sample = nominal + dr_level * (U(lo, hi) - nominal); dr_level 0 is nominal.
+gain_xy: [0.64, 0.96]
+gain_up: [0.48, 0.72]
+gain_yaw: [0.84, 1.26]
+tau_xy: [0.12, 0.45]
+tau_up: [0.12, 0.40]
+tau_yaw: [0.0, 0.35]
+a_max: [2.0, 5.0]
+deadband: [0.0, 14.0]
+action_delay_s: [0.0, 0.15]
+rc_loss_prob: [0.0, 0.03]
+battery_scale: [0.85, 1.0]
+# Effective world-frame velocity disturbance, magnitude in m/s, direction uniform.
+wind_speed: [0.0, 0.25]
+# Per-step loop period is dt * (1 + U(0, dt_jitter_frac)).
+dt_jitter_frac: [0.0, 0.4]

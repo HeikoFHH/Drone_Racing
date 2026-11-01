@@ -78,3 +78,5 @@ Or:
 ## Without a GPU box
 
 You can still develop the real-world stack (`core/`, `race/`, presentation) on a laptop. Sim training needs Isaac Lab + NVIDIA GPU.
+
+> Mac / no-GPU alternative: see [`drone_race_sim/`](../drone_race_sim/README.md) and [`docs/SIMULATION_PLAN.md`](../docs/SIMULATION_PLAN.md).

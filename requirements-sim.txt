@@ -1,0 +1,8 @@
+# Mac simulator (drone_race_sim). Install into a separate venv:
+#   uv venv --python 3.11 .venv-sim && uv pip install --python .venv-sim/bin/python -r requirements-sim.txt
+torch>=2.4
+gymnasium>=1.1
+numpy
+pyyaml
+matplotlib
+pytest

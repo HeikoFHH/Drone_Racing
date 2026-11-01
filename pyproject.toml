@@ -1,0 +1,14 @@
+[project]
+name = "drone-race-sim"
+version = "0.1.0"
+description = "Mac-native vectorized Tello race simulator and PPO training (docs/SIMULATION_PLAN.md)"
+requires-python = ">=3.10"
+dependencies = ["torch>=2.4", "gymnasium>=1.1", "numpy", "pyyaml"]
+
+[project.optional-dependencies]
+calib = ["scipy", "opencv-python"]
+deploy = ["onnx", "onnxruntime"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "policy_integration"]
+python_files = ["test_*.py"]
