@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="bridge-token" content="__TOKEN__">
+  <title>Tello · Live control</title><link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+<header><div class="wordmark">TELLO <span>/ CONTROL</span></div><div id="backend" class="badge">Connecting to local bridge</div></header>
+<main>
+  <div class="heading"><div><p class="eyebrow">LOCAL FLIGHT CONSOLE</p><h1>See. Move. Stay in control.</h1></div><p id="flight-mode">Checking bridge mode…</p></div>
+  <div class="console">
+    <section class="camera-panel" aria-label="Drone camera">
+      <div class="panel-head"><span>Forward camera</span><span id="video-state">Waiting for frames</span></div>
+      <div class="camera"><img id="camera" alt="Drone forward camera; source identified in the mode badge"><div id="camera-empty">Waiting for the camera stream</div></div>
+      <div class="camera-footer"><span id="stage">CONNECTING</span><span id="rc">RC 0 / 0 / 0 / 0</span></div>
+    </section>
+    <section class="controls" aria-label="Manual controls">
+      <div class="panel-head"><span>Manual movement</span><span>Body-relative</span></div>
+      <p class="hint">Hold a direction. Release to send zero RC.</p>
+      <div class="direction-pad">
+        <button id="forward" data-direction="forward" disabled>Forward <span>↑</span></button>
+        <button id="left" data-direction="left" disabled>← Left</button>
+        <button id="stop" class="stop" type="button">Stop RC</button>
+        <button id="right" data-direction="right" disabled>Right →</button>
+        <button id="back" data-direction="back" disabled><span>↓</span> Backward</button>
+      </div>
+      <div class="altitude"><button data-direction="up" disabled>Up +</button><button data-direction="down" disabled>Down −</button></div>
+      <div class="flight-actions"><button id="takeoff" class="primary" disabled>Take off</button><button id="land" class="land" disabled>Land</button></div>
+      <div class="policy-controls"><label for="policy">Repository policy</label><select id="policy"><option value="baseline">Maude · guarded baseline</option><option value="race">Tvisha · RacePolicy + Maude guard</option></select><div class="flight-actions"><button id="run-policy" disabled>Run policy</button><button id="stop-policy">Stop policy</button></div><p id="policy-state" class="hint">Policy not running</p></div>
+      <p class="hint">Takeoff requires fresh video, telemetry, and an explicit flight-enabled launch. Stop RC requests stabilization; it is not an instant physical stop.</p>
+    </section>
+  </div>
+  <section class="telemetry" aria-label="Drone telemetry">
+    <div><span>Battery</span><strong id="battery">—</strong></div>
+    <div><span>Reported height</span><strong id="height">—</strong></div>
+    <div><span>Telemetry age</span><strong id="state-age">—</strong></div>
+    <div><span>Decoded frame age</span><strong id="frame-age">—</strong></div>
+  </section>
+  <p id="status" role="status" aria-live="polite">Connecting to bridge…</p><p id="error" role="alert"></p>
+  <details><summary>Connection & control limits</summary>
+    <p>This page is served by the laptop connected to the selected Tello Wi-Fi. Keep other drone apps and flight runners closed. This bridge supports one drone and one browser operator.</p>
+    <p>Movement commands expire after 0.3 seconds without renewal. A stale camera, telemetry, browser heartbeat or worker deadline latches a landing request during an owned flight. A lost radio link may prevent delivery. Landing acknowledgment is not proof of touchdown; restart only after landing and review.</p>
+    <p>Manual control has no validated world-position geofence. Policy mode uses the repository policy and Maude's guards; real policy runs require verified mapping/calibration. RC is capped at 20. Camera age measures decode time, not sensor capture latency. No trained RL checkpoint is loaded.</p>
+  </details>
+</main>
+<footer>Local connection · single command writer · no automatic takeoff</footer>
+</body></html>

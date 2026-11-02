@@ -9,6 +9,14 @@ work assignments; no teammates have been contacted or assigned in an external to
 
 ## Start here
 
+Open [dashboard.html](dashboard.html) in a browser after cloning or downloading it.
+It provides manual forward/back/left/right pulses, classic policy execution,
+live synthetic telemetry, camera visibility, and fault injection. GitHub's file
+view shows its source; download the file to run it. The same simulation can be
+used in the conversation. It has no physical drone connection or trained RL model.
+See [DASHBOARD.md](DASHBOARD.md) for controls, parity checks, and model limits.
+See [TURN_RESULTS.md](TURN_RESULTS.md) for the reproduced turn/visibility blocker.
+
 From the repository root, run:
 
 ```bash

@@ -1,0 +1,180 @@
+<div id="drone-control-lab">
+  <h2>Drone control lab</h2>
+  <div class="viz-row"><span class="viz-badge">Simulation only</span><span class="text-small">Classic policy preview · no physical drone connection · no trained RL model</span></div>
+  <div class="viz-controls">
+    <label class="form-label">Controller<select class="form-select" data-field="policy"><option value="fixed">Classic · fixed heading</option><option value="look">Classic · landmark turn candidate</option></select></label>
+    <label class="form-label">Position sensing<select class="form-select" data-field="sensing"><option value="camera">Two-tag camera approximation</option><option value="oracle">Ideal pose · controller test only</option></select></label>
+    <label class="form-label">Fault at 5 simulated seconds<select class="form-select" data-field="fault"><option value="none">None</option><option value="yaw">Sharp turn · +60° yaw kick</option><option value="delay">Pose delay · 300 ms</option><option value="hidden">Pose blackout · 1 second</option><option value="wind">Side drift · 0.12 m/s</option><option value="link">Control link lost</option></select></label>
+    <label class="form-label">Playback<select class="form-select" data-field="rate"><option value="1">1×</option><option value="4" selected>4×</option></select></label>
+  </div>
+  <div class="viz-row">
+    <button class="btn btn-primary" type="button" data-action="run">Run policy</button>
+    <button class="btn" type="button" data-action="pause">Pause simulation</button>
+    <button class="btn" type="button" data-action="reset">New run</button>
+    <button class="btn" type="button" data-action="kick">Inject +60° turn</button>
+  </div>
+  <div class="drone-map"><svg role="img" aria-label="Top-down simulated drone course, position trail, camera cone and poles"></svg></div>
+  <div class="drone-bottom">
+    <div>
+      <div class="text-small">Manual · each press commands 1 simulated second</div>
+      <div class="drone-pad" role="group" aria-label="Manual body-relative movement">
+        <button class="btn" type="button" data-move="forward">Forward</button>
+        <button class="btn" type="button" data-move="left">Left</button>
+        <button class="btn" type="button" data-move="stop">Stop RC</button>
+        <button class="btn" type="button" data-move="right">Right</button>
+        <button class="btn" type="button" data-move="back">Backward</button>
+      </div>
+    </div>
+    <dl class="drone-telemetry tabular-nums">
+      <div><dt>State / time</dt><dd data-value="state"></dd></div>
+      <div><dt>World X / Y / Z (m)</dt><dd data-value="position"></dd></div>
+      <div><dt>Speed / yaw</dt><dd data-value="motion"></dd></div>
+      <div><dt>RC right / forward / up / CW</dt><dd data-value="rc"></dd></div>
+      <div><dt>Pose age / visible tags</dt><dd data-value="sensors"></dd></div>
+      <div><dt>Waypoint / minimum pole distance</dt><dd data-value="route"></dd></div>
+    </dl>
+  </div>
+  <div data-value="status" aria-live="polite"></div>
+  <details><summary>Recent events & model limits</summary><ol data-value="events"></ol><div class="text-small">Synthetic velocity plant; uncalibrated RC response. Point-tag projection ignores tag faces, corners, blur, tilt and distortion. “Complete” means policy route complete; no race timer or landing is simulated. Abort stops this simulation, rather than demonstrating a physical stop or landing.</div></details>
+</div>
+<style>
+#drone-control-lab { color:var(--foreground); }
+#drone-control-lab h2 { margin-right:95px; }
+#drone-control-lab .drone-map { width:100%;margin:12px 0; }
+#drone-control-lab .drone-map svg { display:block;width:100%; }
+#drone-control-lab .drone-map text { fill:var(--foreground);font-weight:400; }
+#drone-control-lab .drone-bottom { display:flex;flex-wrap:wrap;gap:20px;align-items:start; }
+#drone-control-lab .drone-pad { display:grid;grid-template-columns:repeat(3,auto);gap:6px;margin:8px 0; }
+#drone-control-lab [data-move="forward"] { grid-column:2; }
+#drone-control-lab [data-move="left"] { grid-column:1;grid-row:2; }
+#drone-control-lab [data-move="stop"] { grid-column:2;grid-row:2; }
+#drone-control-lab [data-move="right"] { grid-column:3;grid-row:2; }
+#drone-control-lab [data-move="back"] { grid-column:2;grid-row:3; }
+#drone-control-lab .drone-telemetry { flex:1;min-width:250px;margin:0; }
+#drone-control-lab .drone-telemetry div { display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:5px; }
+#drone-control-lab dt { color:var(--muted-foreground); }
+#drone-control-lab dd { margin:0; }
+#drone-control-lab [data-value="status"] { margin:12px 0; }
+#drone-control-lab details { margin-top:8px; }
+</style>
+<script>
+/*__CORE__*/
+(()=>{
+  'use strict';
+  const root=document.getElementById('drone-control-lab'),$=s=>root.querySelector(s);
+  const CONFIGS=/*__CONFIGS__*/;
+  const {ClassicPreview,wrap}=globalThis.DronePreview;
+  const fields=Object.fromEntries(['policy','sensing','fault','rate'].map(k=>[k,$('[data-field="'+k+'"]')]));
+  const svg=$('svg'),dt=.05,tags=[[0,0,1.2],[4,0,1.2]];
+  let s,policy,cfg,running=false,raf=null,lastWall=null,accum=0;
+  const events=[];
+  function event(text){events.unshift(s.t.toFixed(2)+' s · '+text);events.splice(6);$('[data-value="events"]').replaceChildren(...events.map(t=>{const li=document.createElement('li');li.textContent=t;return li;}));$('[data-value="status"]').textContent=text;}
+  function decision(mode,reason,rc=[0,0,0,0]){return {mode,reason,rc,waypoint_index:policy.waypoint_index,request_land:false};}
+  function pause(){running=false;if(raf!==null)cancelAnimationFrame(raf);raf=null;lastWall=null;accum=0;}
+  function reset(){
+    pause();cfg=CONFIGS[fields.policy.value];policy=new ClassicPreview(cfg);
+    s={t:0,p:[0,.5,1],v:[0,0,0],yaw:0,trail:[[0,.5]],frames:[],fix:null,visible:[],rc:[0,0,0,0],
+      control:'ready',terminal:false,manualUntil:0,settleUntil:0,faulted:false,minimum:.5};
+    s.d=decision('ready','Ready');events.length=0;capture();event('Ready · select sensing and press Run policy or a direction');draw();
+  }
+  function tagVisible(point){
+    const dx=point[0]-s.p[0],dy=point[1]-s.p[1],dz=point[2]-s.p[2],co=Math.cos(s.yaw),si=Math.sin(s.yaw);
+    const f=co*dx+si*dy,r=si*dx-co*dy;if(f<=0)return false;
+    const u=470.599937031912+914.5379930571795*r/f,v=360.9839617497804-914.4056412418461*dz/f;
+    return u>=0&&u<=960&&v>=0&&v<=720;
+  }
+  function capture(){
+    s.visible=tags.map((p,i)=>tagVisible(p)?(i===0?'A':'B'):null).filter(Boolean);
+    const hidden=fields.fault.value==='hidden'&&s.t>=5&&s.t<6;
+    if(!hidden&&(fields.sensing.value==='oracle'||s.visible.length)){
+      const delay=fields.fault.value==='delay'&&s.t>=5?.3:0;
+      s.frames.push({deliver:s.t+delay,t:s.t,p:[...s.p],v:[...s.v],yaw:s.yaw});
+    }
+    while(s.frames.length&&s.frames[0].deliver<=s.t+1e-8)s.fix=s.frames.shift();
+  }
+  function terminate(message){s.terminal=true;s.rc=[0,0,0,0];if(s.d.mode!=='complete')s.d.mode='abort';pause();event(message);}
+  function tick(){
+    s.t=Math.round((s.t+dt)*1e8)/1e8;
+    if(!s.faulted&&s.t>=5){s.faulted=true;if(fields.fault.value==='yaw'){s.yaw=wrap(s.yaw+Math.PI/3);event('Injected +60° yaw disturbance');}else if(fields.fault.value!=='none')event('Fault active: '+fields.fault.selectedOptions[0].textContent);}
+    capture();
+    if(s.control==='policy'){
+      if(s.fix){const f=s.fix;s.d=policy.step({pose_time_s:f.t,telemetry_time_s:s.t,position_w:f.p,velocity_w:f.v,yaw_rad:f.yaw,
+        position_std_m:.03,velocity_std_mps:.05,battery_pct:80,link_ok:!(fields.fault.value==='link'&&s.t>=5),airborne:true,enabled:true,frame:'course_flu_v1',schema_version:1},s.t);}
+      else s.d=decision('hold','awaiting_initial_fix');
+      s.rc=s.d.rc;
+      if(s.lastMode!==s.d.mode){s.lastMode=s.d.mode;event(s.d.mode+' · '+s.d.reason);}
+      if(s.d.request_land){terminate(s.d.mode+' · '+s.d.reason+' · landing request only');return;}
+    }else{
+      if(s.t>=s.manualUntil)s.rc=[0,0,0,0];
+      s.d=decision('manual',s.t<s.manualUntil?'manual_pulse':'coasting',s.rc);
+      if(fields.fault.value==='link'&&s.t>=5){terminate('Manual preview stopped · link lost');return;}
+    }
+    const [right,forward,up,cw]=s.rc,co=Math.cos(s.yaw),si=Math.sin(s.yaw);
+    const f=forward/100*cfg.horizontal_mps_at_100,r=right/100*cfg.horizontal_mps_at_100;
+    const wind=fields.fault.value==='wind'&&s.t>=5?.12:0;
+    const desired=[co*f+si*r,si*f-co*r+wind,up/100*cfg.vertical_mps_at_100],alpha=1-Math.exp(-dt/.18);
+    for(let i=0;i<3;i++){s.v[i]+=(desired[i]-s.v[i])*alpha;s.p[i]+=s.v[i]*dt;}
+    s.yaw=wrap(s.yaw-cw/100*cfg.yaw_rps_at_100*dt);
+    const clearance=Math.min(...tags.map(p=>Math.hypot(s.p[0]-p[0],s.p[1]-p[1])));s.minimum=Math.min(s.minimum,clearance);
+    s.trail.push([s.p[0],s.p[1]]);if(s.trail.length>2000)s.trail.shift();
+    if(clearance<cfg.pole_clearance_m||!policy.inside(s.p)){terminate('Truth violation · '+(clearance<cfg.pole_clearance_m?'pole clearance':'geofence'));return;}
+    if(s.t>=90){terminate('90 s simulation horizon reached');return;}
+    if(s.control==='manual'&&s.t>=s.settleUntil){pause();event('Manual pulse finished · simulation paused');}
+  }
+  function frame(time){
+    raf=null;if(!running)return;
+    if(lastWall!==null)accum+=Math.min((time-lastWall)/1000,.1)*Number(fields.rate.value);lastWall=time;
+    for(let n=0;accum>=dt&&running&&n<12;n++){accum-=dt;tick();}
+    draw();if(running)raf=requestAnimationFrame(frame);
+  }
+  function start(){if(s.terminal){event('Run ended · press New run');return;}if(!running){running=true;lastWall=null;raf=requestAnimationFrame(frame);}}
+  $('[data-action="run"]').addEventListener('click',()=>{
+    if(s.terminal){event('Run ended · press New run');return;}
+    if(s.control!=='policy'){policy=new ClassicPreview(cfg);s.control='policy';s.lastMode=null;event('Classic policy enabled · manual control released');}
+    start();draw();
+  });
+  $('[data-action="pause"]').addEventListener('click',()=>{pause();event('Simulation paused · time and physics frozen');draw();});
+  $('[data-action="reset"]').addEventListener('click',reset);
+  $('[data-action="kick"]').addEventListener('click',()=>{if(s.terminal)return;s.yaw=wrap(s.yaw+Math.PI/3);event('Injected +60° yaw disturbance');draw();});
+  root.querySelectorAll('[data-move]').forEach(button=>button.addEventListener('click',()=>{
+    if(s.terminal){event('Run ended · press New run');return;}
+    const key=button.dataset.move,map={forward:[0,20,0,0],back:[0,-20,0,0],left:[-20,0,0,0],right:[20,0,0,0],stop:[0,0,0,0]};
+    s.control='manual';s.rc=map[key];s.manualUntil=s.t+(key==='stop'?0:1);s.settleUntil=s.manualUntil+.8;s.lastMode=null;
+    event('Manual takeover · '+button.textContent);start();draw();
+  }));
+  for(const k of ['policy','sensing','fault'])fields[k].addEventListener('change',reset);
+  document.addEventListener('visibilitychange',()=>{if(document.hidden&&running){pause();event('Simulation paused · page hidden');draw();}});
+  function draw(){
+    const width=Math.max(280,Math.round(svg.parentElement.getBoundingClientRect().width)),height=Math.max(190,Math.round(width*.43));
+    svg.setAttribute('viewBox',`0 0 ${width} ${height}`);svg.setAttribute('height',height);
+    const m=24,scale=Math.min((width-2*m)/6,(height-2*m)/2.5),ox=(width-6*scale)/2,oy=(height-2.5*scale)/2;
+    const X=x=>ox+(x+1)*scale,Y=y=>oy+(1.5-y)*scale;
+    const point=(x,y)=>X(x).toFixed(2)+','+Y(y).toFixed(2),ns='http://www.w3.org/2000/svg';
+    const parts=[];function mark(tag,attrs,text){const el=document.createElementNS(ns,tag);for(const [k,v]of Object.entries(attrs))el.setAttribute(k,v);if(text)el.textContent=text;parts.push(el);return el;}
+    mark('rect',{x:X(-1),y:Y(1.5),width:6*scale,height:2.5*scale,fill:'none',stroke:'var(--border)'});
+    for(const [i,tag]of tags.entries()){
+      mark('circle',{cx:X(tag[0]),cy:Y(0),r:.8*scale,fill:'none',stroke:'var(--border)','stroke-dasharray':'4 4'});
+      mark('circle',{cx:X(tag[0]),cy:Y(0),r:.3*scale,fill:'var(--viz-series-2)','fill-opacity':'.12'});
+      mark('circle',{cx:X(tag[0]),cy:Y(0),r:4,fill:'var(--foreground)'});
+      mark('text',{x:X(tag[0]),y:Y(0)+19,'text-anchor':'middle'},i?'B · 4 m':'A · 0 m');
+    }
+    mark('polyline',{points:cfg.waypoints_w.map(p=>point(p[0],p[1])).join(' '),fill:'none',stroke:'var(--border)','stroke-dasharray':'3 5'});
+    mark('polyline',{points:s.trail.filter((_,i)=>i%3===0).map(p=>point(...p)).join(' '),fill:'none',stroke:'var(--viz-series-1)','stroke-width':2});
+    const halfLeft=Math.atan(470.599937031912/914.5379930571795),halfRight=Math.atan((960-470.599937031912)/914.5379930571795);
+    const a=s.yaw+halfLeft,b=s.yaw-halfRight,len=.65;
+    mark('polygon',{points:[point(...s.p),point(s.p[0]+len*Math.cos(a),s.p[1]+len*Math.sin(a)),point(s.p[0]+len*Math.cos(b),s.p[1]+len*Math.sin(b))].join(' '),fill:'var(--viz-series-1)','fill-opacity':'.12'});
+    const goal=cfg.waypoints_w[policy.waypoint_index];
+    mark('circle',{cx:X(goal[0]),cy:Y(goal[1]),r:7,fill:'none',stroke:'var(--foreground)','stroke-dasharray':'2 2'});
+    mark('circle',{cx:X(s.p[0]),cy:Y(s.p[1]),r:5,fill:'var(--viz-series-1)'});
+    mark('line',{x1:X(s.p[0]),y1:Y(s.p[1]),x2:X(s.p[0]+.25*Math.cos(s.yaw)),y2:Y(s.p[1]+.25*Math.sin(s.yaw)),stroke:'var(--viz-series-1)','stroke-width':3});
+    mark('text',{x:ox,y:height-2},'X → A to B · Y ↑ left · metres');
+    svg.replaceChildren(...parts);
+    const values={state:(running?s.d.mode:s.terminal?s.d.mode:'paused')+' · '+s.t.toFixed(2)+' s',position:s.p.map(v=>v.toFixed(2)).join(' / '),motion:Math.hypot(...s.v).toFixed(2)+' m/s / '+(s.yaw*180/Math.PI).toFixed(0)+'°',rc:s.rc.join(' / '),sensors:(s.fix?(s.t-s.fix.t).toFixed(2)+' s':'no fix')+' / '+(s.visible.join(', ')||'none'),route:(policy.waypoint_index+1)+'/3 · '+s.minimum.toFixed(2)+' m'};
+    for(const [k,v]of Object.entries(values))$('[data-value="'+k+'"]').textContent=v;
+    $('[data-action="run"]').textContent=s.control==='policy'&&!running&&!s.terminal?'Resume policy':'Run policy';
+  }
+  if(globalThis.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)fields.rate.value='1';
+  new ResizeObserver(draw).observe(svg.parentElement);
+  reset();
+})();
+</script>

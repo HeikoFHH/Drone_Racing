@@ -56,7 +56,18 @@ must not be re-labelled as a canonical observation without a validated conversio
 `Decision.rc = (right, forward, up, yaw_clockwise)`, four SDK-scale integers.
 Positive means right strafe, forward, up, and clockwise yaw. SDK range is +/-100;
 this prototype applies a smaller +/-20 limit and a fractional slew limit.
+The horizontal right/forward pair is scaled together to magnitude 20 before
+rounding, and shares one slew interpolation fraction. Rounding can increase the
+vector norm by at most sqrt(0.5); it does not change the individual +/-20 cap.
 Zero RC requests stabilization; it does not guarantee zero physical velocity.
+
+Fresh large heading errors enter `brake` while measured horizontal speed exceeds
+the example turn-entry threshold. This opposes measured velocity, then enters
+`aim` at low speed. It is not a proven stopping-distance or collision guarantee.
+Optional `heading_targets_w` supplies one look-at landmark per waypoint. `None`
+preserves fixed +X heading and backward return. The landmark candidate is for
+review; sensing must prove whole-maneuver coverage before any deployment choice.
+The same heading/braking and horizontal vector guards wrap learned action packets.
 
 `mode`, `reason`, `waypoint_index`, and `request_land` must be logged with each
 command. A landing request is an instruction to the flight runner; it is not proof

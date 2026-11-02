@@ -78,6 +78,9 @@ class ActionSample:
 class PolicyConfig:
     # Example route only: measure the actual course before selecting a route.
     waypoints_w: tuple[Vec3, ...] = ((0.0, 0.5, 1.0), (4.0, 0.5, 1.0), (0.0, 0.5, 1.0))
+    # Optional simulation/review candidate: face a landmark for each route leg.
+    # None preserves the existing fixed +X / backward-return baseline.
+    heading_targets_w: tuple[Vec3, ...] | None = None
     poles_xy: tuple[tuple[float, float], ...] = ((0.0, 0.0), (4.0, 0.0))
     x_bounds: tuple[float, float] = (-1.0, 5.0)
     y_bounds: tuple[float, float] = (-1.0, 1.5)
@@ -101,6 +104,7 @@ class PolicyConfig:
     kd: float = 0.5
     yaw_kp: float = 1.2
     max_yaw_error_rad: float = 0.35
+    turn_entry_speed_mps: float = 0.05
     rc_limit: int = 20
     rc_slew_per_s: float = 60.0
     # Approximate upstream action->speed model. Not a hardware calibration.
@@ -123,6 +127,12 @@ class PolicyConfig:
                 raise ValueError("invalid geofence bounds")
         if not self.waypoints_w:
             raise ValueError("route is empty")
+        if self.heading_targets_w is not None:
+            if len(self.heading_targets_w) != len(self.waypoints_w):
+                raise ValueError("one heading landmark is required per waypoint")
+            for target in self.heading_targets_w:
+                if len(target) != 3 or not finite(target):
+                    raise ValueError("heading landmark must be a finite 3-vector")
         for p in self.poles_xy:
             if len(p) != 2 or not finite(p):
                 raise ValueError("invalid pole")
@@ -175,11 +185,13 @@ class BaselinePolicy:
         self._completed = False
         self._stale_since = None
         self._session_started_s = None
+        self._braking = False
 
     def _zero(self, mode, reason, land=False, latch=False):
         self._prev_rc = ZERO
         self._dwell = 0.0
         self._arrival_pose_time = None
+        self._braking = False
         if latch:
             self._fault = reason
         return Decision(ZERO, mode, reason, self.waypoint_index, land)
@@ -261,7 +273,19 @@ class BaselinePolicy:
         if not c.segment_clear(obs.position_w, goal):
             return self._zero("abort", "path_near_pole", land=True, latch=True)
         err = tuple(g - p for g, p in zip(goal, obs.position_w))
-        if norm(err) <= c.waypoint_tolerance_m and norm(obs.velocity_w) <= c.arrival_speed_mps:
+        heading_target = 0.0
+        if c.heading_targets_w is not None:
+            landmark = c.heading_targets_w[self.waypoint_index]
+            dx, dy = landmark[0] - obs.position_w[0], landmark[1] - obs.position_w[1]
+            if math.hypot(dx, dy) < c.pole_clearance_m:
+                return self._zero("abort", "heading_landmark_too_close", land=True, latch=True)
+            heading_target = math.atan2(dy, dx)
+        yaw_error = math.atan2(math.sin(heading_target - obs.yaw_rad),
+                               math.cos(heading_target - obs.yaw_rad))
+        aiming = abs(yaw_error) > c.max_yaw_error_rad
+        braking = aiming and math.hypot(*obs.velocity_w[:2]) > c.turn_entry_speed_mps
+        if (not aiming and norm(err) <= c.waypoint_tolerance_m
+                and norm(obs.velocity_w) <= c.arrival_speed_mps):
             # Repeated video frames cannot prove a continuous dwell.
             if self._arrival_pose_time is not None and obs.pose_time_s > self._arrival_pose_time:
                 self._dwell += min(obs.pose_time_s - self._arrival_pose_time, dt, 0.1)
@@ -276,13 +300,11 @@ class BaselinePolicy:
         else:
             self._dwell = 0.0
             self._arrival_pose_time = None
+        co, si = math.cos(obs.yaw_rad), math.sin(obs.yaw_rad)
         if self.mode == "classic":
             desired_w = tuple(c.kp * e - c.kd * v for e, v in zip(err, obs.velocity_w))
-            co, si = math.cos(obs.yaw_rad), math.sin(obs.yaw_rad)
             forward = co * desired_w[0] + si * desired_w[1]
             right = si * desired_w[0] - co * desired_w[1]
-            # Fixed course heading = +X. Return leg is backward flight: no blind 180 turn.
-            yaw_error = math.atan2(math.sin(-obs.yaw_rad), math.cos(-obs.yaw_rad))
             yaw_clockwise = -c.yaw_kp * yaw_error
             raw = (100 * right / c.horizontal_mps_at_100,
                    100 * forward / c.horizontal_mps_at_100,
@@ -305,14 +327,37 @@ class BaselinePolicy:
                 raw = tuple(100 * v for v in action)
             except Exception:
                 return self._zero("abort", "candidate_failed", land=True, latch=True)
-        # Shared heading guard; a learned candidate cannot translate while misaligned.
-        yaw_error = math.atan2(math.sin(obs.yaw_rad), math.cos(obs.yaw_rad))
-        aiming = abs(yaw_error) > c.max_yaw_error_rad
+        # A heading correction must not assume zero RC stops existing momentum.
+        # When the estimate is fresh, first oppose measured horizontal velocity;
+        # wait to yaw until speed is low. This is not a calibrated stopping bound.
+        if braking:
+            if not self._braking:
+                # Discard prior forward/sideways demand at brake entry. Slewing
+                # from that old body-frame command after a yaw kick is unsafe.
+                self._prev_rc = (0.0, 0.0, self._prev_rc[2], self._prev_rc[3])
+            vx, vy = (-c.kd * value for value in obs.velocity_w[:2])
+            raw = (100 * (si * vx - co * vy) / c.horizontal_mps_at_100,
+                   100 * (co * vx + si * vy) / c.horizontal_mps_at_100,
+                   raw[2], 0.0)
+        # Scale the horizontal pair together. Independent clipping changes its
+        # world direction when the body is yawed, creating sideways drift.
+        horizontal = math.hypot(raw[0], raw[1])
+        if horizontal > c.rc_limit:
+            scale = c.rc_limit / horizontal
+            raw = (raw[0] * scale, raw[1] * scale, raw[2], raw[3])
         limited = tuple(clamp(v, c.rc_limit) for v in raw)
         # Accumulate fractional slew so high-rate callers do not freeze at RC=0.
-        slewed = tuple(p + clamp(v - p, c.rc_slew_per_s * dt) for p, v in zip(self._prev_rc, limited))
-        if aiming:
+        delta = tuple(v - p for p, v in zip(self._prev_rc, limited))
+        largest = max(abs(delta[0]), abs(delta[1]))
+        fraction = min(1.0, c.rc_slew_per_s * dt / largest) if largest else 1.0
+        # One fraction keeps the horizontal interpolation inside the vector cap.
+        slewed = (self._prev_rc[0] + fraction * delta[0],
+                  self._prev_rc[1] + fraction * delta[1],
+                  self._prev_rc[2] + clamp(delta[2], c.rc_slew_per_s * dt),
+                  self._prev_rc[3] + clamp(delta[3], c.rc_slew_per_s * dt))
+        if aiming and not braking:
             slewed = (0.0, 0.0, slewed[2], slewed[3])
         self._prev_rc = slewed
-        return Decision(tuple(int(round(v)) for v in slewed), "aim" if aiming else "track",
+        self._braking = braking
+        return Decision(tuple(int(round(v)) for v in slewed), "brake" if braking else "aim" if aiming else "track",
                         "candidate" if self.mode == "learned" else "classic_pd", self.waypoint_index)

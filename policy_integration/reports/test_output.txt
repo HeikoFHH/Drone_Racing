@@ -35,8 +35,28 @@ test_toy_route_and_independent_existing_lap_timer (policy_integration.test_polic
 test_delayed_observations_still_require_a_truth_lap (policy_integration.test_stress_sim.ScenarioTests.test_delayed_observations_still_require_a_truth_lap) ... ok
 test_export_is_bounded_and_contains_trace_and_scenario_controls (policy_integration.test_stress_sim.ScenarioTests.test_export_is_bounded_and_contains_trace_and_scenario_controls) ... ok
 test_losses_abort_without_claiming_landing_or_lap (policy_integration.test_stress_sim.ScenarioTests.test_losses_abort_without_claiming_landing_or_lap) ... ok
+test_arrival_cannot_advance_with_wrong_heading (policy_integration.test_turns.TurnTests.test_arrival_cannot_advance_with_wrong_heading) ... ok
+test_brake_entry_drops_the_old_body_frame_command (policy_integration.test_turns.TurnTests.test_brake_entry_drops_the_old_body_frame_command) ... ok
+test_braking_opposes_world_velocity_before_yaw (policy_integration.test_turns.TurnTests.test_braking_opposes_world_velocity_before_yaw) ... ok
+test_camera_front_behind_and_outside_cone (policy_integration.test_turns.TurnTests.test_camera_front_behind_and_outside_cone) ... ok
+test_camera_limited_routes_do_not_claim_a_lap (policy_integration.test_turns.TurnTests.test_camera_limited_routes_do_not_claim_a_lap) ... ok
+test_camera_matches_example_calibration (policy_integration.test_turns.TurnTests.test_camera_matches_example_calibration) ... ok
+test_candidate_oracle_route_finishes_with_truth_confirmation (policy_integration.test_turns.TurnTests.test_candidate_oracle_route_finishes_with_truth_confirmation) ... ok
+test_example_geometry_gap_is_not_a_universal_constant (policy_integration.test_turns.TurnTests.test_example_geometry_gap_is_not_a_universal_constant) ... ok
+test_heading_configuration_rejects_missing_or_invalid_targets (policy_integration.test_turns.TurnTests.test_heading_configuration_rejects_missing_or_invalid_targets) ... ok
+test_heading_wrap_takes_short_direction (policy_integration.test_turns.TurnTests.test_heading_wrap_takes_short_direction) ... ok
+test_hidden_turn_combination_aborts (policy_integration.test_turns.TurnTests.test_hidden_turn_combination_aborts) ... ok
+test_horizontal_cap_preserves_world_direction_when_yawed (policy_integration.test_turns.TurnTests.test_horizontal_cap_preserves_world_direction_when_yawed) ... ok
+test_horizontal_slew_stays_bounded_across_random_direction_changes (policy_integration.test_turns.TurnTests.test_horizontal_slew_stays_bounded_across_random_direction_changes) ... ok
+test_learned_horizontal_vector_is_also_bounded (policy_integration.test_turns.TurnTests.test_learned_horizontal_vector_is_also_bounded) ... ok
+test_look_at_is_explicit_opt_in (policy_integration.test_turns.TurnTests.test_look_at_is_explicit_opt_in) ... ok
+test_low_speed_heading_correction_does_not_drive_to_goal (policy_integration.test_turns.TurnTests.test_low_speed_heading_correction_does_not_drive_to_goal) ... ok
+test_simulation_is_reproducible (policy_integration.test_turns.TurnTests.test_simulation_is_reproducible) ... ok
+test_guard_sequences_match_python (policy_integration.test_dashboard.DashboardParity.test_guard_sequences_match_python) ... ok
+test_interactive_controls (policy_integration.test_dashboard.DashboardParity.test_interactive_controls) ... ok
+test_scenario_sequences_match_python (policy_integration.test_dashboard.DashboardParity.test_scenario_sequences_match_python) ... ok
 
 ----------------------------------------------------------------------
-Ran 37 tests in 0.418s
+Ran 57 tests in 2.348s
 
 OK

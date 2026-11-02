@@ -1,0 +1,11 @@
+{
+  "verified_for_this_drone_and_course": false,
+  "drone": "tello_1",
+  "camera_path": "../config/camera/tello_1.yaml",
+  "map_path": "../config/map.yaml",
+  "tags_path": "../config/tags.yaml",
+  "course_path": "../config/race_course.yaml",
+  "R_world_map": null,
+  "t_world_map": null,
+  "video_delay_upper_s": null
+}
