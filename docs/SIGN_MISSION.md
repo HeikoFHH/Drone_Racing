@@ -16,6 +16,7 @@ dynamics and camera numbers are placeholders until you fly the calibration steps
 | Landing policy: stop, settle, descend gently, then the Tello `land` command | `LandingPolicy` |
 | Better distance estimate for a 22.5 in sign | `SignRangeEstimator` |
 | Shadow mode: the policy runs on live video but nothing is sent to the drone | `--shadow` |
+| Demo website: the controls and the simulation of both policies, no install needed | [docs/sign_demo/index.html](sign_demo/index.html) (open in a browser) |
 
 There is **one sign**. Nothing waits for or searches for a second tag; after the turn in policy 2 the return leg is flown
 on distance alone.
@@ -34,6 +35,14 @@ on distance alone.
 Options: `--sign-width-in 22.5`, `--tag-id N` (only this tag is the sign), `--stop-m 0.5`, `--iface wlx...` (pin to a Wi-Fi stick, Linux),
 `--trust-velocity` (see "Measure first"), `--sim-speed 4` (simulation faster than real time), `--token` (needed to expose a live drone beyond localhost).
 Tests: `.venv-sim/bin/python -m pytest tests/test_sign_mission.py`.
+
+## The demo website
+
+`docs/sign_demo/index.html` is a single file (about 300 KB, no internet needed). It has the same control panel as the live interface (policy choice,
+**Start**, **Stop**) and shows the simulated camera with the 22.5 in sign and the detection, the estimated distance against the target, top and side
+views, and a distance-over-time chart. It replays recorded runs of the real flight code in the simulator for both policies at 4 m and 8 m. **Stop**
+switches to a recording of the stop-and-land that was run from that moment (recorded every 1.5 s of flight). Rebuild it after any policy change with
+`.venv-sim/bin/python scripts/build_sign_demo.py` (about a minute). To fly the same interface live or in the simulator instead of replaying, use `python -m sign_mission.server`.
 
 ## What the policy does
 

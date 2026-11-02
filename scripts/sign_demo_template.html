@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sign flight: controls and simulation</title>
+<style>
+:root{--bg:#f4f6f9;--card:#fff;--ink:#1b2230;--mut:#667085;--line:#d8dde6;--ok:#1f9d55;--warn:#d98200;--bad:#d1453b;--acc:#2f6db3;--floor:#d9d4c7;--wall:#c9ced6}
+@media (prefers-color-scheme:dark){:root{--bg:#10141a;--card:#1a2029;--ink:#e7eaf0;--mut:#98a2b3;--line:#2b3340;--ok:#3ecf7c;--warn:#f0a028;--bad:#ff6b5e;--acc:#6aa4f0;--floor:#3a3830;--wall:#3b414c}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}
+main{max-width:1240px;margin:0 auto;padding:14px}header{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
+h1{font-size:19px;margin:0 8px 0 0}.pill{padding:3px 10px;border-radius:999px;border:1px solid var(--line);font-size:13px;background:var(--card)}.pill.sim{color:var(--acc)}
+.sub{color:var(--mut);font-size:13px;margin-bottom:12px}
+.grid{display:grid;gap:12px;grid-template-columns:1fr}@media(min-width:1000px){.grid{grid-template-columns:1.55fr 1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
+canvas{width:100%;display:block;border-radius:8px;background:var(--card)}
+.two{display:grid;gap:10px;grid-template-columns:1fr}@media(min-width:700px){.two{grid-template-columns:1fr 1fr}}
+.big{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}.big>div{flex:1;min-width:150px;border:1px solid var(--line);border-radius:10px;padding:10px}
+.lab{font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em}.val{font-size:30px;font-weight:650;line-height:1.15}.val small{font-size:14px;font-weight:400;color:var(--mut)}
+.yes{color:var(--ok)}.no{color:var(--bad)}.amber{color:var(--warn)}
+.bar{height:10px;background:var(--line);border-radius:6px;overflow:hidden;margin-top:6px;position:relative}.bar i{display:block;height:100%;background:var(--acc)}.bar b{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--ok)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}.stats div{font-size:13px;color:var(--mut)}.stats b{display:block;color:var(--ink);font-size:16px}
+.ctl{display:grid;gap:8px;margin:8px 0}label.opt{display:flex;gap:8px;align-items:flex-start;padding:8px;border:1px solid var(--line);border-radius:8px;cursor:pointer}
+.seg{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}.seg label{padding:5px 12px;border:1px solid var(--line);border-radius:999px;cursor:pointer;font-size:14px}.seg input{display:none}.seg input:checked+span{font-weight:650;color:var(--acc)}.seg label:has(input:checked){border-color:var(--acc)}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
+button{font:inherit;font-weight:650;border:0;border-radius:10px;padding:14px;color:#fff;cursor:pointer}button#start{background:var(--ok)}button#stop{background:var(--bad)}button:disabled{opacity:.35;cursor:not-allowed}
+.msg{font-size:13px;min-height:1.3em;color:var(--warn);margin-top:6px}.chips{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}.chip{font-size:12px;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--mut)}.chip.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.log{font:12px/1.5 ui-monospace,Menlo,monospace;max-height:150px;overflow:auto;color:var(--mut);margin-top:8px}.note{font-size:12.5px;color:var(--mut);margin-top:10px;border-top:1px dashed var(--line);padding-top:8px}
+a{color:var(--acc)}
+</style></head><body><main>
+<header><h1>Sign flight: controls and simulation</h1><span class="pill sim">SIMULATION REPLAY</span><span id="phase" class="pill">IDLE</span><span id="state" class="pill">-</span></header>
+<div class="sub">The real policies, flown in the simulator and replayed here. Choose a policy and a start distance, press <b>START</b>; press <b>STOP</b> at any time to see the stop-and-land.</div>
+<div class="grid">
+<section class="card">
+ <canvas id="cam" width="640" height="480" aria-label="drone camera view"></canvas>
+ <div class="big"><div><div class="lab">Sign detected</div><div class="val" id="det">-</div><div class="lab" id="src"></div></div>
+  <div><div class="lab">Estimated distance</div><div class="val" id="rng">-</div><div class="bar"><i id="barfill" style="width:0"></i><b id="target"></b></div><div class="lab">target: stop 0.5 m in front of the sign</div></div></div>
+ <div class="stats"><div>Time<b id="mt">-</b></div><div>Height<b id="hgt">-</b></div><div>Speed<b id="spd">-</b></div><div>Sticks r/f/u/y<b id="rc">-</b></div></div>
+ <div class="two" style="margin-top:10px"><canvas id="top" width="640" height="300" aria-label="top-down view"></canvas><canvas id="side" width="640" height="300" aria-label="side view"></canvas></div>
+ <canvas id="chart" width="1280" height="240" style="margin-top:10px" aria-label="distance over time"></canvas>
+</section>
+<aside class="card">
+ <div class="lab">Policy</div><div class="ctl" id="pol"></div>
+ <div class="lab">Sign distance at take-off</div><div class="seg" id="dist"></div>
+ <div class="lab">Replay speed</div><div class="seg" id="spd2"><label><input type="radio" name="sp" value="1" checked><span>1&times;</span></label><label><input type="radio" name="sp" value="2"><span>2&times;</span></label><label><input type="radio" name="sp" value="4"><span>4&times;</span></label></div>
+ <div class="btns"><button id="start">START<br><small>take off + fly</small></button><button id="stop">STOP<br><small>stop + land</small></button></div>
+ <div class="msg" id="msg"></div><div class="chips" id="chips"></div><div id="result" class="lab"></div><div class="log" id="log"></div>
+ <div class="note"><b>What you are seeing.</b> Recorded runs of the real flight code (<code>sign_mission</code>) in the simulator: camera view with the 22.5 in sign, the estimated distance, and the policy's state. The simulator's physics and camera numbers are placeholders; nothing here is a flight result.
+ Run the same interface live or in the simulator with <code>python -m sign_mission.server --sim</code>. Details: <code>docs/SIGN_MISSION.md</code>.</div>
+</aside></div>
+<script>
+const D=__DATA__;const $=id=>document.getElementById(id);
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const C=D.cols,I=Object.fromEntries(C.map((c,i)=>[c,i]));
+let runKey=null,run=null,tl=[],ct=0,playing=false,pendingBranch=null,stopT=null,wall=performance.now(),events=[],phaseText='IDLE',resultText='';
+const names={approach:D.policies.approach,out_and_back:D.policies.out_and_back};
+// ---- controls
+const pol=$('pol');Object.entries(D.policies).forEach(([k,t],i)=>{const l=document.createElement('label');l.className='opt';l.innerHTML=`<input type="radio" name="pol" value="${k}" ${i?'':'checked'}><span>${t}</span>`;pol.appendChild(l)});
+const dists=[...new Set(Object.values(D.runs).map(r=>r.distance))];dists.forEach((d,i)=>{const l=document.createElement('label');l.innerHTML=`<input type="radio" name="di" value="${d}" ${i?'checked':''}><span>${d} m</span>`;$('dist').appendChild(l)});
+const sel=n=>document.querySelector(`input[name=${n}]:checked`).value;
+const AWAY=['TURN','RETURN','STOP2'];
+function rowObj(r,labels){return {t:r[0],x:r[1],y:r[2],z:r[3],th:r[4],range:r[5],det:r[6],src:r[7],lab:labels[r[8]],r:r[9],f:r[10],u:r[11],yw:r[12]}}
+function start(){runKey=`${sel('pol')}_${sel('di')}`;run=D.runs[runKey];tl=run.rows.map(r=>rowObj(r,run.labels));events=run.events.map(e=>[e[0],e[1]]);ct=0;pendingBranch=null;stopT=null;playing=true;wall=performance.now();$('msg').textContent='';resultText='';ui()}
+function stop(){if(!playing||pendingBranch)return;const b=run.branches.find(b=>b.t>=ct);if(!b){$('msg').textContent='The mission is already finishing.';return}
+ pendingBranch=b;stopT=ct;$('msg').textContent='STOP pressed: stopping and landing';}
+function switchToBranch(){const b=pendingBranch;const prefix=tl.filter(r=>r.t<b.t-1e-6);const tail=b.rows.map(r=>rowObj(r,b.labels));tl=prefix.concat(tail);
+ events=run.events.filter(e=>e[0]<b.t).concat(b.events).map(e=>[e[0],e[1]]);run={...run,phase:b.phase,result:b.result};pendingBranch=null}
+$('start').onclick=start;$('stop').onclick=stop;
+function ui(){const idle=!playing;$('start').disabled=playing;$('stop').disabled=!playing||!!pendingBranch}
+// ---- helpers
+function at(t){let lo=0,hi=tl.length-1;if(t<=tl[0].t)return tl[0];if(t>=tl[hi].t)return tl[hi];while(hi-lo>1){const m=(lo+hi)>>1;if(tl[m].t<=t)lo=m;else hi=m}
+ const a=tl[lo],b=tl[hi],f=(t-a.t)/(b.t-a.t||1);const L=(p,q)=>p+(q-p)*f;return {...a,t,x:L(a.x,b.x),y:L(a.y,b.y),z:L(a.z,b.z),th:L(a.th,b.th)}}
+const FX=914.5,FY=914.4,CX=470.6,CY=361.0,IW=960,IH=720,W=D.sign_w;
+function project(row,P){const th=row.th*Math.PI/180,cx=row.x+0.03*Math.cos(th),cy=row.y+0.03*Math.sin(th),cz=row.z;const rel=[P[0]-cx,P[1]-cy,P[2]-cz];
+ const zc=rel[0]*Math.cos(th)+rel[1]*Math.sin(th),xc=-(-rel[0]*Math.sin(th)+rel[1]*Math.cos(th)),yc=-rel[2];return [FX*xc/zc,FY*yc/zc,zc]}
+const PAT=[];(function(){let s=7;for(let i=0;i<6;i++){PAT.push([]);for(let j=0;j<6;j++){s=(s*1103515245+12345)&0x7fffffff;PAT[i].push((s>>8)&1)}}})();
+// ---- camera view
+function drawCam(row){const cv=$('cam'),g=cv.getContext('2d'),w=cv.width,h=cv.height,sx=w/IW,sy=h/IH;g.clearRect(0,0,w,h);
+ const hz=CY*sy,wall=css('--wall'),floor=css('--floor');g.fillStyle=wall;g.fillRect(0,0,w,hz);g.fillStyle=floor;g.fillRect(0,hz,w,h-hz);
+ g.strokeStyle='rgba(0,0,0,.15)';g.beginPath();g.moveTo(0,hz);g.lineTo(w,hz);g.stroke();
+ const cell=[];const pt=(a,b)=>project(row,[D.runs[runKey].distance,0-a*W/2,D.sign_h+b*W/2]);
+ const corner=[pt(-1,1),pt(1,1),pt(1,-1),pt(-1,-1)];let ok=corner.every(p=>p[2]>0.12);
+ if(ok){const quad=(a0,b0,a1,b1,fill)=>{const q=[pt(a0,b1),pt(a1,b1),pt(a1,b0),pt(a0,b0)];g.fillStyle=fill;g.beginPath();q.forEach((p,i)=>{const X=p[0]*sx+CX*sx,Y=p[1]*sy+CY*sy;i?g.lineTo(X,Y):g.moveTo(X,Y)});g.closePath();g.fill()};
+  const m=1.25;quad(-m,-m,m,m,'#f5f5f2');quad(-1,-1,1,1,'#111');
+  for(let i=0;i<6;i++)for(let j=0;j<6;j++){if(PAT[i][j]){const a0=-1+(j+1)*0.25,b1=1-(i+1)*0.25;quad(a0,b1-0.25,a0+0.25,b1,'#f5f5f2')}}
+  if(row.det){g.strokeStyle='#3ecf7c';g.lineWidth=3;g.beginPath();corner.forEach((p,i)=>{const X=p[0]*sx+CX*sx,Y=p[1]*sy+CY*sy;i?g.lineTo(X,Y):g.moveTo(X,Y)});g.closePath();g.stroke()}}
+ g.strokeStyle='rgba(255,255,255,.7)';g.lineWidth=1;g.beginPath();g.moveTo(w/2-12,h/2);g.lineTo(w/2+12,h/2);g.moveTo(w/2,h/2-12);g.lineTo(w/2,h/2+12);g.stroke();
+ const away=AWAY.includes(row.lab),txt=(row.range==null||away)?'':row.range.toFixed(2)+' m',col=row.det?'#3ecf7c':'#f0a028';if(txt){g.font='bold 30px system-ui';g.lineWidth=5;g.strokeStyle='#000';g.strokeText(txt,12,h-16);g.fillStyle=col;g.fillText(txt,12,h-16);g.font='14px system-ui';g.strokeText(row.det?'vision':'estimated (sign too close to see)',12,h-52);g.fillStyle=col;g.fillText(row.det?'vision':'estimated (sign too close to see)',12,h-52)}
+ g.font='bold 15px system-ui';g.lineWidth=4;g.strokeStyle='#000';const bn='SIM  '+phaseText;g.strokeText(bn,12,24);g.fillStyle='#fff';g.fillText(bn,12,24)}
+// ---- top-down and side
+function drawTop(row){const cv=$('top'),g=cv.getContext('2d'),w=cv.width,h=cv.height;g.clearRect(0,0,w,h);const Dd=D.runs[runKey||Object.keys(D.runs)[0]].distance;
+ const x0=-1,x1=Dd+1.2,y0=-2,y1=2,s=Math.min(w/(x1-x0),h/(y1-y0)),ox=(w-s*(x1-x0))/2,oy=(h-s*(y1-y0))/2,X=x=>ox+(x-x0)*s,Y=y=>oy+(y1-y)*s;
+ g.strokeStyle=css('--line');g.lineWidth=1;for(let x=Math.ceil(x0);x<=x1;x++){g.beginPath();g.moveTo(X(x),Y(y0));g.lineTo(X(x),Y(y1));g.stroke()}
+ g.setLineDash([5,5]);g.strokeStyle=css('--ok');g.beginPath();g.moveTo(X(Dd-0.5),Y(y0));g.lineTo(X(Dd-0.5),Y(y1));g.stroke();g.setLineDash([]);g.fillStyle=css('--ok');g.font='21px system-ui';g.fillText('stop line 0.5 m',X(Dd-0.5)-70,Y(y1)+12);
+ g.strokeStyle='#e8a317';g.lineWidth=5;g.beginPath();g.moveTo(X(Dd),Y(-W/2));g.lineTo(X(Dd),Y(W/2));g.stroke();g.fillStyle=css('--mut');g.fillText('sign',X(Dd)+6,Y(0));
+ if(row){g.lineWidth=2;g.strokeStyle=css('--acc');g.beginPath();let first=true;for(const r of tl){if(r.t>row.t)break;first?g.moveTo(X(r.x),Y(r.y)):g.lineTo(X(r.x),Y(r.y));first=false}g.lineTo(X(row.x),Y(row.y));g.stroke();
+  const th=row.th*Math.PI/180,hf=27.7*Math.PI/180;g.fillStyle='rgba(106,164,240,.15)';g.beginPath();g.moveTo(X(row.x),Y(row.y));g.arc(X(row.x),Y(row.y),3.5*s,-(th+hf),-(th-hf));g.closePath();g.fill();
+  g.save();g.translate(X(row.x),Y(row.y));g.rotate(-th);g.fillStyle=css('--ink');g.beginPath();g.moveTo(11,0);g.lineTo(-8,6);g.lineTo(-4,0);g.lineTo(-8,-6);g.closePath();g.fill();g.restore()}
+ g.fillStyle=css('--mut');g.font='21px system-ui';g.fillText('top view: x toward the sign (m)',8,14)}
+function drawSide(row){const cv=$('side'),g=cv.getContext('2d'),w=cv.width,h=cv.height;g.clearRect(0,0,w,h);const Dd=D.runs[runKey||Object.keys(D.runs)[0]].distance,x0=-1,x1=Dd+1.2,zmax=2.5,sx=w/(x1-x0),sy=(h-30)/zmax,X=x=>(x-x0)*sx,Z=z=>h-15-z*sy;
+ g.strokeStyle=css('--line');g.beginPath();g.moveTo(0,Z(0));g.lineTo(w,Z(0));g.stroke();g.fillStyle='#e8a317';g.fillRect(X(Dd)-3,Z(D.sign_h+W/2),6,W*sy);g.strokeStyle=css('--mut');g.beginPath();g.moveTo(X(Dd),Z(0));g.lineTo(X(Dd),Z(D.sign_h-W/2));g.stroke();
+ g.setLineDash([5,5]);g.strokeStyle=css('--ok');g.beginPath();g.moveTo(X(Dd-0.5),Z(0));g.lineTo(X(Dd-0.5),Z(zmax));g.stroke();g.setLineDash([]);
+ if(row){g.strokeStyle=css('--acc');g.lineWidth=2;g.beginPath();let f=true;for(const r of tl){if(r.t>row.t)break;f?g.moveTo(X(r.x),Z(r.z)):g.lineTo(X(r.x),Z(r.z));f=false}g.stroke();g.fillStyle=css('--ink');g.beginPath();g.arc(X(row.x),Z(row.z),5,0,7);g.fill()}
+ g.fillStyle=css('--mut');g.font='21px system-ui';g.fillText('side view: height (m)',8,14)}
+function drawChart(row){const cv=$('chart'),g=cv.getContext('2d'),w=cv.width,h=cv.height;g.clearRect(0,0,w,h);if(!tl.length){g.fillStyle=css('--mut');g.font='20px system-ui';g.fillText('distance to the sign over time appears here',20,h/2);return}
+ const Dd=D.runs[runKey].distance,tmax=tl[tl.length-1].t,pad=44,X=t=>pad+(w-pad-10)*t/tmax,Y=d=>h-26-(h-40)*Math.min(d,Dd+0.5)/(Dd+0.5);
+ g.strokeStyle=css('--line');g.lineWidth=1;g.fillStyle=css('--mut');g.font='16px system-ui';[0,Dd/2,Dd].forEach(d=>{g.beginPath();g.moveTo(pad,Y(d));g.lineTo(w-10,Y(d));g.stroke();g.fillText(d.toFixed(1)+' m',2,Y(d)+5)});
+ g.setLineDash([6,6]);g.strokeStyle=css('--ok');g.beginPath();g.moveTo(pad,Y(0.5));g.lineTo(w-10,Y(0.5));g.stroke();g.setLineDash([]);
+ g.lineWidth=2.5;g.strokeStyle=css('--mut');g.beginPath();let f=true;for(const r of tl){if(r.t>row.t)break;const d=Dd-r.x-0.03;f?g.moveTo(X(r.t),Y(d)):g.lineTo(X(r.t),Y(d));f=false}g.stroke();
+ g.strokeStyle=css('--acc');g.beginPath();f=true;for(const r of tl){if(r.t>row.t)break;if(r.range==null){f=true;continue}f?g.moveTo(X(r.t),Y(r.range)):g.lineTo(X(r.t),Y(r.range));f=false}g.stroke();
+ if(stopT!=null){g.strokeStyle=css('--bad');g.beginPath();g.moveTo(X(stopT),8);g.lineTo(X(stopT),h-26);g.stroke();g.fillStyle=css('--bad');g.fillText('STOP',X(stopT)+4,22)}
+ g.fillStyle=css('--acc');g.fillText('estimated',pad+6,22);g.fillStyle=css('--mut');g.fillText('true',pad+100,22)}
+// ---- readouts
+const STATES=['SETTLE','SEARCH','ALIGN','APPROACH','FINAL','STOP','TURN','RETURN','STOP2','DONE'];
+function readouts(row){const live=!!row;const d=$('det');const away=live&&AWAY.includes(row.lab);
+ if(!live){d.textContent='-';d.className='val';$('rng').textContent='-';$('src').textContent='';return}
+ if(away){d.textContent='behind';d.className='val';$('src').textContent='turned away from the sign: flying on distance only';$('rng').textContent='-';$('barfill').style.width=0}
+ else{d.textContent=row.det?'YES':(row.range!=null?'estimate':'NO');d.className='val '+(row.det?'yes':(row.range!=null?'amber':'no'));
+ $('src').textContent=row.range==null?'no sign in view':(row.det?'vision':'estimated: sign too close to see completely');
+ $('rng').innerHTML=row.range==null?'-':row.range.toFixed(2)+' <small>m</small>';const mx=Math.max(8,run?run.distance:8);$('barfill').style.width=row.range==null?0:Math.min(100,100*row.range/mx)+'%';$('target').style.left=100*0.5/mx+'%'}
+ const i=tl.indexOf(tl.find(r=>r.t>=row.t))||0,p=tl[Math.max(0,i-3)],dt=row.t-p.t,sp=dt>0?Math.hypot(row.x-p.x,row.y-p.y)/dt:0;
+ $('mt').textContent=row.t.toFixed(1)+' s';$('hgt').textContent=row.z.toFixed(2)+' m';$('spd').textContent=sp.toFixed(2)+' m/s';$('rc').textContent=[row.r,row.f,row.u,row.yw].join(' / ');
+ const lab=row.lab;phaseText=['TAKEOFF','FLYING','LANDING','LANDED','ABORTED','ERROR'].includes(lab)?lab:(lab.startsWith('LAND')?'LANDING':'FLYING');$('phase').textContent=phaseText;$('state').textContent=lab;
+ const showTurn=run&&run.policy==='out_and_back';$('chips').innerHTML=STATES.filter(s=>showTurn||!['TURN','RETURN','STOP2'].includes(s)).map(s=>`<span class="chip ${lab===s?'on':''}">${s}</span>`).join('')+(lab.startsWith('LAND')?`<span class="chip on">${lab}</span>`:'');
+ $('log').innerHTML=events.filter(e=>e[0]<=row.t+0.01).map(e=>`${e[0].toFixed(1)} s ${e[1]}`).reverse().join('<br>')}
+function frame(now){const dt=(now-wall)/1000;wall=now;if(playing&&tl.length){ct+=dt*parseFloat(sel('sp'));
+  if(pendingBranch&&ct>=pendingBranch.t)switchToBranch();
+  const end=tl[tl.length-1].t;if(ct>=end){ct=end;playing=false;const r=run.result||{};resultText=`${run.phase==='LANDED'?'Landed.':run.phase}`+(r.final_range_m!=null?` Stopped ${r.final_range_m} m from the sign (target 0.5 m).`:'')+(r.out_distance_m!=null?` Flew out ${r.out_distance_m} m, back ${r.returned_m} m.`:'');ui()}}
+ const row=tl.length?at(ct):null;if(row){drawCam(row);readouts(row)}else drawCam({x:0,y:0,z:D.sign_h,th:0,det:0,range:null});drawTop(row);drawSide(row);drawChart(row||{t:0});$('result').textContent=resultText;requestAnimationFrame(frame)}
+// ---- start from a link: #run=approach_8&t=14&pause=1  (also used by the screenshots)
+(function(){try{const h=new URLSearchParams(location.hash.slice(1)),k=h.get('run');if(k&&D.runs[k]){const i=k.lastIndexOf('_'),p=k.slice(0,i),d=k.slice(i+1);
+ document.querySelector(`input[name=pol][value="${p}"]`).checked=true;[...document.querySelectorAll('input[name=di]')].find(e=>parseFloat(e.value)===parseFloat(d)).checked=true;
+ start();ct=parseFloat(h.get('t')||0);if(h.get('stop'))stop();if(h.get('pause')){playing=false;wall=performance.now()}}}catch(e){console.error(e)}
+ ui();requestAnimationFrame(frame)})();
+</script></main></body></html>
