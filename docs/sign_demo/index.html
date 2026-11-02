@@ -56,6 +56,7 @@ const pol=$('pol');Object.entries(D.policies).forEach(([k,t],i)=>{const l=docume
 const dists=[...new Set(Object.values(D.runs).map(r=>r.distance))];dists.forEach((d,i)=>{const l=document.createElement('label');l.innerHTML=`<input type="radio" name="di" value="${d}" ${i?'checked':''}><span>${d} m</span>`;$('dist').appendChild(l)});
 const sel=n=>document.querySelector(`input[name=${n}]:checked`).value;
 const AWAY=['TURN','RETURN','STOP2'];
+const curRun=()=>D.runs[runKey||`${sel('pol')}_${sel('di')}`]||Object.values(D.runs)[0];
 function rowObj(r,labels){return {t:r[0],x:r[1],y:r[2],z:r[3],th:r[4],range:r[5],det:r[6],src:r[7],lab:labels[r[8]],r:r[9],f:r[10],u:r[11],yw:r[12]}}
 function start(){runKey=`${sel('pol')}_${sel('di')}`;run=D.runs[runKey];tl=run.rows.map(r=>rowObj(r,run.labels));events=run.events.map(e=>[e[0],e[1]]);ct=0;pendingBranch=null;stopT=null;playing=true;wall=performance.now();$('msg').textContent='';resultText='';ui()}
 function stop(){if(!playing||pendingBranch)return;const b=run.branches.find(b=>b.t>=ct);if(!b){$('msg').textContent='The mission is already finishing.';return}
@@ -75,7 +76,7 @@ const PAT=[];(function(){let s=7;for(let i=0;i<6;i++){PAT.push([]);for(let j=0;j
 function drawCam(row){const cv=$('cam'),g=cv.getContext('2d'),w=cv.width,h=cv.height,sx=w/IW,sy=h/IH;g.clearRect(0,0,w,h);
  const hz=CY*sy,wall=css('--wall'),floor=css('--floor');g.fillStyle=wall;g.fillRect(0,0,w,hz);g.fillStyle=floor;g.fillRect(0,hz,w,h-hz);
  g.strokeStyle='rgba(0,0,0,.15)';g.beginPath();g.moveTo(0,hz);g.lineTo(w,hz);g.stroke();
- const cell=[];const pt=(a,b)=>project(row,[D.runs[runKey].distance,0-a*W/2,D.sign_h+b*W/2]);
+ const cell=[];const pt=(a,b)=>project(row,[curRun().distance,0-a*W/2,D.sign_h+b*W/2]);
  const corner=[pt(-1,1),pt(1,1),pt(1,-1),pt(-1,-1)];let ok=corner.every(p=>p[2]>0.12);
  if(ok){const quad=(a0,b0,a1,b1,fill)=>{const q=[pt(a0,b1),pt(a1,b1),pt(a1,b0),pt(a0,b0)];g.fillStyle=fill;g.beginPath();q.forEach((p,i)=>{const X=p[0]*sx+CX*sx,Y=p[1]*sy+CY*sy;i?g.lineTo(X,Y):g.moveTo(X,Y)});g.closePath();g.fill()};
   const m=1.25;quad(-m,-m,m,m,'#f5f5f2');quad(-1,-1,1,1,'#111');
@@ -85,7 +86,7 @@ function drawCam(row){const cv=$('cam'),g=cv.getContext('2d'),w=cv.width,h=cv.he
  const away=AWAY.includes(row.lab),txt=(row.range==null||away)?'':row.range.toFixed(2)+' m',col=row.det?'#3ecf7c':'#f0a028';if(txt){g.font='bold 30px system-ui';g.lineWidth=5;g.strokeStyle='#000';g.strokeText(txt,12,h-16);g.fillStyle=col;g.fillText(txt,12,h-16);g.font='14px system-ui';g.strokeText(row.det?'vision':'estimated (sign too close to see)',12,h-52);g.fillStyle=col;g.fillText(row.det?'vision':'estimated (sign too close to see)',12,h-52)}
  g.font='bold 15px system-ui';g.lineWidth=4;g.strokeStyle='#000';const bn='SIM  '+phaseText;g.strokeText(bn,12,24);g.fillStyle='#fff';g.fillText(bn,12,24)}
 // ---- top-down and side
-function drawTop(row){const cv=$('top'),g=cv.getContext('2d'),w=cv.width,h=cv.height;g.clearRect(0,0,w,h);const Dd=D.runs[runKey||Object.keys(D.runs)[0]].distance;
+function drawTop(row){const cv=$('top'),g=cv.getContext('2d'),w=cv.width,h=cv.height;g.clearRect(0,0,w,h);const Dd=curRun().distance;
  const x0=-1,x1=Dd+1.2,y0=-2,y1=2,s=Math.min(w/(x1-x0),h/(y1-y0)),ox=(w-s*(x1-x0))/2,oy=(h-s*(y1-y0))/2,X=x=>ox+(x-x0)*s,Y=y=>oy+(y1-y)*s;
  g.strokeStyle=css('--line');g.lineWidth=1;for(let x=Math.ceil(x0);x<=x1;x++){g.beginPath();g.moveTo(X(x),Y(y0));g.lineTo(X(x),Y(y1));g.stroke()}
  g.setLineDash([5,5]);g.strokeStyle=css('--ok');g.beginPath();g.moveTo(X(Dd-0.5),Y(y0));g.lineTo(X(Dd-0.5),Y(y1));g.stroke();g.setLineDash([]);g.fillStyle=css('--ok');g.font='21px system-ui';g.fillText('stop line 0.5 m',X(Dd-0.5)-70,Y(y1)+12);
@@ -94,13 +95,13 @@ function drawTop(row){const cv=$('top'),g=cv.getContext('2d'),w=cv.width,h=cv.he
   const th=row.th*Math.PI/180,hf=27.7*Math.PI/180;g.fillStyle='rgba(106,164,240,.15)';g.beginPath();g.moveTo(X(row.x),Y(row.y));g.arc(X(row.x),Y(row.y),3.5*s,-(th+hf),-(th-hf));g.closePath();g.fill();
   g.save();g.translate(X(row.x),Y(row.y));g.rotate(-th);g.fillStyle=css('--ink');g.beginPath();g.moveTo(11,0);g.lineTo(-8,6);g.lineTo(-4,0);g.lineTo(-8,-6);g.closePath();g.fill();g.restore()}
  g.fillStyle=css('--mut');g.font='21px system-ui';g.fillText('top view: x toward the sign (m)',8,14)}
-function drawSide(row){const cv=$('side'),g=cv.getContext('2d'),w=cv.width,h=cv.height;g.clearRect(0,0,w,h);const Dd=D.runs[runKey||Object.keys(D.runs)[0]].distance,x0=-1,x1=Dd+1.2,zmax=2.5,sx=w/(x1-x0),sy=(h-30)/zmax,X=x=>(x-x0)*sx,Z=z=>h-15-z*sy;
+function drawSide(row){const cv=$('side'),g=cv.getContext('2d'),w=cv.width,h=cv.height;g.clearRect(0,0,w,h);const Dd=curRun().distance,x0=-1,x1=Dd+1.2,zmax=2.5,sx=w/(x1-x0),sy=(h-30)/zmax,X=x=>(x-x0)*sx,Z=z=>h-15-z*sy;
  g.strokeStyle=css('--line');g.beginPath();g.moveTo(0,Z(0));g.lineTo(w,Z(0));g.stroke();g.fillStyle='#e8a317';g.fillRect(X(Dd)-3,Z(D.sign_h+W/2),6,W*sy);g.strokeStyle=css('--mut');g.beginPath();g.moveTo(X(Dd),Z(0));g.lineTo(X(Dd),Z(D.sign_h-W/2));g.stroke();
  g.setLineDash([5,5]);g.strokeStyle=css('--ok');g.beginPath();g.moveTo(X(Dd-0.5),Z(0));g.lineTo(X(Dd-0.5),Z(zmax));g.stroke();g.setLineDash([]);
  if(row){g.strokeStyle=css('--acc');g.lineWidth=2;g.beginPath();let f=true;for(const r of tl){if(r.t>row.t)break;f?g.moveTo(X(r.x),Z(r.z)):g.lineTo(X(r.x),Z(r.z));f=false}g.stroke();g.fillStyle=css('--ink');g.beginPath();g.arc(X(row.x),Z(row.z),5,0,7);g.fill()}
  g.fillStyle=css('--mut');g.font='21px system-ui';g.fillText('side view: height (m)',8,14)}
 function drawChart(row){const cv=$('chart'),g=cv.getContext('2d'),w=cv.width,h=cv.height;g.clearRect(0,0,w,h);if(!tl.length){g.fillStyle=css('--mut');g.font='20px system-ui';g.fillText('distance to the sign over time appears here',20,h/2);return}
- const Dd=D.runs[runKey].distance,tmax=tl[tl.length-1].t,pad=44,X=t=>pad+(w-pad-10)*t/tmax,Y=d=>h-26-(h-40)*Math.min(d,Dd+0.5)/(Dd+0.5);
+ const Dd=curRun().distance,tmax=tl[tl.length-1].t,pad=44,X=t=>pad+(w-pad-10)*t/tmax,Y=d=>h-26-(h-40)*Math.min(d,Dd+0.5)/(Dd+0.5);
  g.strokeStyle=css('--line');g.lineWidth=1;g.fillStyle=css('--mut');g.font='16px system-ui';[0,Dd/2,Dd].forEach(d=>{g.beginPath();g.moveTo(pad,Y(d));g.lineTo(w-10,Y(d));g.stroke();g.fillText(d.toFixed(1)+' m',2,Y(d)+5)});
  g.setLineDash([6,6]);g.strokeStyle=css('--ok');g.beginPath();g.moveTo(pad,Y(0.5));g.lineTo(w-10,Y(0.5));g.stroke();g.setLineDash([]);
  g.lineWidth=2.5;g.strokeStyle=css('--mut');g.beginPath();let f=true;for(const r of tl){if(r.t>row.t)break;const d=Dd-r.x-0.03;f?g.moveTo(X(r.t),Y(d)):g.lineTo(X(r.t),Y(d));f=false}g.stroke();
@@ -123,7 +124,8 @@ function readouts(row){const live=!!row;const d=$('det');const away=live&&AWAY.i
 function frame(now){const dt=(now-wall)/1000;wall=now;if(playing&&tl.length){ct+=dt*parseFloat(sel('sp'));
   if(pendingBranch&&ct>=pendingBranch.t)switchToBranch();
   const end=tl[tl.length-1].t;if(ct>=end){ct=end;playing=false;const r=run.result||{};resultText=`${run.phase==='LANDED'?'Landed.':run.phase}`+(r.final_range_m!=null?` Stopped ${r.final_range_m} m from the sign (target 0.5 m).`:'')+(r.out_distance_m!=null?` Flew out ${r.out_distance_m} m, back ${r.returned_m} m.`:'');ui()}}
- const row=tl.length?at(ct):null;if(row){drawCam(row);readouts(row)}else drawCam({x:0,y:0,z:D.sign_h,th:0,det:0,range:null});drawTop(row);drawSide(row);drawChart(row||{t:0});$('result').textContent=resultText;requestAnimationFrame(frame)}
+ try{const row=tl.length?at(ct):null;if(row){drawCam(row);readouts(row)}else drawCam({x:0,y:0,z:D.sign_h,th:0,det:0,range:null});drawTop(row);drawSide(row);drawChart(row||{t:0});$('result').textContent=resultText}catch(e){console.error(e)}
+ requestAnimationFrame(frame)}
 // ---- start from a link: #run=approach_8&t=14&pause=1  (also used by the screenshots)
 (function(){try{const h=new URLSearchParams(location.hash.slice(1)),k=h.get('run');if(k&&D.runs[k]){const i=k.lastIndexOf('_'),p=k.slice(0,i),d=k.slice(i+1);
  document.querySelector(`input[name=pol][value="${p}"]`).checked=true;[...document.querySelectorAll('input[name=di]')].find(e=>parseFloat(e.value)===parseFloat(d)).checked=true;
